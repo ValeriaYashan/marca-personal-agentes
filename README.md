@@ -84,7 +84,7 @@ De ahí salen dos modos.
 | `kdp-publicacion` | Maquetación, subida y estrategia de venta |
 | `cierre-sesion` | Continuidad + actualización de Notion |
 
-Quedan afuera a propósito los skills de otros dominios: USI, EGCI, IMR, Puerto Bahía Blanca, Coderhouse, Miss Eloise, libros de ficción, CV, inglés. Tienen su propio contexto y no comparten reglas de marca con este sistema.
+Quedan afuera a propósito los skills de otros dominios que tienen su propio contexto y no comparten reglas de marca con este sistema.
 
 **`skills/` es la fuente canónica.** Al armar este repo se compararon los archivos instalados contra las copias sueltas que había en el proyecto: `linkedin-posts` e `intake-wizard` coinciden byte a byte, pero **la copia de `instagram-posts` del proyecto está desactualizada** — le falta el bloque completo de *Especificaciones visuales* (escala tipográfica, las tres reglas que más se rompen, zona segura, edición de diseños ya publicados y checklist de entrega). Conviene reemplazarla en el proyecto por la versión de `skills/instagram-posts/SKILL.md` para que dejen de divergir.
 
