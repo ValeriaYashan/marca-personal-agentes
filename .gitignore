@@ -1,0 +1,28 @@
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Credenciales — nunca, bajo ninguna circunstancia
+.env
+.env.*
+*.key
+*.pem
+credenciales*
+api-key*
+
+# Exportaciones pesadas y temporales
+*.tmp
+~$*
+/exportaciones/
+/tmp/
+
+# Binarios grandes que no se versionan
+*.pdf
+*.mp4
+*.mov
