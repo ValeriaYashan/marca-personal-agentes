@@ -543,6 +543,38 @@ body {
       </div>
     </div>
   </div>
+  <div style="background:#003087;border-radius:12px;padding:22px 24px;margin-bottom:22px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <span style="font-size:20px">🔗</span>
+      <h3 style="color:#fff;margin:0;font-size:17px;font-weight:700">Sesión de contenido</h3>
+    </div>
+    <p style="color:#00AEEF;font-size:13px;margin:0 0 14px;line-height:1.5">
+      Fijá el tema una vez y las 11 piezas se generan encadenadas: cada una ve lo que
+      ya escribieron las anteriores y sostiene el mismo ángulo. La sesión vive en memoria
+      y se pierde al recargar la página.
+    </p>
+    <textarea id="sesion-tema" rows="2" oninput="fijarTema()"
+      style="width:100%;padding:11px 13px;border-radius:8px;border:1px solid #0066CC;background:#fff;font-family:inherit;font-size:14px;resize:vertical;margin-bottom:12px"
+      placeholder="Tema central de la semana — ej. Por qué el 70% de los proyectos falla por comunicación, no por planificación"></textarea>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <button id="btn-pipeline" onclick="correrPipeline()"
+        style="background:#F7941D;color:#003087;border:0;border-radius:8px;padding:11px 20px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">
+        Generar las 11 piezas</button>
+      <button id="btn-pipeline-stop" onclick="detenerPipeline()"
+        style="display:none;background:transparent;color:#F7941D;border:1px solid #F7941D;border-radius:8px;padding:10px 18px;font-family:inherit;font-weight:700;font-size:14px;cursor:pointer">
+        Detener</button>
+      <button onclick="limpiarSesion()"
+        style="background:transparent;color:#00AEEF;border:1px solid #0066CC;border-radius:8px;padding:10px 18px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer">
+        Limpiar sesión</button>
+    </div>
+    <div id="pipeline-estado" style="color:#fff;font-size:13px;margin-top:12px;min-height:18px"></div>
+    <div id="sesion-estado" style="color:#00AEEF;font-size:12px;margin-top:4px">Sin tema fijado · ninguna pieza en sesión</div>
+    <p style="color:#00AEEF;font-size:12px;margin:14px 0 0;line-height:1.5;border-top:1px solid #0066CC;padding-top:12px">
+      El pipeline genera, no publica. Nada sale de acá sin que lo leas completo:
+      es el control de seguridad principal del sistema, no una limitación.
+    </p>
+  </div>
+
   <div class="home-grid">
     <div class="home-card" onclick="show('sa', null)">
       <div class="home-card-icon">🧠</div>
@@ -667,7 +699,7 @@ body {
       <label>Contexto adicional (opcional)</label>
       <input type="text" id="p1-contexto" placeholder="ej. Lo vivo en el proyecto YPF · Viene del video de esta semana · Trending en PMs LATAM">
     </div>
-    <button class="btn-run" onclick="run('p1')"><div class="spinner"></div><span class="btn-label">Generar Versión A + B</span></button>
+    <button class="btn-run" id="btn-p1" onclick="run('p1')"><div class="spinner"></div><span class="btn-label">Generar Versión A + B</span></button>
     <div class="err" id="err-p1"></div>
     <div class="output" id="out-p1"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--blue)"></div><span class="output-label">Post LinkedIn · A + B</span></div><button class="btn-copy" onclick="cp('out-p1-t',this)">Copiar</button></div><div class="output-text" id="out-p1-t"></div></div>
   </div>
@@ -688,7 +720,7 @@ body {
       <div class="field"><label>Formato visual</label><select id="p2-formato"><option>Post feed (imagen o carrusel)</option><option>Reel</option><option>Video corto</option></select></div>
     </div>
     <div class="field"><label>Link de destino</label><input type="text" id="p2-link" placeholder="ej. valeriayashan.com.ar/servicios/clases-ia"></div>
-    <button class="btn-run" onclick="run('p2')"><div class="spinner"></div><span class="btn-label">Generar caption + 3 hooks</span></button>
+    <button class="btn-run" id="btn-p2" onclick="run('p2')"><div class="spinner"></div><span class="btn-label">Generar caption + 3 hooks</span></button>
     <div class="err" id="err-p2"></div>
     <div class="output" id="out-p2"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Caption Instagram</span></div><button class="btn-copy" onclick="cp('out-p2-t',this)">Copiar</button></div><div class="output-text" id="out-p2-t"></div></div>
   </div>
@@ -708,7 +740,7 @@ body {
       <div class="field"><label>Tipo de storie</label><select id="p3-tipo"><option>Anuncio nuevo video YouTube</option><option>Teaser de post</option><option>CTA Substack</option><option>Behind the scenes</option><option>Encuesta / pregunta</option></select></div>
       <div class="field"><label>Fondo</label><select id="p3-fondo"><option value="#003087">Navy #003087</option><option value="#F0F4F8">Gris claro #F0F4F8</option><option value="#0066CC">Blue #0066CC</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p3')"><div class="spinner"></div><span class="btn-label">Generar HTML de storie</span></button>
+    <button class="btn-run" id="btn-p3" onclick="run('p3')"><div class="spinner"></div><span class="btn-label">Generar HTML de storie</span></button>
     <div class="err" id="err-p3"></div>
     <div class="output" id="out-p3"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Storie HTML</span></div><button class="btn-copy" onclick="cp('out-p3-t',this)">Copiar</button></div><div class="output-text" id="out-p3-t"></div></div>
   </div>
@@ -728,7 +760,7 @@ body {
       <div class="field"><label>Pilar</label><select id="p4-pilar"><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
       <div class="field"><label>CTA del último slide</label><select id="p4-cta"><option>Guardar para usarlo después</option><option>Suscribirse a Substack</option><option>Ver video en YouTube</option><option>Consultar servicio</option><option>Comprar libro</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p4')"><div class="spinner"></div><span class="btn-label">Generar carrusel 7 slides</span></button>
+    <button class="btn-run" id="btn-p4" onclick="run('p4')"><div class="spinner"></div><span class="btn-label">Generar carrusel 7 slides</span></button>
     <div class="err" id="err-p4"></div>
     <div class="output" id="out-p4"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--navy)"></div><span class="output-label">Carrusel LinkedIn</span></div><button class="btn-copy" onclick="cp('out-p4-t',this)">Copiar</button></div><div class="output-text" id="out-p4-t"></div></div>
   </div>
@@ -749,7 +781,7 @@ body {
       <div class="field"><label>Pilar</label><select id="p5-pilar"><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
       <div class="field"><label>Bridge al próximo episodio (pilar)</label><select id="p5-bridge"><option>IA aplicada</option><option>Project Management</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p5')"><div class="spinner"></div><span class="btn-label">Generar guión completo</span></button>
+    <button class="btn-run" id="btn-p5" onclick="run('p5')"><div class="spinner"></div><span class="btn-label">Generar guión completo</span></button>
     <div class="err" id="err-p5"></div>
     <div class="output" id="out-p5"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--green)"></div><span class="output-label">Guión de video</span></div><button class="btn-copy" onclick="cp('out-p5-t',this)">Copiar</button></div><div class="output-text" id="out-p5-t"></div></div>
   </div>
@@ -770,7 +802,7 @@ body {
       <div class="field"><label>Pilar / Playlist</label><select id="p6-playlist"><option>Preparación PMP 2026</option><option>IA aplicada a PM</option><option>Gestión Real de Proyectos</option><option>Estrategia y Liderazgo</option></select></div>
       <div class="field"><label>Duración del video</label><input type="text" id="p6-duracion" placeholder="ej. 12 minutos"></div>
     </div>
-    <button class="btn-run" onclick="run('p6')"><div class="spinner"></div><span class="btn-label">Generar pack SEO completo</span></button>
+    <button class="btn-run" id="btn-p6" onclick="run('p6')"><div class="spinner"></div><span class="btn-label">Generar pack SEO completo</span></button>
     <div class="err" id="err-p6"></div>
     <div class="output" id="out-p6"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--purple)"></div><span class="output-label">Pack SEO YouTube</span></div><button class="btn-copy" onclick="cp('out-p6-t',this)">Copiar</button></div><div class="output-text" id="out-p6-t"></div></div>
   </div>
@@ -795,7 +827,7 @@ body {
     <div class="field-row">
       <div class="field"><label>Categoría (schema — solo estas tres)</label><select id="p7-cat"><option value="Project Management">Project Management</option><option value="IA">IA</option><option value="Herramientas">Herramientas</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p7')"><div class="spinner"></div><span class="btn-label">Generar artículo completo</span></button>
+    <button class="btn-run" id="btn-p7" onclick="run('p7')"><div class="spinner"></div><span class="btn-label">Generar artículo completo</span></button>
     <div class="err" id="err-p7"></div>
     <div class="output" id="out-p7"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#14b8a6)"></div><span class="output-label">Artículo blog Astro</span></div><button class="btn-copy" onclick="cp('out-p7-t',this)">Copiar</button></div><div class="output-text" id="out-p7-t"></div></div>
   </div>
@@ -816,7 +848,7 @@ body {
       <div class="field"><label>Número de edición</label><input type="text" id="p8-num" placeholder="ej. Edición #4"></div>
       <div class="field"><label>Video relacionado (opcional)</label><input type="text" id="p8-video" placeholder="URL o título del video de YouTube"></div>
     </div>
-    <button class="btn-run" onclick="run('p8')"><div class="spinner"></div><span class="btn-label">Generar newsletter completo</span></button>
+    <button class="btn-run" id="btn-p8" onclick="run('p8')"><div class="spinner"></div><span class="btn-label">Generar newsletter completo</span></button>
     <div class="err" id="err-p8"></div>
     <div class="output" id="out-p8"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#f43f5e)"></div><span class="output-label">Newsletter Substack</span></div><button class="btn-copy" onclick="cp('out-p8-t',this)">Copiar</button></div><div class="output-text" id="out-p8-t"></div></div>
   </div>
@@ -836,7 +868,7 @@ body {
       <div class="field"><label>Herramienta destino</label><select id="p9-tool"><option>DALL-E / ChatGPT</option><option>Ideogram</option><option>Adobe Firefly</option><option>Midjourney</option></select></div>
       <div class="field"><label>Estilo visual</label><select id="p9-estilo"><option>Profesional / minimalista</option><option>Bold con tipografía destacada</option><option>Ilustración digital plana</option><option>Fotorrealista</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p9')"><div class="spinner"></div><span class="btn-label">Generar 3 prompts de imagen</span></button>
+    <button class="btn-run" id="btn-p9" onclick="run('p9')"><div class="spinner"></div><span class="btn-label">Generar 3 prompts de imagen</span></button>
     <div class="err" id="err-p9"></div>
     <div class="output" id="out-p9"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#f59e0b)"></div><span class="output-label">Prompts de imagen</span></div><button class="btn-copy" onclick="cp('out-p9-t',this)">Copiar</button></div><div class="output-text" id="out-p9-t"></div></div>
   </div>
@@ -856,7 +888,7 @@ body {
       <div class="field"><label>Pilar</label><select id="p10-pilar"><option>Project Management</option><option>IA aplicada</option><option>Certificación PMP</option><option>Liderazgo</option><option>Carrera</option></select></div>
       <div class="field"><label>CTA al final</label><select id="p10-cta"><option>Seguir en YouTube para el video completo</option><option>Guardar este video</option><option>Compartir con tu equipo</option><option>Suscribirse al newsletter</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('p10')"><div class="spinner"></div><span class="btn-label">Generar guión Short/Reel</span></button>
+    <button class="btn-run" id="btn-p10" onclick="run('p10')"><div class="spinner"></div><span class="btn-label">Generar guión Short/Reel</span></button>
     <div class="err" id="err-p10"></div>
     <div class="output" id="out-p10"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#6366f1)"></div><span class="output-label">Guión Short / Reel</span></div><button class="btn-copy" onclick="cp('out-p10-t',this)">Copiar</button></div><div class="output-text" id="out-p10-t"></div></div>
   </div>
@@ -874,7 +906,7 @@ body {
     <div class="field"><label>Tema del post publicado</label><textarea rows="2" id="p11-tema" placeholder="ej. Post sobre comunicación en proyectos / Video nuevo sobre PMP 2026"></textarea></div>
     <div class="field"><label>Link a incluir en el primer comentario</label><input type="text" id="p11-link" placeholder="ej. youtu.be/xxx · valeriayashan.com.ar/simulador"></div>
     <div class="field"><label>¿Qué tipo de comentarios esperás?</label><textarea rows="2" id="p11-comentarios" placeholder="ej. Preguntas sobre el PMP · PMs compartiendo su experiencia · Interesados en el curso"></textarea></div>
-    <button class="btn-run" onclick="run('p11')"><div class="spinner"></div><span class="btn-label">Generar golden hour completo</span></button>
+    <button class="btn-run" id="btn-p11" onclick="run('p11')"><div class="spinner"></div><span class="btn-label">Generar golden hour completo</span></button>
     <div class="err" id="err-p11"></div>
     <div class="output" id="out-p11"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Golden Hour</span></div><button class="btn-copy" onclick="cp('out-p11-t',this)">Copiar</button></div><div class="output-text" id="out-p11-t"></div></div>
   </div>
@@ -896,7 +928,7 @@ body {
       <div class="field"><label>Pilar prioritario</label><select id="sa-pilar"><option value="cualquiera">Cualquiera (recomendar el mejor)</option><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
       <div class="field"><label>Formato preferido esta semana</label><select id="sa-formato"><option value="cualquiera">Sin preferencia</option><option>Video largo YouTube</option><option>Carrusel LinkedIn</option><option>Post de opinión</option><option>Short/Reel</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('sa')"><div class="spinner"></div><span class="btn-label">Generar briefing semanal</span></button>
+    <button class="btn-run" id="btn-sa" onclick="run('sa')"><div class="spinner"></div><span class="btn-label">Generar briefing semanal</span></button>
     <div class="err" id="err-sa"></div>
     <div class="output" id="out-sa"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Briefing semanal</span></div><button class="btn-copy" onclick="cp('out-sa-t',this)">Copiar</button></div><div class="output-text" id="out-sa-t"></div></div>
   </div>
@@ -914,7 +946,7 @@ body {
     <div class="field"><label>Mes a planificar</label><input type="text" id="sb-mes" placeholder="ej. Agosto 2026"></div>
     <div class="field"><label>Restricciones o eventos del mes</label><textarea rows="3" id="sb-restricciones" placeholder="ej. Semana 2 estoy de viaje · Quiero cubrir el pilar Liderazgo que lleva 2 meses sin aparecer · Hay un examen PMI el 15"></textarea></div>
     <div class="field"><label>Temas a evitar</label><input type="text" id="sb-evitar" placeholder="ej. PMBOK (ya cubierto en julio) · Herramientas específicas de software"></div>
-    <button class="btn-run" onclick="run('sb')"><div class="spinner"></div><span class="btn-label">Generar calendario del mes</span></button>
+    <button class="btn-run" id="btn-sb" onclick="run('sb')"><div class="spinner"></div><span class="btn-label">Generar calendario del mes</span></button>
     <div class="err" id="err-sb"></div>
     <div class="output" id="out-sb"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Calendario mensual</span></div><button class="btn-copy" onclick="cp('out-sb-t',this)">Copiar</button></div><div class="output-text" id="out-sb-t"></div></div>
   </div>
@@ -931,7 +963,7 @@ body {
   <div class="form-grid">
     <div class="field"><label>Referente a analizar</label><input type="text" id="sc-ref" placeholder="ej. Ricardo Viana Vargas · Diego Arjona · Miguel Ángel Ruiz PM · Nombre de quien quieras analizar"></div>
     <div class="field"><label>Plataforma o contenido a comparar</label><textarea rows="3" id="sc-contexto" placeholder="ej. Su último video de YouTube sobre IA · Cómo presenta sus libros en Amazon · Su estrategia de LinkedIn"></textarea></div>
-    <button class="btn-run" onclick="run('sc')"><div class="spinner"></div><span class="btn-label">Generar análisis competitivo</span></button>
+    <button class="btn-run" id="btn-sc" onclick="run('sc')"><div class="spinner"></div><span class="btn-label">Generar análisis competitivo</span></button>
     <div class="err" id="err-sc"></div>
     <div class="output" id="out-sc"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Análisis de competidores</span></div><button class="btn-copy" onclick="cp('out-sc-t',this)">Copiar</button></div><div class="output-text" id="out-sc-t"></div></div>
   </div>
@@ -947,7 +979,7 @@ body {
   </div>
   <div class="form-grid">
     <div class="field"><label>Métricas de la semana</label><textarea rows="5" id="sd-metricas" placeholder="Pegá lo que tengas del tracker: LinkedIn (impresiones, saves, clics), YouTube (views, subs nuevos, watch time), Substack (open rate, subs), Instagram (alcance, saves), Search Console (queries, clics, posición)"></textarea></div>
-    <button class="btn-run" onclick="run('sd')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico de métricas</span></button>
+    <button class="btn-run" id="btn-sd" onclick="run('sd')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico de métricas</span></button>
     <div class="err" id="err-sd"></div>
     <div class="output" id="out-sd"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Revisión de métricas</span></div><button class="btn-copy" onclick="cp('out-sd-t',this)">Copiar</button></div><div class="output-text" id="out-sd-t"></div></div>
   </div>
@@ -964,7 +996,7 @@ body {
   <div class="form-grid">
     <div class="field"><label>Texto del post que no funcionó</label><textarea rows="5" id="se-post" placeholder="Pegá el post completo tal como lo publicaste"></textarea></div>
     <div class="field"><label>Métricas de ese post</label><input type="text" id="se-metricas" placeholder="ej. 180 impresiones · 2 likes · 0 comentarios · 1 save · publicado lunes 8:30am"></div>
-    <button class="btn-run" onclick="run('se')"><div class="spinner"></div><span class="btn-label">Analizar y reescribir</span></button>
+    <button class="btn-run" id="btn-se" onclick="run('se')"><div class="spinner"></div><span class="btn-label">Analizar y reescribir</span></button>
     <div class="err" id="err-se"></div>
     <div class="output" id="out-se"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Post optimizado</span></div><button class="btn-copy" onclick="cp('out-se-t',this)">Copiar</button></div><div class="output-text" id="out-se-t"></div></div>
   </div>
@@ -981,7 +1013,7 @@ body {
   <div class="form-grid">
     <div class="field"><label>Mes a cerrar</label><input type="text" id="sf-mes" placeholder="ej. Julio 2026"></div>
     <div class="field"><label>Datos del mes (todo lo que tengas)</label><textarea rows="6" id="sf-datos" placeholder="Crecimiento de seguidores por plataforma, posts publicados, video con más views, post con más saves, suscriptores Substack (inicio y fin del mes), ventas Amazon, leads de consultoría generados..."></textarea></div>
-    <button class="btn-run" onclick="run('sf')"><div class="spinner"></div><span class="btn-label">Generar informe mensual</span></button>
+    <button class="btn-run" id="btn-sf" onclick="run('sf')"><div class="spinner"></div><span class="btn-label">Generar informe mensual</span></button>
     <div class="err" id="err-sf"></div>
     <div class="output" id="out-sf"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Informe mensual</span></div><button class="btn-copy" onclick="cp('out-sf-t',this)">Copiar</button></div><div class="output-text" id="out-sf-t"></div></div>
   </div>
@@ -1001,7 +1033,7 @@ body {
       <div class="field"><label>Tipo</label><select id="sg-tipo"><option>Comentario en post ajeno</option><option>Mensaje directo (DM)</option><option>Respuesta a comentario propio</option><option>Invitación a conectar</option></select></div>
       <div class="field"><label>Objetivo</label><select id="sg-objetivo"><option>Visibilidad / posicionamiento</option><option>Networking profesional</option><option>Lead de consultoría</option><option>Invitación docente</option><option>Colaboración de contenido</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('sg')"><div class="spinner"></div><span class="btn-label">Generar mensaje</span></button>
+    <button class="btn-run" id="btn-sg" onclick="run('sg')"><div class="spinner"></div><span class="btn-label">Generar mensaje</span></button>
     <div class="err" id="err-sg"></div>
     <div class="output" id="out-sg"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Outreach LinkedIn</span></div><button class="btn-copy" onclick="cp('out-sg-t',this)">Copiar</button></div><div class="output-text" id="out-sg-t"></div></div>
   </div>
@@ -1022,7 +1054,7 @@ body {
       <div class="field"><label>Duración disponible</label><select id="sh-dur"><option>20 minutos</option><option>30 minutos</option><option>45 minutos</option><option>60 minutos</option><option>Workshop (2-3 horas)</option></select></div>
       <div class="field"><label>Audiencia del evento</label><input type="text" id="sh-audiencia" placeholder="ej. PMs certificados · Estudiantes de ingeniería · Líderes de TI"></div>
     </div>
-    <button class="btn-run" onclick="run('sh')"><div class="spinner"></div><span class="btn-label">Generar kit speaker completo</span></button>
+    <button class="btn-run" id="btn-sh" onclick="run('sh')"><div class="spinner"></div><span class="btn-label">Generar kit speaker completo</span></button>
     <div class="err" id="err-sh"></div>
     <div class="output" id="out-sh"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Kit speaker</span></div><button class="btn-copy" onclick="cp('out-sh-t',this)">Copiar</button></div><div class="output-text" id="out-sh-t"></div></div>
   </div>
@@ -1042,7 +1074,7 @@ body {
       <div class="field"><label>Tipo</label><select id="si-tipo"><option>Respuesta a comentario LinkedIn</option><option>Bienvenida a suscriptor Substack</option><option>Publicación para grupo WhatsApp</option><option>DM de seguimiento a un seguidor</option></select></div>
       <div class="field"><label>Tono</label><select id="si-tono"><option>Directo y consultivo</option><option>Cercano y motivador</option><option>Informativo / educativo</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('si')"><div class="spinner"></div><span class="btn-label">Generar respuesta / contenido</span></button>
+    <button class="btn-run" id="btn-si" onclick="run('si')"><div class="spinner"></div><span class="btn-label">Generar respuesta / contenido</span></button>
     <div class="err" id="err-si"></div>
     <div class="output" id="out-si"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Comunidad</span></div><button class="btn-copy" onclick="cp('out-si-t',this)">Copiar</button></div><div class="output-text" id="out-si-t"></div></div>
   </div>
@@ -1061,7 +1093,7 @@ body {
       <div class="field"><label>Plataforma destino</label><select id="sj-plataforma"><option>LinkedIn (titular 220 chars)</option><option>LinkedIn (sobre mí — completo)</option><option>YouTube (descripción del canal)</option><option>Instagram (150 chars)</option><option>Speaker / ponente (3ª persona)</option><option>Workana / freelance</option><option>Website — sobre mí</option><option>Firma de email</option><option>Todas las anteriores</option></select></div>
       <div class="field"><label>Énfasis / contexto especial</label><input type="text" id="sj-enfasis" placeholder="ej. Para evento PMI · Con foco en IA · Para propuesta docente · Actualizada con MBA reciente"></div>
     </div>
-    <button class="btn-run" onclick="run('sj')"><div class="spinner"></div><span class="btn-label">Generar bio</span></button>
+    <button class="btn-run" id="btn-sj" onclick="run('sj')"><div class="spinner"></div><span class="btn-label">Generar bio</span></button>
     <div class="err" id="err-sj"></div>
     <div class="output" id="out-sj"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Bio multiplataforma</span></div><button class="btn-copy" onclick="cp('out-sj-t',this)">Copiar</button></div><div class="output-text" id="out-sj-t"></div></div>
   </div>
@@ -1083,7 +1115,7 @@ body {
       <div class="field"><label>Productos en foco</label><select id="ma-productos"><option>Todos</option><option>Solo libros Amazon KDP</option><option>Solo consultoría</option><option>Solo cursos</option></select></div>
       <div class="field"><label>Foco del diagnóstico</label><select id="ma-foco"><option>General — ver todo el funnel</option><option>Crecimiento Substack (umbral 200)</option><option>Ventas Amazon</option><option>Leads de consultoría</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('ma')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico</span></button>
+    <button class="btn-run" id="btn-ma" onclick="run('ma')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico</span></button>
     <div class="err" id="err-ma"></div>
     <div class="output" id="out-ma"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Diagnóstico de conversión</span></div><button class="btn-copy" onclick="cp('out-ma-t',this)">Copiar</button></div><div class="output-text" id="out-ma-t"></div></div>
   </div>
@@ -1103,7 +1135,7 @@ body {
       <div class="field"><label>Libro en foco</label><select id="mb-libro"><option>Todos los libros</option><option>PMP 2026 Vol. 1</option><option>PMP 2026 Vol. 2</option><option>PMP 2026 Vol. 3</option><option>PM MOM</option></select></div>
       <div class="field"><label>Qué trabajar hoy</label><select id="mb-accion"><option>Diagnóstico semanal</option><option>Estrategia de precio</option><option>Plan para conseguir reviews</option><option>Propuesta A+ Content</option><option>Reescribir descripción HTML</option></select></div>
     </div>
-    <button class="btn-run" onclick="run('mb')"><div class="spinner"></div><span class="btn-label">Generar análisis KDP</span></button>
+    <button class="btn-run" id="btn-mb" onclick="run('mb')"><div class="spinner"></div><span class="btn-label">Generar análisis KDP</span></button>
     <div class="err" id="err-mb"></div>
     <div class="output" id="out-mb"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Pipeline KDP</span></div><button class="btn-copy" onclick="cp('out-mb-t',this)">Copiar</button></div><div class="output-text" id="out-mb-t"></div></div>
   </div>
@@ -1125,7 +1157,7 @@ body {
     </div>
     <div class="field"><label>Propuesta de valor</label><textarea rows="3" id="mc-valor" placeholder="Precio, problema que resuelve, para quién es, qué lo diferencia"></textarea></div>
     <div class="field"><label>Piezas a generar</label><select id="mc-piezas"><option>Secuencia completa</option><option>Solo email de lanzamiento</option><option>Solo posts countdown</option><option>Solo copy página de aterrizaje</option><option>Solo CTAs escalonados (D-7 a D-0)</option></select></div>
-    <button class="btn-run" onclick="run('mc')"><div class="spinner"></div><span class="btn-label">Generar secuencia de lanzamiento</span></button>
+    <button class="btn-run" id="btn-mc" onclick="run('mc')"><div class="spinner"></div><span class="btn-label">Generar secuencia de lanzamiento</span></button>
     <div class="err" id="err-mc"></div>
     <div class="output" id="out-mc"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Secuencia de lanzamiento</span></div><button class="btn-copy" onclick="cp('out-mc-t',this)">Copiar</button></div><div class="output-text" id="out-mc-t"></div></div>
   </div>
@@ -1146,7 +1178,7 @@ body {
       <div class="field"><label>Etapa</label><select id="md-etapa"><option>Primer contacto</option><option>Follow-up (sin respuesta)</option><option>Propuesta formal</option><option>Negociación</option></select></div>
     </div>
     <div class="field"><label>Contexto adicional</label><input type="text" id="md-contexto" placeholder="ej. Contacto referido por un conocido · Ya dictan PMP con otro instructor"></div>
-    <button class="btn-run" onclick="run('md')"><div class="spinner"></div><span class="btn-label">Generar email de outreach</span></button>
+    <button class="btn-run" id="btn-md" onclick="run('md')"><div class="spinner"></div><span class="btn-label">Generar email de outreach</span></button>
     <div class="err" id="err-md"></div>
     <div class="output" id="out-md"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Email outreach institucional</span></div><button class="btn-copy" onclick="cp('out-md-t',this)">Copiar</button></div><div class="output-text" id="out-md-t"></div></div>
   </div>
@@ -1164,7 +1196,7 @@ body {
     <div class="field"><label>Suscriptores actuales en Substack</label><input type="text" id="me-subs" placeholder="ej. 148 suscriptores · 42% open rate"></div>
     <div class="field"><label>¿Qué necesitás ahora?</label><select id="me-accion"><option>Plan de precalentamiento (antes de 200)</option><option>Anuncio LinkedIn al llegar al umbral</option><option>Mensaje de bienvenida al grupo</option><option>Primeras 5 publicaciones del grupo</option><option>Reglas de la comunidad</option><option>Kit completo de lanzamiento</option></select></div>
     <div class="field"><label>Contexto adicional</label><input type="text" id="me-contexto" placeholder="ej. Tengo alumnos de USI/EGCI para invitar · Quiero que sea solo para PMs en actividad"></div>
-    <button class="btn-run" onclick="run('me')"><div class="spinner"></div><span class="btn-label">Generar contenido de comunidad</span></button>
+    <button class="btn-run" id="btn-me" onclick="run('me')"><div class="spinner"></div><span class="btn-label">Generar contenido de comunidad</span></button>
     <div class="err" id="err-me"></div>
     <div class="output" id="out-me"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--green)"></div><span class="output-label">Activación comunidad</span></div><button class="btn-copy" onclick="cp('out-me-t',this)">Copiar</button></div><div class="output-text" id="out-me-t"></div></div>
   </div>
@@ -1185,7 +1217,7 @@ body {
       <div class="field"><label>Servicio de interés</label><select id="mf-serv"><option>Conformación de PMO</option><option>Capacitación PM / PMP</option><option>Consultoría de proyecto</option><option>Mentoring individual</option><option>Sin definir</option></select></div>
     </div>
     <div class="field"><label>¿Qué generar?</label><select id="mf-accion"><option>Follow-up email / mensaje LinkedIn</option><option>Propuesta ejecutiva (1 página)</option><option>Caso de éxito relevante</option><option>Mensaje de cierre / urgencia</option><option>Diagnóstico del lead + próximo paso</option></select></div>
-    <button class="btn-run" onclick="run('mf')"><div class="spinner"></div><span class="btn-label">Generar pieza de seguimiento</span></button>
+    <button class="btn-run" id="btn-mf" onclick="run('mf')"><div class="spinner"></div><span class="btn-label">Generar pieza de seguimiento</span></button>
     <div class="err" id="err-mf"></div>
     <div class="output" id="out-mf"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--purple)"></div><span class="output-label">Seguimiento prospecto</span></div><button class="btn-copy" onclick="cp('out-mf-t',this)">Copiar</button></div><div class="output-text" id="out-mf-t"></div></div>
   </div>
@@ -1361,34 +1393,188 @@ const SYSTEMS = {
   mf: () => `${PROFILE}\n\nSos especialista en ventas consultivas B2B para servicios profesionales PM en LATAM.\n\nProspecto: ${g('mf-prosp')||'(no especificado)'}\nEstado: ${g('mf-estado')} · Servicio: ${g('mf-serv')} · Qué generar: ${g('mf-accion')}\n\nReglas: sin "solo quería saber si", sin "espero no molestarte". Una sola acción esperada del prospecto. En propuestas: problema → solución → evidencia → inversión → próximo paso.\nGenerá lo solicitado listo para usar.`
 };
 
-async function run(id) {
+// ═══════════════════════════════════════════════════════════════
+//  SESIÓN — estado compartido entre módulos
+//  Vive solo en memoria: se pierde al recargar. Es deliberado.
+// ═══════════════════════════════════════════════════════════════
+
+const SESION = { tema: '', piezas: {} };
+
+const ETIQUETAS = {
+  p1:'Post LinkedIn A+B', p2:'Caption Instagram', p3:'Storie', p4:'Carrusel LinkedIn',
+  p5:'Guión de video', p6:'Pack SEO YouTube', p7:'Artículo del blog', p8:'Newsletter Substack',
+  p9:'Prompts de imagen', p10:'Short / Reel', p11:'Golden Hour',
+  sa:'Briefing semanal', sb:'Calendario', sc:'Competidores', sd:'Métricas', se:'Optimizar post',
+  sf:'Informe mensual', sg:'Outreach', sh:'Kit speaker', si:'Comunidad', sj:'Bio',
+  ma:'Diagnóstico conversión', mb:'Pipeline KDP', mc:'Lanzamiento', md:'Outreach institucional',
+  me:'Comunidad', mf:'Prospectos'
+};
+
+// Techo de tokens por módulo. El 1800 por defecto corta los módulos largos.
+const TOKENS = {
+  p1:3000, p5:3000, p6:2500, p7:4000, p8:3000, p4:2500,
+  sb:2500, sf:2500, sc:2500, mb:2500, mc:2500
+};
+
+const ORDEN_PIPELINE = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11'];
+
+// Contexto acumulado. Acotado a propósito: pasar las 11 piezas enteras
+// infla el prompt sin mejorar la coherencia.
+function CONTEXTO(idActual) {
+  const previas = Object.keys(SESION.piezas).filter(k => k !== idActual);
+  if (!SESION.tema && !previas.length) return '';
+
+  let b = '\n\n=== CONTEXTO DE LA SESIÓN ===\n';
+  if (SESION.tema) b += `Tema central de la semana: ${SESION.tema}\n`;
+
+  if (previas.length) {
+    b += '\nPiezas ya generadas en esta sesión, sobre el mismo tema:\n';
+    previas.forEach(k => {
+      const t = (SESION.piezas[k]||'').replace(/\s+/g,' ').slice(0, 320);
+      b += `\n[${ETIQUETAS[k]||k}] ${t}...\n`;
+    });
+    b += `
+Reglas de coherencia con lo anterior:
+- Sostener el mismo ángulo y los mismos datos. No contradecir cifras ni afirmaciones ya usadas.
+- No repetir el mismo hook ni la misma frase de apertura: cada pieza entra por un lado distinto.
+- Si una pieza previa ya usó un ejemplo concreto, se puede retomar, pero no calcarlo palabra por palabra.
+- El tema es el mismo; el formato, la extensión y el gancho cambian según la plataforma.`;
+  }
+  return b;
+}
+
+function limpiarSesion() {
+  SESION.tema = ''; SESION.piezas = {};
+  const c = document.getElementById('sesion-tema'); if (c) c.value = '';
+  pintarSesion();
+}
+
+function fijarTema() {
+  const c = document.getElementById('sesion-tema');
+  SESION.tema = c ? c.value.trim() : '';
+  pintarSesion();
+}
+
+function pintarSesion() {
+  const n = Object.keys(SESION.piezas).length;
+  const el = document.getElementById('sesion-estado');
+  if (!el) return;
+  if (!SESION.tema && !n) { el.textContent = 'Sin tema fijado · ninguna pieza en sesión'; return; }
+  el.textContent = (SESION.tema ? `Tema: ${SESION.tema}` : 'Sin tema fijado')
+    + ` · ${n} pieza${n===1?'':'s'} en sesión`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  MOTOR
+// ═══════════════════════════════════════════════════════════════
+
+async function llamar(system, maxTokens, signal) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-6', max_tokens: maxTokens,
+      system, messages: [{ role: 'user', content: 'Generá el contenido solicitado. Que esté listo para usar sin ajustes.' }]
+    }),
+    signal
+  });
+  if (!res.ok) {
+    const e = await res.json().catch(()=>({}));
+    const err = new Error(e.error?.message || `Error ${res.status}`);
+    err.status = res.status;
+    throw err;
+  }
+  const json = await res.json();
+  return json.content?.map(b=>b.text||'').join('') || '';
+}
+
+async function run(id, opciones = {}) {
   const btn = document.getElementById('btn-'+id);
   const err = document.getElementById('err-'+id);
   const out = document.getElementById('out-'+id);
   const txt = document.getElementById('out-'+id+'-t');
-  if (!btn||!err||!out||!txt) return;
+  if (!err||!out||!txt) return false;   // el botón puede faltar: no bloquea
 
-  btn.classList.add('loading'); btn.disabled = true;
+  if (btn) { btn.classList.add('loading'); btn.disabled = true; }
   err.classList.remove('visible'); out.classList.remove('visible'); txt.textContent = '';
 
-  try {
-    const system = SYSTEMS[id] ? SYSTEMS[id]() : `${PROFILE}\n\nGenerá el contenido solicitado en español, directo y listo para usar.`;
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-6', max_tokens: 1800,
-        system, messages: [{ role: 'user', content: 'Generá el contenido solicitado. Que esté listo para usar sin ajustes.' }]
-      })
-    });
-    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
-    const json = await res.json();
-    txt.textContent = json.content?.map(b=>b.text||'').join('')||'Sin respuesta.';
-    out.classList.add('visible');
-  } catch(e) {
-    err.textContent = '⚠️ ' + (e.message||'Error de conexión. Revisá la API key.');
-    err.classList.add('visible');
-  } finally { btn.classList.remove('loading'); btn.disabled = false; }
+  const base = SYSTEMS[id] ? SYSTEMS[id]() : `${PROFILE}\n\nGenerá el contenido solicitado en español, directo y listo para usar.`;
+  const system = opciones.sinContexto ? base : base + CONTEXTO(id);
+  const maxTokens = TOKENS[id] || 1800;
+
+  let ultimoError = null;
+  for (let intento = 1; intento <= 3; intento++) {
+    const ctrl = new AbortController();
+    const reloj = setTimeout(() => ctrl.abort(), 120000);
+    try {
+      const texto = await llamar(system, maxTokens, ctrl.signal);
+      clearTimeout(reloj);
+      if (!texto) throw new Error('Respuesta vacía');
+      txt.textContent = texto;
+      out.classList.add('visible');
+      SESION.piezas[id] = texto;
+      pintarSesion();
+      if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+      return true;
+    } catch(e) {
+      clearTimeout(reloj);
+      ultimoError = e;
+      // Solo se reintenta lo que puede resolverse solo: red, timeout, 429, 5xx.
+      const reintentable = e.name === 'AbortError' || e.status === 429 || (e.status >= 500) || !e.status;
+      if (!reintentable || intento === 3) break;
+      err.textContent = `Reintentando (${intento} de 3)...`;
+      err.classList.add('visible');
+      await new Promise(r => setTimeout(r, 1500 * intento));
+    }
+  }
+
+  err.textContent = '⚠️ ' + (ultimoError?.name === 'AbortError'
+    ? 'La llamada superó los 2 minutos y se canceló.'
+    : (ultimoError?.message || 'Error de conexión.'));
+  err.classList.add('visible');
+  if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
+  return false;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  PIPELINE — las 11 piezas en una corrida, secuencial
+// ═══════════════════════════════════════════════════════════════
+
+let PIPELINE_ACTIVO = false;
+
+function detenerPipeline() { PIPELINE_ACTIVO = false; }
+
+async function correrPipeline() {
+  if (PIPELINE_ACTIVO) return;
+  fijarTema();
+  if (!SESION.tema) {
+    alert('Fijá el tema de la semana antes de correr el pipeline.');
+    return;
+  }
+  PIPELINE_ACTIVO = true;
+  const barra = document.getElementById('pipeline-estado');
+  const bt = document.getElementById('btn-pipeline');
+  const bs = document.getElementById('btn-pipeline-stop');
+  if (bt) bt.disabled = true;
+  if (bs) bs.style.display = 'inline-block';
+
+  const fallidas = [];
+  for (let i = 0; i < ORDEN_PIPELINE.length; i++) {
+    if (!PIPELINE_ACTIVO) { if (barra) barra.textContent = `Detenido en la pieza ${i} de 11.`; break; }
+    const id = ORDEN_PIPELINE[i];
+    if (barra) barra.textContent = `Generando ${i+1} de 11 — ${ETIQUETAS[id]}...`;
+    const ok = await run(id);
+    if (!ok) fallidas.push(ETIQUETAS[id]);
+  }
+
+  if (PIPELINE_ACTIVO && barra) {
+    barra.textContent = fallidas.length
+      ? `Terminado con ${fallidas.length} pieza(s) fallida(s): ${fallidas.join(', ')}. Reintentalas desde su panel.`
+      : 'Las 11 piezas generadas. Revisá cada panel antes de publicar nada.';
+  }
+  PIPELINE_ACTIVO = false;
+  if (bt) bt.disabled = false;
+  if (bs) bs.style.display = 'none';
 }
 
 function show(id, navEl) {

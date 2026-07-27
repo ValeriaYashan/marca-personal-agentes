@@ -82,6 +82,21 @@ De ahí salen dos modos.
 
 **Modo B — el hub como formulario de entrada.** Abrís el módulo, leés qué campos pide, los pasás al chat. Ahí la ejecución tiene todo el contexto encima: escala tipográfica, flujo MCP de Canva, capa web vs. capa redes, Notion. Es el modo obligado para carrusel, storie, post de feed y artículo del blog.
 
+### Sesión encadenada
+
+El panel Home tiene el control de sesión. Se fija el tema de la semana una vez y las
+11 piezas se generan encadenadas: cada una recibe el tema más un extracto de las
+piezas anteriores, con la instrucción de sostener el mismo ángulo y no repetir el
+hook. Sin eso, cada módulo era una llamada aislada y el ángulo derivaba entre el post
+de LinkedIn y el newsletter del mismo episodio.
+
+El botón *Generar las 11 piezas* corre el pipeline completo de forma secuencial, con
+progreso y botón de detener. Si alguna falla, lo informa al terminar y se reintenta
+desde su panel.
+
+**La sesión vive en memoria y se pierde al recargar.** Es deliberado: sin
+almacenamiento del navegador no hay estado viejo que contamine una semana nueva.
+
 ### Ritual del lunes
 
 1. **Estrategia · Módulo D** — revisión de métricas (Search Console + tracker)

@@ -2,6 +2,39 @@
 
 Formato: fecha, qué cambió y por qué. Sin versiones semánticas — esto no es una librería.
 
+## 2026-07-27 (tarde) — El hub estaba roto, y encadenado del pipeline
+
+**Bug que impedía toda ejecución.** `run(id)` arrancaba con
+`document.getElementById('btn-'+id)` y abortaba con `if (!btn||...) return;`, pero
+ningún botón tenía `id`: 27 con `class="btn-run"`, cero con `id="btn-"`. La guarda se
+disparaba siempre y la función salía antes de la llamada. Apretar Generar no producía
+nada — ni salida, ni error, ni spinner. El hub nunca había generado una sola pieza.
+Se descubrió al ir a construir el encadenado, no al usarlo: el pendiente "estrenar el
+hub con un pipeline completo" llevaba tres días abierto.
+
+**Encadenado.** Estado de sesión en memoria (`SESION`) con el tema de la semana y las
+piezas ya generadas. Cada módulo recibe el tema más los primeros 320 caracteres de
+cada pieza previa, con reglas explícitas de coherencia: sostener el ángulo y los datos,
+no repetir el hook. El contexto queda acotado — medido, crece de 3.868 a 7.606
+caracteres a lo largo de las 11 piezas.
+
+**Pipeline en una corrida.** Botón que genera las 11 piezas secuencialmente, con
+progreso pieza por pieza, botón de detener, y reporte de cuáles fallaron para
+reintentarlas desde su panel. Exige tema fijado: sin tema, aborta.
+
+**Techo de tokens por módulo.** El 1800 uniforme cortaba las piezas largas. Ahora:
+4000 para el artículo del blog, 3000 para post A+B, guión y newsletter, 2500 para
+carrusel, SEO, calendario, informe, competidores y los de KDP. El resto sigue en 1800.
+
+**Robustez.** Hasta 3 intentos con espera creciente ante 429, 5xx, timeout o fallo de
+red — nunca ante un error de request, que reintentar no arregla. Timeout de 2 minutos
+por llamada con `AbortController`. La sesión no usa `localStorage`.
+
+**Verificación.** Sintaxis validada con `node --check`. Seis pruebas con `fetch`
+simulado: encadenado creciente, tokens por módulo, reintento ante 429, fallo definitivo
+tras 3 intentos, pipeline completo de 11 piezas, y aborto sin tema. Las seis pasan y
+cada predicción numérica cerró.
+
 ## 2026-07-27 — Auditoría del hub y remediación
 
 Se auditó el hub con los cuatro controles no negociables. Veredicto: desplegar con
