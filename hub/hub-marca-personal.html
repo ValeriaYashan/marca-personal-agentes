@@ -1468,16 +1468,26 @@ function pintarSesion() {
 //  MOTOR
 // ═══════════════════════════════════════════════════════════════
 
-async function llamar(system, maxTokens, signal) {
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
+async function llamar(system, maxTokens) {
+  // Sin AbortSignal: los artifacts corren en un iframe sandboxeado y el fetch
+  // se reenvía al padre por postMessage, que solo transporta objetos clonables.
+  // AbortSignal no lo es — "Failed to execute 'postMessage': AbortSignal object
+  // could not be cloned" y la llamada fallaba antes de llegar a la red.
+  // El timeout se logra igual, con una carrera de promesas en vez de abortar.
+  const peticion = fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'claude-sonnet-4-6', max_tokens: maxTokens,
       system, messages: [{ role: 'user', content: 'Generá el contenido solicitado. Que esté listo para usar sin ajustes.' }]
-    }),
-    signal
+    })
   });
+
+  const timeout = new Promise((_, reject) => {
+    setTimeout(() => reject(Object.assign(new Error('timeout'), { esTimeout: true })), 120000);
+  });
+
+  const res = await Promise.race([peticion, timeout]);
   if (!res.ok) {
     const e = await res.json().catch(()=>({}));
     const err = new Error(e.error?.message || `Error ${res.status}`);
@@ -1504,11 +1514,8 @@ async function run(id, opciones = {}) {
 
   let ultimoError = null;
   for (let intento = 1; intento <= 3; intento++) {
-    const ctrl = new AbortController();
-    const reloj = setTimeout(() => ctrl.abort(), 120000);
     try {
-      const texto = await llamar(system, maxTokens, ctrl.signal);
-      clearTimeout(reloj);
+      const texto = await llamar(system, maxTokens);
       if (!texto) throw new Error('Respuesta vacía');
       txt.textContent = texto;
       out.classList.add('visible');
@@ -1517,10 +1524,9 @@ async function run(id, opciones = {}) {
       if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
       return true;
     } catch(e) {
-      clearTimeout(reloj);
       ultimoError = e;
       // Solo se reintenta lo que puede resolverse solo: red, timeout, 429, 5xx.
-      const reintentable = e.name === 'AbortError' || e.status === 429 || (e.status >= 500) || !e.status;
+      const reintentable = e.esTimeout || e.status === 429 || (e.status >= 500) || !e.status;
       if (!reintentable || intento === 3) break;
       err.textContent = `Reintentando (${intento} de 3)...`;
       err.classList.add('visible');
@@ -1528,8 +1534,8 @@ async function run(id, opciones = {}) {
     }
   }
 
-  err.textContent = '⚠️ ' + (ultimoError?.name === 'AbortError'
-    ? 'La llamada superó los 2 minutos y se canceló.'
+  err.textContent = '⚠️ ' + (ultimoError?.esTimeout
+    ? 'La llamada superó los 2 minutos.'
     : (ultimoError?.message || 'Error de conexión.'));
   err.classList.add('visible');
   if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
