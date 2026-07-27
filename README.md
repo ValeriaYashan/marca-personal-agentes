@@ -16,6 +16,41 @@ Segundo motivo, menos dramático pero más cotidiano: el hub y los skills se edi
 
 ---
 
+## Ownership
+
+**Dueña del sistema: Valeria Yashan.** Responde por todo lo que el hub produce y se
+publica bajo su firma. No hay responsabilidad compartida ni difusa: quien despliega
+responde, y los términos de servicio de cualquier proveedor de modelos excluyen
+responsabilidad por las salidas.
+
+**Revisión: trimestral.** Próxima con fecha — **octubre de 2026**. Un hub que
+funcionó tres meses no es un hub aprobado para siempre. En cada revisión se chequea
+que las constantes sigan al día (perfil, slugs del blog, horarios, reglas de
+plataforma) y que las reglas de algoritmo no hayan quedado obsoletas.
+
+**Apagado:** el hub no ejecuta nada. Dejar de usarlo es dejar de abrirlo. No hay
+proceso que detener ni credencial que revocar.
+
+### El control humano es el control principal
+
+Que Valeria copie y pegue a mano **no es una limitación del hub: es su control de
+seguridad principal**, y está así por diseño. Nada de lo que sale se publica sin
+leerse completo.
+
+Esto importa el día que alguien proponga conectarlo a LinkedIn o a Canva para que
+publique solo. Ese cambio salta la criticidad del sistema de media a alta y exige
+los cuatro controles completos —permisos mínimos, guardrails en dos capas,
+aprobación por acción y ownership—, no solo este documento. No es una mejora
+incremental: es otro sistema.
+
+**Módulos que reciben texto de terceros y se leen con atención específica:** análisis
+de competidores, optimización de post, gestión de comentarios y revisión de métricas.
+Todos piden pegar contenido ajeno, que entra al prompt sin sanitizar. Un post con
+instrucciones dirigidas al modelo puede desviar la salida, y el único filtro es la
+lectura previa a publicar.
+
+---
+
 ## Estructura
 
 ```
