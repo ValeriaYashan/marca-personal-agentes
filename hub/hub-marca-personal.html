@@ -543,6 +543,26 @@ body {
       </div>
     </div>
   </div>
+  <div style="background:#F0F4F8;border:1px solid #0066CC;border-radius:12px;padding:18px 24px;margin-bottom:22px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+      <span style="font-size:18px">🔑</span>
+      <h3 style="color:#003087;margin:0;font-size:15px;font-weight:700">Clave de API (opcional)</h3>
+    </div>
+    <p style="color:#4A6080;font-size:12px;margin:0 0 12px;line-height:1.5">
+      Dejá esto vacío si estás usando el hub como artifact acá en Claude.ai — funciona solo.
+      Completalo únicamente si abriste este archivo fuera de Claude.ai. La clave vive solo en
+      esta pestaña mientras esté abierta: no se guarda en el archivo ni en el navegador.
+    </p>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <input id="api-key-input" type="password" placeholder="sk-ant-..." oninput="fijarClave()"
+        style="flex:1;min-width:220px;padding:9px 12px;border-radius:8px;border:1px solid #0066CC;background:#fff;font-family:inherit;font-size:13px">
+      <button onclick="borrarClave()"
+        style="background:transparent;color:#003087;border:1px solid #0066CC;border-radius:8px;padding:9px 16px;font-family:inherit;font-weight:600;font-size:13px;cursor:pointer">
+        Borrar clave</button>
+    </div>
+    <div id="api-key-estado" style="color:#4A6080;font-size:11px;margin-top:8px">Sin clave · funciona sola si estás dentro de un artifact de Claude.ai</div>
+  </div>
+
   <div style="background:#003087;border-radius:12px;padding:22px 24px;margin-bottom:22px">
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
       <span style="font-size:20px">🔗</span>
@@ -1400,6 +1420,32 @@ const SYSTEMS = {
 
 const SESION = { tema: '', piezas: {} };
 
+// Clave de API opcional, solo en memoria — nunca en el HTML, nunca en
+// localStorage. Dentro de un artifact de Claude.ai no hace falta: el proxy
+// del entorno autentica la llamada solo. Fuera de ahí (archivo abierto
+// directo, hosting propio) sin esto la llamada devuelve 401.
+let API_KEY = '';
+
+function fijarClave() {
+  const c = document.getElementById('api-key-input');
+  API_KEY = c ? c.value.trim() : '';
+  pintarClave();
+}
+
+function borrarClave() {
+  API_KEY = '';
+  const c = document.getElementById('api-key-input'); if (c) c.value = '';
+  pintarClave();
+}
+
+function pintarClave() {
+  const el = document.getElementById('api-key-estado');
+  if (!el) return;
+  el.textContent = API_KEY
+    ? 'Clave cargada en esta sesión · se pierde al recargar'
+    : 'Sin clave · funciona sola si estás dentro de un artifact de Claude.ai';
+}
+
 const ETIQUETAS = {
   p1:'Post LinkedIn A+B', p2:'Caption Instagram', p3:'Storie', p4:'Carrusel LinkedIn',
   p5:'Guión de video', p6:'Pack SEO YouTube', p7:'Artículo del blog', p8:'Newsletter Substack',
@@ -1474,9 +1520,19 @@ async function llamar(system, maxTokens) {
   // AbortSignal no lo es — "Failed to execute 'postMessage': AbortSignal object
   // could not be cloned" y la llamada fallaba antes de llegar a la red.
   // El timeout se logra igual, con una carrera de promesas en vez de abortar.
+  // Headers base: funcionan solos dentro de un artifact de Claude.ai.
+  // Si hay clave cargada (uso fuera del artifact), se agregan los dos
+  // headers que la API exige para autenticar directo.
+  const headers = { 'Content-Type': 'application/json' };
+  if (API_KEY) {
+    headers['x-api-key'] = API_KEY;
+    headers['anthropic-version'] = '2023-06-01';
+    headers['anthropic-dangerous-direct-browser-access'] = 'true';
+  }
+
   const peticion = fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify({
       model: 'claude-sonnet-4-6', max_tokens: maxTokens,
       system, messages: [{ role: 'user', content: 'Generá el contenido solicitado. Que esté listo para usar sin ajustes.' }]

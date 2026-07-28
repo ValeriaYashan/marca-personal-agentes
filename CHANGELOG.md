@@ -2,6 +2,63 @@
 
 Formato: fecha, qué cambió y por qué. Sin versiones semánticas — esto no es una librería.
 
+## 2026-07-27 (madrugada) — Clave de API opcional, para usar el hub fuera del artifact
+
+**Motivo.** El hub solo funciona sin clave dentro de un artifact de Claude.ai, donde
+el entorno autentica la llamada por vos. Abierto de cualquier otra forma —doble clic
+en el archivo, hosting propio— la misma llamada devuelve 401.
+
+**Diseño elegido, de tres posibles.** Se descartó hardcodear la clave en el HTML
+—queda en texto plano para cualquiera con el archivo o el repo, el mismo riesgo que
+el teléfono que se sacó del fuente esta tarde, pero con costo de facturación en vez
+de privacidad—. Se descartó también un backend propio que la guarde del lado del
+servidor, por ser trabajo de infraestructura real, no un cambio de esta sesión.
+Se implementó la opción del medio: un campo en el panel Home donde se escribe la
+clave, guardada en una variable de JavaScript que vive solo mientras la pestaña
+está abierta. Nunca toca el archivo, nunca `localStorage`, nunca un commit.
+
+**Comportamiento.** Sin clave cargada, la llamada sale exactamente igual que antes
+de este cambio — funciona sola dentro del artifact. Con clave cargada, se agregan
+los tres headers que la API exige para llamadas directas desde el navegador:
+`x-api-key`, `anthropic-version` y `anthropic-dangerous-direct-browser-access`.
+
+**Verificación.** Sintaxis validada con `node --check`. Tres pruebas con `fetch`
+simulado: sin clave el header no aparece, con clave aparecen los tres headers
+correctos, y borrar limpia tanto la variable como el campo visual. Las tres pasan.
+
+## 2026-07-27 (noche) — El fix de robustez rompía todo, por el sandbox del artifact
+
+**Primer uso real, primer error real.** Al correr el pipeline por primera vez contra
+la API de verdad —no simulada—, las 11 piezas fallaron con
+`Failed to execute 'postMessage' on 'Window': AbortSignal object could not be cloned`.
+
+**Causa: los artifacts corren en un iframe sandboxeado.** El `fetch` no llama a la
+red directamente — se reenvía a la página padre por `postMessage`, que solo transporta
+objetos clonables (texto, números, objetos planos). El `AbortSignal` que se había
+agregado hoy mismo para el timeout de 2 minutos no es clonable, así que cada llamada
+fallaba antes de llegar a la red.
+
+**Por qué la prueba de la tarde no lo detectó.** Las seis pruebas con `fetch`
+simulado validaban la lógica de reintento y encadenado, corriendo en Node — un
+entorno sin la restricción de postMessage del sandbox. La prueba pasó porque no
+reproducía la limitación real de donde el hub corre. Mismo error de fondo que la
+disciplina de verificación ya tiene registrado: saber qué valida cada chequeo antes
+de usarlo como prueba.
+
+**Fix.** Se sacó el `AbortSignal` de la llamada a `fetch`. El timeout de 2 minutos se
+logra igual, con `Promise.race` entre la petición y un temporizador — ninguno de los
+dos es un objeto que necesite pasar por postMessage.
+
+**Verificación repetida, esta vez con el sandbox simulado.** Se rehizo la suite de
+pruebas con un `fetch` que rechaza cualquier campo que no sea `method`, `headers` o
+`body` — reproduciendo la restricción real. Llamada individual, pipeline de 11 piezas
+y reintento ante 429: las tres pasan.
+
+**Aprendizaje de entorno, para cualquier herramienta futura con `fetch` dentro de un
+artifact:** no pasar `AbortSignal`, ni ningún objeto no serializable, en las opciones
+de una llamada de red. Un timeout se implementa con `Promise.race`, no con
+`AbortController`.
+
 ## 2026-07-27 (tarde) — El hub estaba roto, y encadenado del pipeline
 
 **Bug que impedía toda ejecución.** `run(id)` arrancaba con
