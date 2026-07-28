@@ -1308,7 +1308,16 @@ Instagram 2026: 3 hashtags máx · CTA DM share · nunca watermark TikTok · gra
 @IMR Consulting: mencionar con arroba cuando sea relevante (no en contenido educativo puro).
 Substack: CTA de suscripción en todas las piezas. Umbral comunidad WhatsApp: 200 suscriptores.
 Playlists YouTube: Preparación PMP 2026 · IA aplicada a PM · Gestión Real de Proyectos · Estrategia y Liderazgo.
-Frases prohibidas: "apasionada por", "comprometida con", "estoy muy feliz de compartir", "en el mundo actual".`;
+Frases prohibidas: "apasionada por", "comprometida con", "estoy muy feliz de compartir", "en el mundo actual".
+
+FILTRO ANTI-IA — aplicar antes de entregar cualquier texto:
+(1) Lenguaje de influencer automático: nunca "la pregunta no es si... sino cuando", nunca "no se trata de X, se trata de Y" como formula vacia, nunca "al final del dia" seguido de una conclusion que no agrega nada, nunca cierres tipo "el exito es una eleccion".
+(2) Estructura mecanica: NUNCA usar guion largo (—) como vineta decorativa o para dar dramatismo — ese caracter no existe en el teclado espanol y es la marca mas reconocible de texto generado sin filtro humano. Usar guion corto (-) para listas. Nunca puntos suspensivos para crear suspenso artificial. Nunca listas de exactamente 5 puntos con la misma estructura gramatical en cada uno.
+(3) Falta de autenticidad: todo texto necesita un dato concreto, ejemplo real o angulo especifico — nunca un post que podria haberlo escrito cualquier PM de cualquier pais.
+
+CIFRAS Y DATOS: nunca inventar un porcentaje, multiplicador o cifra especifica sin fuente explicita. Si no hay un dato verificable, describir la tendencia en palabras ("un aumento significativo", "un tiempo considerable") en vez de un numero inventado.
+
+REFERENCIAS A IA: nunca nombrar un modelo o version especifica de IA (GPT-4, Claude 3, Gemini, etc.) como "la herramienta actual" — no hay forma de saber cual es la mas reciente en el momento en que esto se lee. Referirse a "herramientas de IA" en general, salvo que el usuario haya dado el nombre exacto a usar en el pedido.`;
 
 const WEB = `SITIO WEB — valeriayashan.com.ar (Astro 6 + Cloudflare Pages, estatico, sin backend)
 
@@ -1358,9 +1367,9 @@ No usar el verde #2D6A4F ni Fraunces/Inter en piezas de redes.`;
 const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
 
 const SYSTEMS = {
-  p1: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en LinkedIn para marcas personales B2B en el mercado hispanohablante. Generás posts que combinan autoridad real con claridad directa, sin corporativismo.\n\nGenerá DOS versiones del post:\n\nVERSIÓN A (150-220 palabras) — para alcance\n- Hook en la primera línea (contrarian o dato duro)\n- Párrafos cortos (2-3 líneas máx)\n- CTA orientada a guardar\n- Si aplica: "Lo veo en la práctica trabajando en proyectos con @IMR Consulting:"\n- Al final: CTA a valeriayashanpm.substack.com\n- 3-5 hashtags al pie\n- Nota aparte: "Link en el primer comentario: [${g('p1-link')||'URL'}]"\n\nVERSIÓN B (400-600 palabras) — para dwell time\n- Misma estructura pero más desarrollo, ejemplos y contexto\n- Mismas reglas de tono y CTA\n\nPilar: ${g('p1-pilar')} · Tipo: ${g('p1-tipo')} · IMR: ${g('p1-imr')} · Contexto: ${g('p1-contexto')||'ninguno'}`,
+  p1: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en LinkedIn para marcas personales B2B en el mercado hispanohablante. Generás posts que combinan autoridad real con claridad directa, sin corporativismo.\n\nGenerá DOS versiones del post:\n\nFORMATOS DE HOOK QUE FUNCIONAN (elegir uno, nunca combinar dos):\n- Afirmación que rompe supuesto: \"La mayoría de los PMs planifican mal — y no es por falta de herramientas.\"\n- Dato o stat inesperado (solo si es verificable, ver regla de cifras): \"El 70% de los proyectos falla. No por scope. Por personas.\"\n- Contradicción directa: \"Tener el PMP no te hace mejor PM.\"\n- Frase corta y dura, sin verbo de anuncio.\nHooks a evitar: \"Hoy quiero hablar de...\", \"En el mundo actual...\", \"Como PM, sabemos que...\", emoji al inicio.\n\nVERSIÓN A (150-220 palabras) — para alcance\n- Hook en la primera línea, uno de los formatos de arriba\n- Párrafos cortos (2-3 líneas máx)\n- CTA orientada a guardar\n- Si aplica: "Lo veo en la práctica trabajando en proyectos con @IMR Consulting:"\n- Al final: CTA a valeriayashanpm.substack.com\n- 3-5 hashtags al pie\n- Nota aparte: "Link en el primer comentario: [${g('p1-link')||'URL'}]"\n\nVERSIÓN B (400-600 palabras) — para dwell time\n- Misma estructura pero más desarrollo, ejemplos y contexto\n- Mismas reglas de tono y CTA\n\nPilar: ${g('p1-pilar')} · Tipo: ${g('p1-tipo')} · IMR: ${g('p1-imr')} · Contexto: ${g('p1-contexto')||'ninguno'}`,
 
-  p2: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en Instagram para marcas personales PM. Generás captions que convierten en una audiencia de PMs y aspirantes PMP hispanohablantes.\n\nESTRUCTURA:\n1. Primero: 3 variantes de hook (una línea cada una, bien separadas)\n2. Después: caption completo usando el hook que mejor funcione\n\nREGLAS:\n- Hook solo, sin nada pegado debajo\n- Párrafos de 2-3 líneas con línea en blanco entre cada uno\n- CTA orientada a DM share: "Mandáselo a ese PM de tu equipo"\n- Link: ${g('p2-link')||'valeriayashan.com.ar'} antes de hashtags\n- CTA Substack al cierre: valeriayashanpm.substack.com\n- Exactamente 3 hashtags temáticos (no más)\n- 150-300 palabras total\n\nFormato: ${g('p2-formato')} · Pilar: ${g('p2-pilar')}`,
+  p2: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en Instagram para marcas personales PM. Generás captions que convierten en una audiencia de PMs y aspirantes PMP hispanohablantes.\n\nESTRUCTURA:\n1. Primero: 3 variantes de hook (una línea cada una, bien separadas)\n2. Después: caption completo usando el hook que mejor funcione\n\nREGLAS:\n- Hook solo, sin nada pegado debajo\n- Párrafos de 2-3 líneas con línea en blanco entre cada uno\n- CTA orientada a DM share: "Mandáselo a ese PM de tu equipo"\n- Link: ${g('p2-link')||'valeriayashan.com.ar'} antes de hashtags\n- CTA Substack al cierre: valeriayashanpm.substack.com\n- Exactamente 3 hashtags temáticos, elegidos de este pool según el pilar (nunca de marca propia):\nPM: #ProjectManagement #GestionDeProyectos #PMI #PMBOK #LiderazgoDeProyectos\nPMP: #PMP #CertificaciónPMP #ExamenPMP #PreparaciónPMP\nIA: #IAaplicada #InteligenciaArtificial #PromptEngineering #AutomatizacionDeProcesos\nEstrategia: #Estrategia #GestionEstrategica #TomadeDecisiones\nLiderazgo: #Liderazgo #LiderazgoEmpresarial #DesarrolloProfesional\n- 150-300 palabras total\n\nFormato: ${g('p2-formato')} · Pilar: ${g('p2-pilar')}`,
 
   p3: () => `${PROFILE}\n\n${CAPA_REDES}\n\nGenerá el código HTML completo de una Story de Instagram (1080×1920px) lista para importar a Canva.\n\nESPECIFICACIONES TÉCNICAS:\n- Fondo: ${g('p3-fondo')||'#003087'}\n- Fuente única: Montserrat (ExtraBold títulos, Bold subtítulos, Regular cuerpo)\n- Paleta: Navy #003087 · Blue #0066CC · Cyan #00AEEF · Orange #F7941D · Light #F0F4F8\n- Dimensiones viewBox: 1080×1920\n- ESCALA TIPOGRÁFICA STORY (px de canvas, guía visual v2.0): marca MAYÚS 26px Bold · título 84px Bold (68px si son 3+ líneas) · cuerpo 34px Regular · CTA 30px Bold · firma/handle 24px Regular. Interlineado títulos 1,15 y cuerpo 1,45. PISO ABSOLUTO 22px.\n- Zona segura: 250px libres arriba (barra de perfil), 320px libres abajo (caja de respuesta), 80px laterales\n- #4A6080 solo sobre fondo claro; sobre navy el texto secundario va en cyan #00AEEF\n- Fondo sólido de marca únicamente: nunca imágenes, gradientes ni texturas\n- Incluir: logo/marca "VALERIA YASHAN" arriba, contenido principal al centro, CTA abajo\n- CTA YouTube: @ValeriaYashanPM\n- CTA Substack: valeriayashanpm.substack.com\n\nTipo: ${g('p3-tipo')} · Mensaje: ${g('p3-msg')||'Nuevo contenido disponible'}\n\nGenerá el HTML completo y funcional.`,
 
@@ -1463,6 +1472,50 @@ const TOKENS = {
 };
 
 const ORDEN_PIPELINE = ['p1','p2','p3','p4','p5','p6','p7','p8','p9','p10','p11'];
+
+// Chequeo liviano post-generación. No reemplaza una lectura humana — atrapa
+// los patrones más frecuentes y más fáciles de pasar por alto en una lectura
+// rápida un lunes a las 8:30.
+const FRASES_PROHIBIDAS = ['apasionada por', 'comprometida con', 'estoy muy feliz de compartir', 'en el mundo actual'];
+const PATRONES_CLICHE = [
+  { re: /la pregunta no es .{0,40}sino/i, msg: 'Cliché de IA: "la pregunta no es... sino"' },
+  { re: /no se trata de .{0,40}se trata de/i, msg: 'Cliché de IA: "no se trata de X, se trata de Y"' },
+  { re: /al final del d[ií]a/i, msg: 'Cliché de IA: "al final del día"' },
+];
+const MODELOS_IA_NOMBRADOS = /\b(GPT-?\d|ChatGPT|Claude\s?\d|Gemini\s?\d|Copilot|Llama\s?\d)\b/i;
+
+function verificarSalida(texto, id) {
+  const avisos = [];
+  if (texto.includes('—')) avisos.push('Guión largo (—) detectado — no existe en teclado español, revisar si se usó como viñeta.');
+  FRASES_PROHIBIDAS.forEach(f => { if (texto.toLowerCase().includes(f)) avisos.push(`Frase prohibida: "${f}"`); });
+  PATRONES_CLICHE.forEach(p => { if (p.re.test(texto)) avisos.push(p.msg); });
+  if (MODELOS_IA_NOMBRADOS.test(texto)) avisos.push('Nombra un modelo de IA específico — verificar que siga siendo la referencia vigente antes de publicar.');
+  if (/\b\d+%|\b\d+x\b/.test(texto) && !/\bseg[uú]n\b|\bfuente\b|\bestudio\b|\breporte\b/i.test(texto)) {
+    avisos.push('Hay una cifra o porcentaje sin fuente citada en el texto — verificar antes de publicar.');
+  }
+  if (ORDEN_PIPELINE.includes(id) && !SESION.tema) {
+    avisos.push('Se generó sin un tema de sesión fijado — puede no sostener el ángulo del resto de la semana.');
+  }
+  return avisos;
+}
+
+function pintarAvisos(id, avisos) {
+  const out = document.getElementById('out-'+id);
+  if (!out) return;
+  let warn = document.getElementById('warn-'+id);
+  if (!warn) {
+    warn = document.createElement('div');
+    warn.id = 'warn-'+id;
+    warn.style.cssText = 'background:#FEF3E2;border:1px solid #F7941D;border-radius:8px;padding:12px 14px;margin-top:10px;font-size:13px;color:#7A4A0A;line-height:1.5';
+    out.parentNode.insertBefore(warn, out.nextSibling);
+  }
+  if (avisos.length) {
+    warn.innerHTML = '⚠️ Revisar antes de publicar:<br>' + avisos.map(a => '• ' + a).join('<br>');
+    warn.style.display = 'block';
+  } else {
+    warn.style.display = 'none';
+  }
+}
 
 // Contexto acumulado. Acotado a propósito: pasar las 11 piezas enteras
 // infla el prompt sin mejorar la coherencia.
@@ -1577,6 +1630,7 @@ async function run(id, opciones = {}) {
       out.classList.add('visible');
       SESION.piezas[id] = texto;
       pintarSesion();
+      pintarAvisos(id, verificarSalida(texto, id));
       if (btn) { btn.classList.remove('loading'); btn.disabled = false; }
       return true;
     } catch(e) {

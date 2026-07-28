@@ -2,6 +2,71 @@
 
 Formato: fecha, qué cambió y por qué. Sin versiones semánticas — esto no es una librería.
 
+## 2026-07-27 (madrugada, sesión 4) — Tres fuentes, tres números de hashtags: se resolvió a favor del más específico
+
+Quedó anotado en la entrada anterior como hallazgo sin resolver: el hub y `PROFILE`
+decían 3 hashtags máximo para Instagram, el skill `instagram-posts` decía máximo 5,
+y la memoria del proyecto decía 8-12. Resuelto a favor del **3**, por ser la cifra
+con el año explícito ("Instagram 2026") junto a otras reglas de plataforma verificadas
+esa misma sesión (Originality Score, grabar a cámara directa) — el "8-12" no tenía
+esa especificidad y encajaba con el patrón de cifra genérica sin fuente que el propio
+filtro anti-IA del hub está diseñado para marcar.
+
+Corregidas las cuatro menciones a "5" en `instagram-posts-SKILL.md` (máximo por post,
+la combinación 2-3+1-2 que sumaba 5, el paso 3 del flujo, la regla crítica final),
+sincronizado el skill instalado y la copia de este repo, y corregida la memoria del
+proyecto. LinkedIn se mantiene en 3-5, eso no estaba en discusión.
+
+## 2026-07-27 (madrugada, sesión 4) — El filtro anti-IA entra al hub, y un regex propio casi hace lo mismo que trataba de evitar
+
+**Motivo.** Un carrusel generado desde el hub (Módulo P4) salió con guión largo decorativo,
+una cita a GPT-4 como "la" herramienta actual, cifras inventadas sin fuente y un ángulo
+que no sostenía la tesis fijada esa semana. Ninguno de esos problemas lo detecta el hub,
+porque las reglas de calidad viven en los skills del proyecto — que el motor aislado
+del hub nunca lee. Solo lee `PROFILE`.
+
+**Extendido `PROFILE`** con el filtro anti-IA completo (las tres categorías del skill:
+lenguaje de influencer automático, estructura mecánica —incluida la prohibición explícita
+del guión largo como viñeta—, falta de autenticidad), una regla contra cifras sin fuente,
+y una regla contra nombrar modelos de IA específicos como "la herramienta actual" — el
+motor no tiene forma de saber cuál es la versión vigente en el momento en que se lee.
+
+**Chequeo automático post-generación**, sin llamada extra a la API: `verificarSalida()`
+corre sobre cada texto generado y busca guión largo, frases prohibidas, tres patrones
+de cliché de IA, nombres de modelos, cifras sin palabra de fuente cerca, y ausencia de
+tema de sesión fijado en los módulos de Producción. Los avisos se pintan en un bloque
+naranja debajo de la salida — no bloquean, solo marcan qué revisar antes de publicar.
+
+**Bug propio, encontrado probando contra el texto real de hoy:** el regex de "cifra sin
+fuente" buscaba la palabra "según" sin límites de palabra — `/según/i` hace match dentro
+de "segundos" (s-e-g-u-n-d-o-s contiene literalmente "segun"). El texto que decía
+"en 40 segundos" pasaba como si dijera "según una fuente", exactamente el caso que el
+chequeo debía atrapar. Corregido con `\bseg[uú]n\b`. Es el mismo principio que la
+disciplina de verificación ya tiene registrado — un chequeo con un patrón demasiado
+laxo puede fallar en silencio, y solo se detecta probándolo contra un caso real, no
+contra el caso feliz.
+
+**Bug propio #2, más chico:** al escribir el ejemplo de hook con un dato ("El 70%..."),
+un escape de más (`%%` en vez de `%`) quedó en el texto del prompt de P1. Detectado y
+corregido antes de commitear.
+
+**Extendidos con contenido de calidad de los skills:** `p1` ganó la anatomía completa
+de hooks con ejemplos y la lista de hooks a evitar. `p2` ganó el pool de hashtags por
+pilar. `p4` se revisó y ya tenía la escala tipográfica completa — no hizo falta tocarlo,
+mejor encontrarlo así que duplicar.
+
+**Hallazgo sin resolver, para la próxima sesión:** hay tres números distintos para la
+cantidad de hashtags de Instagram — el hub y `PROFILE` dicen 3 exactos, el skill
+`instagram-posts` dice máximo 5, y la memoria del proyecto dice 8-12. No se resolvió
+cuál es la regla vigente; se mantuvo el 3 del hub por ser el más específico, pero
+falta confirmar y corregir las otras dos fuentes.
+
+**Verificación.** Sintaxis validada con `node --check` dos veces (antes y después del
+fix del regex). Prueba con el texto real del carrusel fallido de hoy: los cuatro avisos
+esperados aparecen: guión largo, modelo de IA, cifra sin fuente, sin tema fijado. Prueba
+con texto limpio: cero avisos, cero falsos positivos. Prueba de integración: el aviso
+se pinta correctamente en el DOM al terminar `run()`.
+
 ## 2026-07-27 (madrugada) — Clave de API opcional, para usar el hub fuera del artifact
 
 **Motivo.** El hub solo funciona sin clave dentro de un artifact de Claude.ai, donde

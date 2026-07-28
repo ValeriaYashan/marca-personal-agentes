@@ -114,7 +114,7 @@ Antes de la pregunta, una línea que señale que el contenido terminó:
 ## Hashtags
 
 ### Reglas
-- Máximo 5 hashtags por post
+- Máximo 3 hashtags por post (regla 2026 — bajó de 5, ver PROFILE del hub)
 - Todos temáticos — nunca de marca propia (`#ValeriaYashan` no da alcance todavía)
 - Van después del link, en la misma línea o en línea separada
 - Sin punto antes ni después
@@ -131,8 +131,8 @@ Antes de la pregunta, una línea que señale que el contenido terminó:
 | Carrera | #CarreraProfesional #DesarrolloDeCarrera #MercadoLaboral |
 
 ### Combinación estándar por post
-- 2-3 hashtags del pilar principal
-- 1-2 hashtags de alcance amplio (siempre #ProjectManagement o #GestionDeProyectos)
+- 2 hashtags del pilar principal
+- 1 hashtag de alcance amplio (siempre #ProjectManagement o #GestionDeProyectos)
 - Nunca repetir el mismo hashtag en posts consecutivos
 
 ---
@@ -301,7 +301,7 @@ El skill siempre deja espacio para ese 10% final — nunca cierra tanto el post 
 Entregar el caption completo con:
 - Espaciado correcto (líneas en blanco entre párrafos, antes del link, antes de hashtags)
 - Link a página relevante de valeriayashan.com.ar
-- 5 hashtags del pool correspondiente
+- 3 hashtags del pool correspondiente
 - Nota breve al final: qué tipo de hook se usó + espacio para el 10% de Valeria
 
 ---
@@ -316,7 +316,7 @@ Entregar el caption completo con:
 - ✅ Pregunta de cierre específica — que obligue a recordar algo concreto
 - ✅ Beneficio concreto antes de mencionar "el link está en la bio"
 - ✅ Link antes de hashtags
-- ✅ Máximo 5 hashtags temáticos — nunca de marca propia
+- ✅ Máximo 3 hashtags temáticos — nunca de marca propia
 - ✅ Línea en blanco antes del link y antes de los hashtags
 - ❌ Nunca dos listas en el mismo post
 - ❌ Nunca emojis en el hook

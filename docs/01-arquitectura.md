@@ -72,6 +72,30 @@ Sin header de autenticación. La clave la resuelve el entorno del artifact. Fuer
 | Verificar slugs contra el repo | ❌ | ✅ |
 | Aplicar los skills de `skills/` | ❌ | ✅ |
 
+## Mantenimiento: el hub y los skills pueden desincronizarse
+
+Las secciones de calidad de contenido en los prompts del hub —anatomía de hooks,
+pools de hashtags, escalas tipográficas, el filtro anti-IA— son **extractos manuales**
+de los skills en `skills/`. El motor del hub no lee esos archivos en vivo: cada regla
+que se quiere ahí adentro hay que copiarla a mano en la constante `PROFILE` o en el
+`SYSTEMS[id]` del módulo correspondiente.
+
+Consecuencia directa: si se edita una regla de voz, estructura o límite en un skill,
+esa edición **no llega al hub sola**. Ya pasó una vez con `instagram-posts-SKILL.md`
+—la copia del proyecto quedó desactualizada respecto a `skills/`— y es el mismo riesgo,
+un nivel más adentro.
+
+**Qué sí se copia al hub:** voz, anatomía de hooks, estructura, filtro anti-IA, pools
+de hashtags, escalas tipográficas — todo lo que mejora la calidad del texto que el
+motor puede generar solo.
+
+**Qué NUNCA se copia al hub:** flujos de herramienta (los pasos de MCP de Canva, IDs
+de Notion, secuencias de tool calls). El motor del hub no tiene tools — es una llamada
+de texto puro a la API. Pegarle instrucciones de herramienta no las ejecuta: en el
+mejor caso las ignora, en el peor las narra como si fueran parte del contenido.
+
+---
+
 ## Dónde tocar para cambiar algo
 
 | Quiero cambiar | Voy a |
