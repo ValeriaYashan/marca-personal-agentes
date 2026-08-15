@@ -1,0 +1,2191 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hub · Valeria Yashan PM & Strategy</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap');
+
+:root {
+  --navy:   #003087;
+  --blue:   #0066CC;
+  --cyan:   #00AEEF;
+  --orange: #F7941D;
+  --light:  #F0F4F8;
+  --dark:   #1A2B4A;
+  --muted:  #4A6080;
+  --white:  #ffffff;
+  --border: #dce6f0;
+  --green:  #22c55e;
+  --purple: #7c3aed;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background: var(--light);
+  color: var(--dark);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ── TOPBAR ── */
+.topbar {
+  background: var(--navy);
+  border-bottom: 3px solid var(--orange);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  flex-shrink: 0;
+}
+.topbar-brand { display: flex; align-items: center; gap: 12px; }
+.topbar-logo {
+  width: 32px; height: 32px;
+  background: var(--orange);
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+}
+.topbar-name { color: var(--white); font-size: 14px; font-weight: 800; letter-spacing: 0.3px; }
+.topbar-sub  { color: var(--cyan);  font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+.topbar-ritual {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 6px;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.topbar-ritual:hover { background: rgba(255,255,255,0.14); }
+.topbar-ritual span { color: var(--white); font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+
+.topbar-apikey { display: flex; align-items: center; gap: 6px; margin-left: auto; margin-right: 14px; }
+.topbar-apikey input {
+  width: 210px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 6px;
+  padding: 5px 10px;
+  font-size: 11px;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--white);
+  outline: none;
+}
+.topbar-apikey input::placeholder { color: rgba(255,255,255,0.45); }
+.topbar-apikey input:focus { border-color: var(--cyan); }
+.topbar-apikey button {
+  background: var(--orange);
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  font-family: 'Montserrat', sans-serif;
+  color: var(--white);
+  cursor: pointer;
+}
+.topbar-apikey button:hover { filter: brightness(1.08); }
+#apikey-status { font-size: 10px; font-weight: 700; color: var(--cyan); min-width: 58px; }
+#apikey-status.ok { color: #22c55e; }
+
+/* ── LAYOUT ── */
+.app { display: flex; flex: 1; overflow: hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 228px;
+  background: var(--white);
+  border-right: 1.5px solid var(--border);
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.agent-section { padding: 10px 0; }
+.agent-label {
+  padding: 8px 18px 5px;
+  font-size: 9px; font-weight: 800;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.agent-label::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+
+.nav-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 18px;
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: all 0.13s;
+}
+.nav-item:hover { background: var(--light); }
+.nav-item.active {
+  background: rgba(0,48,135,0.06);
+  border-left-color: var(--navy);
+}
+.nav-item.active .nav-letter { background: var(--navy); color: var(--white); }
+.nav-letter {
+  width: 22px; height: 22px; border-radius: 5px;
+  background: var(--light);
+  color: var(--muted);
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.13s;
+}
+.nav-text { font-size: 12px; font-weight: 600; color: var(--dark); line-height: 1.3; }
+.nav-when { font-size: 10px; color: var(--muted); font-weight: 400; }
+
+/* agent color accents */
+.nav-item.active.prod .nav-letter  { background: var(--blue); }
+.nav-item.active.strat .nav-letter { background: var(--cyan); color: var(--dark); }
+.nav-item.active.mon .nav-letter   { background: var(--orange); }
+
+/* ── MAIN CONTENT ── */
+.main {
+  flex: 1; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.main::-webkit-scrollbar { width: 5px; }
+.main::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── PANEL ── */
+.panel { display: none; padding: 28px 32px 40px; }
+.panel.active { display: block; }
+
+.panel-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1.5px solid var(--border);
+}
+.panel-head-left { display: flex; gap: 16px; align-items: flex-start; }
+.panel-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.panel-icon.blue   { background: rgba(0,102,204,0.10); }
+.panel-icon.cyan   { background: rgba(0,174,239,0.10); }
+.panel-icon.orange { background: rgba(247,148,29,0.12); }
+.panel-icon.green  { background: rgba(34,197,94,0.10); }
+.panel-icon.purple { background: rgba(124,58,237,0.10); }
+.panel-icon.navy   { background: rgba(0,48,135,0.10); }
+.panel-icon.teal   { background: rgba(20,184,166,0.10); }
+.panel-icon.rose   { background: rgba(244,63,94,0.10); }
+.panel-icon.amber  { background: rgba(245,158,11,0.10); }
+.panel-icon.indigo { background: rgba(99,102,241,0.10); }
+
+.panel-title h2 { font-size: 18px; font-weight: 800; color: var(--dark); }
+.panel-title p  { font-size: 13px; color: var(--muted); margin-top: 5px; line-height: 1.55; max-width: 560px; }
+.capa { display:inline-block; font-size:9px; font-weight:800; letter-spacing:.6px; padding:3px 7px;
+        border-radius:4px; margin-left:9px; vertical-align:middle; text-transform:uppercase; }
+.capa-redes { background:#003087; color:#ffffff; }
+.capa-web   { background:#2D6A4F; color:#ffffff; }
+.capa-mixta { background:#F7941D; color:#1A2B4A; }
+.capa-txt   { background:#F0F4F8; color:#4A6080; border:1px solid #dce6f0; }
+.panel-badge {
+  background: var(--light);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: 11px; font-weight: 700; color: var(--navy);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* FORM */
+.form-grid { display: grid; gap: 18px; }
+.field { display: flex; flex-direction: column; gap: 7px; }
+.field label {
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 0.9px; text-transform: uppercase;
+  color: var(--navy);
+}
+.field input,
+.field textarea,
+.field select {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px; color: var(--dark);
+  background: var(--light);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.15s, background 0.15s;
+  resize: vertical;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--blue);
+  background: var(--white);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+/* HINTS */
+.hints { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
+.hint {
+  background: rgba(0,102,204,0.07);
+  border: 1px solid rgba(0,102,204,0.18);
+  color: var(--blue);
+  font-size: 11px; font-weight: 600;
+  padding: 4px 10px; border-radius: 20px;
+  cursor: pointer; transition: all 0.13s;
+}
+.hint:hover { background: var(--blue); color: var(--white); }
+
+/* RUN BUTTON */
+.btn-run {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--navy); color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px; font-weight: 800;
+  padding: 13px 26px;
+  border: none; border-radius: 8px;
+  cursor: pointer; transition: background 0.15s;
+  margin-top: 8px;
+}
+.btn-run:hover:not(:disabled) { background: var(--blue); }
+.btn-run:disabled { background: var(--muted); cursor: not-allowed; }
+.spinner {
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+}
+.btn-run.loading .spinner { display: block; }
+.btn-run.loading .btn-label { opacity: 0.65; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* OUTPUT */
+.output {
+  margin-top: 24px;
+  background: var(--navy);
+  border-radius: 10px;
+  overflow: hidden;
+  display: none;
+}
+.output.visible { display: block; }
+.output-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.output-bar-l { display: flex; align-items: center; gap: 8px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.output-label { color: rgba(255,255,255,0.55); font-size: 10px; font-weight: 700; letter-spacing: 0.9px; text-transform: uppercase; }
+.btn-copy {
+  background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.8); font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 5px;
+  cursor: pointer; transition: all 0.13s;
+}
+.btn-copy:hover { background: rgba(255,255,255,0.2); }
+.btn-copy.done { background: rgba(34,197,94,0.25); border-color: var(--green); color: var(--green); }
+.btn-canva { background: rgba(0,174,239,0.15); border-color: rgba(0,174,239,0.4); color: var(--cyan); margin-left: 6px; }
+.btn-canva:hover { background: rgba(0,174,239,0.28); }
+.btn-canva.done { background: rgba(34,197,94,0.25) !important; border-color: var(--green) !important; color: var(--green) !important; }
+.btn-notion { background: rgba(124,58,237,0.15); border-color: rgba(124,58,237,0.4); color: #b794f6; margin-left: 6px; }
+.btn-notion:hover { background: rgba(124,58,237,0.28); }
+.btn-notion.done { background: rgba(34,197,94,0.25) !important; border-color: var(--green) !important; color: var(--green) !important; }
+.output-text {
+  padding: 20px 22px; color: rgba(255,255,255,0.92);
+  font-size: 13px; line-height: 1.78; white-space: pre-wrap;
+  word-break: break-word; max-height: 480px; overflow-y: auto;
+}
+.output-text::-webkit-scrollbar { width: 4px; }
+.output-text::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+/* ERROR */
+.err {
+  margin-top: 14px; padding: 12px 16px;
+  background: rgba(239,68,68,0.09); border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 7px; color: #ef4444; font-size: 12px; font-weight: 600;
+  display: none;
+}
+.err.visible { display: block; }
+
+/* OUTPUT WARNINGS — verificarSalida() */
+.output-warn {
+  margin-top: 10px; padding: 10px 14px;
+  background: rgba(247,148,29,0.10); border: 1px solid rgba(247,148,29,0.35);
+  border-radius: 7px; font-size: 11.5px; color: #b3630a;
+  display: none;
+}
+.output-warn.visible { display: block; }
+.output-warn-title { font-weight: 800; margin-bottom: 5px; color: var(--orange); }
+.output-warn ul { margin: 0; padding-left: 18px; }
+.output-warn li { margin-bottom: 2px; line-height: 1.4; }
+
+.output-info {
+  margin-top: 10px; padding: 10px 14px;
+  background: rgba(0,174,239,0.10); border: 1px solid rgba(0,174,239,0.35);
+  border-radius: 7px; font-size: 11.5px; color: #0a7ea8;
+  display: none;
+}
+.output-info.visible { display: block; }
+
+/* SESSION BAR */
+.sessionbar {
+  background: var(--dark);
+  border-bottom: 1.5px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 24px;
+  flex-shrink: 0;
+}
+.sessionbar-label { color: var(--cyan); font-size: 11px; font-weight: 800; white-space: nowrap; }
+.sessionbar input[type="text"] {
+  flex: 1; max-width: 360px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 6px; padding: 5px 10px;
+  font-size: 11.5px; font-family: 'Montserrat', sans-serif; color: var(--white); outline: none;
+}
+.sessionbar input[type="text"]::placeholder { color: rgba(255,255,255,0.4); }
+.sessionbar input[type="text"]:focus { border-color: var(--cyan); }
+.sessionbar > button {
+  background: var(--blue); border: none; border-radius: 6px;
+  padding: 5px 12px; font-size: 11px; font-weight: 700;
+  font-family: 'Montserrat', sans-serif; color: var(--white); cursor: pointer;
+}
+.sessionbar > button:hover { filter: brightness(1.1); }
+#sesion-tema-status { font-size: 10px; font-weight: 700; color: var(--green); min-width: 20px; }
+.sessionbar-spacer { flex: 0 0 auto; width: 1px; }
+.sessionbar-costo { font-size: 10.5px; color: rgba(255,255,255,0.55); font-weight: 600; white-space: nowrap; }
+.sessionbar-btn {
+  background: rgba(255,255,255,0.08) !important;
+  border: 1px solid rgba(255,255,255,0.18) !important;
+  white-space: nowrap;
+}
+.sessionbar-btn:hover { background: rgba(255,255,255,0.16) !important; }
+
+/* HISTORIAL OVERLAY */
+.hist-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 100; display: none; align-items: center; justify-content: center;
+}
+.hist-overlay.open { display: flex; }
+.hist-card {
+  background: var(--white); border-radius: 16px;
+  width: 640px; max-width: 95vw; max-height: 88vh;
+  overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.hist-top {
+  background: var(--navy); padding: 18px 22px; border-radius: 16px 16px 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+  position: sticky; top: 0;
+}
+.hist-top h3 { color: var(--white); font-size: 15px; font-weight: 800; }
+.hist-close {
+  background: rgba(255,255,255,0.12); border: none; color: var(--white);
+  width: 26px; height: 26px; border-radius: 6px; cursor: pointer; font-size: 13px;
+}
+.hist-body { padding: 16px 22px 22px; }
+.hist-empty { color: var(--muted); font-size: 12px; text-align: center; padding: 30px 0; }
+.hist-item {
+  border: 1.5px solid var(--border); border-radius: 10px;
+  padding: 12px 14px; margin-bottom: 10px;
+}
+.hist-item-top {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;
+}
+.hist-item-title { font-size: 12px; font-weight: 800; color: var(--navy); }
+.hist-item-time { font-size: 10px; color: var(--muted); }
+.hist-item-text {
+  font-size: 11.5px; color: var(--dark); line-height: 1.5;
+  max-height: 90px; overflow-y: auto; white-space: pre-wrap;
+  background: var(--light); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px;
+}
+.hist-item-actions { display: flex; gap: 8px; }
+.hist-item-actions button {
+  font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 5px;
+  border: 1.5px solid var(--border); background: var(--white); color: var(--navy); cursor: pointer;
+}
+.hist-item-actions button:hover { border-color: var(--orange); }
+
+/* RITUAL PANEL */
+.ritual-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 100; display: none; align-items: center; justify-content: center;
+}
+.ritual-overlay.open { display: flex; }
+.ritual-card {
+  background: var(--white); border-radius: 16px;
+  width: 560px; max-width: 95vw; max-height: 88vh;
+  overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+.ritual-top {
+  background: var(--navy); padding: 20px 24px;
+  border-radius: 16px 16px 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.ritual-top h3 { color: var(--white); font-size: 15px; font-weight: 800; }
+.ritual-close {
+  background: rgba(255,255,255,0.15); border: none;
+  color: var(--white); font-size: 18px; width: 30px; height: 30px;
+  border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.ritual-body { padding: 24px; }
+.ritual-day {
+  margin-bottom: 20px;
+  padding: 16px;
+  background: var(--light);
+  border-radius: 10px;
+  border-left: 4px solid var(--navy);
+}
+.ritual-day.blue-l   { border-left-color: var(--blue); }
+.ritual-day.cyan-l   { border-left-color: var(--cyan); }
+.ritual-day.orange-l { border-left-color: var(--orange); }
+.ritual-day.green-l  { border-left-color: var(--green); }
+.ritual-day h4 { font-size: 12px; font-weight: 800; color: var(--navy); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+.ritual-step {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 8px; font-size: 12px; color: var(--dark); line-height: 1.5;
+}
+.ritual-step-num {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--navy); color: var(--white);
+  font-size: 9px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.ritual-day.blue-l   .ritual-step-num { background: var(--blue); }
+.ritual-day.cyan-l   .ritual-step-num { background: var(--cyan); color: var(--dark); }
+.ritual-day.orange-l .ritual-step-num { background: var(--orange); }
+.ritual-day.green-l  .ritual-step-num { background: var(--green); }
+.ritual-nav {
+  font-size: 11px; color: var(--blue); font-weight: 700; cursor: pointer;
+  background: none; border: none; text-decoration: underline; padding: 0; font-family: 'Montserrat', sans-serif;
+}
+
+/* HOME */
+.home-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 28px; }
+.home-card {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 20px;
+  cursor: pointer; transition: all 0.15s;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.home-card:hover { border-color: var(--blue); box-shadow: 0 4px 16px rgba(0,48,135,0.08); }
+.home-card-icon { font-size: 28px; }
+.home-card h3 { font-size: 13px; font-weight: 800; color: var(--dark); }
+.home-card p  { font-size: 11px; color: var(--muted); line-height: 1.5; }
+.home-card-count {
+  font-size: 10px; font-weight: 700; color: var(--white);
+  background: var(--navy); border-radius: 20px;
+  padding: 2px 8px; align-self: flex-start;
+}
+.home-card-count.blue   { background: var(--blue); }
+.home-card-count.cyan   { background: var(--cyan); color: var(--dark); }
+.home-card-count.orange { background: var(--orange); }
+
+.home-quick h3 { font-size: 13px; font-weight: 800; color: var(--dark); margin-bottom: 12px; }
+.quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.quick-item {
+  background: var(--white); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 12px 14px;
+  cursor: pointer; transition: all 0.13s;
+  font-size: 12px; font-weight: 600; color: var(--dark);
+  display: flex; align-items: center; gap: 8px;
+}
+.quick-item:hover { border-color: var(--orange); color: var(--navy); }
+.quick-item .qi-tag {
+  font-size: 9px; font-weight: 700; color: var(--white);
+  background: var(--muted); border-radius: 4px; padding: 2px 6px;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-brand">
+    <div class="topbar-logo">🎯</div>
+    <div>
+      <div class="topbar-name">Valeria Yashan · PM & Strategy</div>
+      <div class="topbar-sub">Hub de agentes · v1.8</div>
+    </div>
+  </div>
+  <div class="topbar-apikey">
+    <select id="model-select" title="Modelo a usar" onchange="try{sessionStorage.setItem('hub_model', this.value)}catch(e){}">
+      <option value="claude-sonnet-5">Sonnet 5 (calidad)</option>
+      <option value="claude-haiku-4-5-20251001">Haiku 4.5 (rápido/económico)</option>
+    </select>
+    <input id="apikey-input" type="password" placeholder="sk-ant-... (clave API, solo en memoria)" autocomplete="off" spellcheck="false">
+    <label class="apikey-remember" title="Guarda la clave en sessionStorage: sobrevive a recargas de esta pestaña, se borra al cerrarla. Nunca se guarda en disco.">
+      <input type="checkbox" id="apikey-remember"> recordar en esta pestaña
+    </label>
+    <button id="apikey-btn" onclick="saveApiKey()">Guardar</button>
+    <span id="apikey-status"></span>
+  </div>
+  <div class="topbar-ritual" onclick="openRitual()">
+    <span>📅</span><span>Ritual semanal</span>
+  </div>
+</div>
+
+<div class="sessionbar">
+  <span class="sessionbar-label">🎯 Tema de la sesión:</span>
+  <input id="sesion-tema-input" type="text" placeholder="ej: preparación PMP 2026 con IA — sin tema fijado, cada módulo va suelto">
+  <button onclick="fijarTema()">Fijar</button>
+  <span id="sesion-tema-status"></span>
+  <span class="sessionbar-spacer"></span>
+  <span id="sesion-costo" class="sessionbar-costo"></span>
+  <button class="sessionbar-btn" onclick="toggleHistorial()">📜 Historial (<span id="hist-count">0</span>)</button>
+  <button class="sessionbar-btn" onclick="exportarSesion()">⬇️ Exportar sesión</button>
+  <button class="sessionbar-btn" id="btn-pipeline" onclick="runPipelineSemanal()">▶ Pipeline semanal</button>
+</div>
+
+<div class="app">
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+
+  <div class="agent-section">
+    <div class="agent-label">Inicio</div>
+    <div class="nav-item active" onclick="show('home', this)">
+      <div class="nav-letter">🏠</div>
+      <div class="nav-text">Panel principal</div>
+    </div>
+  </div>
+
+  <div class="agent-section">
+    <div class="agent-label">🧠 Estrategia</div>
+    <div class="nav-item strat" onclick="show('sa', this)">
+      <div class="nav-letter">A</div>
+      <div><div class="nav-text">Briefing semanal</div><div class="nav-when">Lunes</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sb', this)">
+      <div class="nav-letter">B</div>
+      <div><div class="nav-text">Calendario mensual</div><div class="nav-when">Primer lunes del mes</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sc', this)">
+      <div class="nav-letter">C</div>
+      <div><div class="nav-text">Análisis competidores</div><div class="nav-when">Mensual</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sd', this)">
+      <div class="nav-letter">D</div>
+      <div><div class="nav-text">Revisión métricas</div><div class="nav-when">Lunes</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('se', this)">
+      <div class="nav-letter">E</div>
+      <div><div class="nav-text">Optimizar post</div><div class="nav-when">Viernes si aplica</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sf', this)">
+      <div class="nav-letter">F</div>
+      <div><div class="nav-text">Informe mensual</div><div class="nav-when">Último lunes del mes</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sg', this)">
+      <div class="nav-letter">G</div>
+      <div><div class="nav-text">Outreach LinkedIn</div><div class="nav-when">On demand</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sh', this)">
+      <div class="nav-letter">H</div>
+      <div><div class="nav-text">Kit speaker</div><div class="nav-when">On demand</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('si', this)">
+      <div class="nav-letter">I</div>
+      <div><div class="nav-text">Comunidad / Comentarios</div><div class="nav-when">On demand</div></div>
+    </div>
+    <div class="nav-item strat" onclick="show('sj', this)">
+      <div class="nav-letter">J</div>
+      <div><div class="nav-text">Bio multiplataforma</div><div class="nav-when">On demand</div></div>
+    </div>
+  </div>
+
+  <div class="agent-section">
+    <div class="agent-label">🏭 Producción</div>
+    <div class="nav-item prod" onclick="show('p1', this)">
+      <div class="nav-letter">1</div>
+      <div><div class="nav-text">Post LinkedIn</div><div class="nav-when">Versión A + B</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p2', this)">
+      <div class="nav-letter">2</div>
+      <div><div class="nav-text">Caption Instagram</div><div class="nav-when">3 hooks + CTA DM</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p3', this)">
+      <div class="nav-letter">3</div>
+      <div><div class="nav-text">Storie HTML</div><div class="nav-when">Para Canva</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p4', this)">
+      <div class="nav-letter">4</div>
+      <div><div class="nav-text">Carrusel LinkedIn</div><div class="nav-when">7 slides · objetivo guardar</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p5', this)">
+      <div class="nav-letter">5</div>
+      <div><div class="nav-text">Guión video</div><div class="nav-when">Con interrupciones patrón</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p6', this)">
+      <div class="nav-letter">6</div>
+      <div><div class="nav-text">Pack SEO YouTube</div><div class="nav-when">Título + desc + tags</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p7', this)">
+      <div class="nav-letter">7</div>
+      <div><div class="nav-text">Artículo blog Astro</div><div class="nav-when">Frontmatter completo</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p8', this)">
+      <div class="nav-letter">8</div>
+      <div><div class="nav-text">Newsletter Substack</div><div class="nav-when">Asunto + cuerpo</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p9', this)">
+      <div class="nav-letter">9</div>
+      <div><div class="nav-text">Prompts imagen</div><div class="nav-when">Thumbnail · hero · IG</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p10', this)">
+      <div class="nav-letter">10</div>
+      <div><div class="nav-text">Short / Reel</div><div class="nav-when">60 seg · cámara directa</div></div>
+    </div>
+    <div class="nav-item prod" onclick="show('p11', this)">
+      <div class="nav-letter">11</div>
+      <div><div class="nav-text">Golden Hour</div><div class="nav-when">Comentario + respuestas</div></div>
+    </div>
+  </div>
+
+  <div class="agent-section">
+    <div class="agent-label">💰 Monetización</div>
+    <div class="nav-item mon" onclick="show('ma', this)">
+      <div class="nav-letter">A</div>
+      <div><div class="nav-text">Diagnóstico conversión</div><div class="nav-when">Lunes</div></div>
+    </div>
+    <div class="nav-item mon" onclick="show('mb', this)">
+      <div class="nav-letter">B</div>
+      <div><div class="nav-text">Pipeline KDP</div><div class="nav-when">Lunes</div></div>
+    </div>
+    <div class="nav-item mon" onclick="show('mc', this)">
+      <div class="nav-letter">C</div>
+      <div><div class="nav-text">Lanzamiento producto</div><div class="nav-when">On demand</div></div>
+    </div>
+    <div class="nav-item mon" onclick="show('md', this)">
+      <div class="nav-letter">D</div>
+      <div><div class="nav-text">Outreach institucional</div><div class="nav-when">On demand</div></div>
+    </div>
+    <div class="nav-item mon" onclick="show('me', this)">
+      <div class="nav-letter">E</div>
+      <div><div class="nav-text">Activación comunidad</div><div class="nav-when">Al llegar a 200 subs</div></div>
+    </div>
+    <div class="nav-item mon" onclick="show('mf', this)">
+      <div class="nav-letter">F</div>
+      <div><div class="nav-text">Seguimiento prospectos</div><div class="nav-when">On demand</div></div>
+    </div>
+  </div>
+
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ═══ HOME ═══ -->
+<div id="panel-home" class="panel active">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon blue">🎯</div>
+      <div class="panel-title">
+        <h2>Hub de Marca Personal</h2>
+        <p>Tres agentes integrados: Producción (11 piezas), Estrategia (10 módulos) y Monetización (6 módulos). Seleccioná un módulo en el panel izquierdo o usá los accesos rápidos.</p>
+      </div>
+    </div>
+  </div>
+  <div class="home-grid">
+    <div class="home-card" onclick="show('sa', null)">
+      <div class="home-card-icon">🧠</div>
+      <div class="home-card-count cyan">10 módulos</div>
+      <h3>Agente de Estrategia</h3>
+      <p>Briefing, calendario, competidores, métricas, optimización, informes y outreach.</p>
+    </div>
+    <div class="home-card" onclick="show('p1', null)">
+      <div class="home-card-icon">🏭</div>
+      <div class="home-card-count blue">11 piezas</div>
+      <h3>Agente de Producción</h3>
+      <p>Posts, captions, stories, carrusel, guión, SEO, blog, newsletter, shorts y golden hour.</p>
+    </div>
+    <div class="home-card" onclick="show('ma', null)">
+      <div class="home-card-icon">💰</div>
+      <div class="home-card-count orange">6 módulos</div>
+      <h3>Agente de Monetización</h3>
+      <p>Conversión, KDP, lanzamientos, outreach institucional, comunidad y prospectos.</p>
+    </div>
+  </div>
+  <div style="background:#1A2B4A;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
+    <div style="font-size:11px;font-weight:800;color:#00AEEF;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">⚙️ Flujo MCP Canva — Carruseles y diseños multi-página</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.8;">
+      <span style="color:#F7941D;font-weight:700;">1.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">generate-design</code> con query <em>"blank solid navy #003087 background, no text no images"</em><br>
+      <span style="color:#F7941D;font-weight:700;">2.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">create-design-from-candidate</code> → convertir a editable inmediatamente<br>
+      <span style="color:#F7941D;font-weight:700;">3.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">read-design</code> con <code>open_transaction:true</code> → obtener IDs de páginas<br>
+      <span style="color:#F7941D;font-weight:700;">4.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">add_page</code> con <code>background_color="#003087"</code> por cada slide<br>
+      <span style="color:#F7941D;font-weight:700;">5.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">add_text</code> página por página con el contenido<br>
+      <span style="color:#F7941D;font-weight:700;">6.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">format_text</code> en segunda pasada → color, peso Y <strong>tamaño</strong> de la guía visual v2.0<br>
+      <span style="color:#F7941D;font-weight:700;">7.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">commit</code> final → posicionamiento manual en Canva si hace falta
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#ef4444;font-weight:600;">
+      ❌ NUNCA usar generate-design con contenido completo — Canva AI ignora colores<br>
+      ❌ NUNCA usar position_element en páginas FIXED — las coordenadas top/left se invierten
+    </div>
+  </div>
+
+  <div style="background:#1A2B4A;border-radius:10px;padding:18px 22px;margin-bottom:24px;">
+    <div style="font-size:11px;font-weight:800;color:#00AEEF;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;">⚙️ Flujo MCP Canva — Editar un diseño que ya existe</div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.85);line-height:1.8;">
+      <span style="color:#F7941D;font-weight:700;">1.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">read-design</code> con <code>open_transaction:true</code> → devuelve el <code>transaction_id</code> y el CDF con los <code>locator_id</code> de cada elemento<br>
+      <span style="color:#F7941D;font-weight:700;">2.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">edit-design</code> una llamada por página — todas las operaciones de una llamada tienen que apuntar a la misma <code>page_index</code><br>
+      <span style="color:#F7941D;font-weight:700;">3.</span> Revisar la miniatura que devuelve cada llamada antes de pasar a la página siguiente<br>
+      <span style="color:#F7941D;font-weight:700;">4.</span> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">edit-design</code> con <code>finalize:"commit"</code> y <strong>sin operaciones</strong> → guarda todo, es irreversible
+    </div>
+    <div style="margin-top:12px;font-size:12px;color:rgba(255,255,255,0.85);line-height:1.8;">
+      <strong style="color:#00AEEF;">Fondo de página:</strong> el MCP no puede cambiarlo. Workaround: <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">insert_shape</code> rectángulo 1080×1350 del color de marca → <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">layer_element</code> con <code>position:"back"</code> en una <em>segunda</em> llamada (el ID del rectángulo recién aparece en la respuesta de la primera).<br>
+      <strong style="color:#00AEEF;">Al agrandar tipografía:</strong> <code style="background:rgba(255,255,255,0.1);padding:1px 6px;border-radius:3px;">resize_element</code> el ancho de la caja de texto (en TEXT solo se pasa <code>width</code>, el alto es automático), o el texto se parte en líneas de más.
+    </div>
+    <div style="margin-top:10px;font-size:11px;color:#ef4444;font-weight:600;">
+      ❌ NUNCA combinar <code>operations</code> con <code>finalize:"commit"</code> — se rechaza la llamada<br>
+      ❌ NUNCA "corregir" coordenadas raras del CDF en páginas FIXED (pos 1260 en un canvas de 1080) — renderizan bien<br>
+      ⚠️ Después de subir la escala, pasada manual de espaciado vertical en Canva
+    </div>
+  </div>
+
+  <div class="home-quick">
+    <h3>Accesos rápidos — ritual de hoy</h3>
+    <div class="quick-grid">
+      <div class="quick-item" onclick="show('sa', null)"><span>🌅</span> Briefing semanal <span class="qi-tag">Lunes</span></div>
+      <div class="quick-item" onclick="show('sd', null)"><span>📊</span> Revisión métricas <span class="qi-tag">Lunes</span></div>
+      <div class="quick-item" onclick="show('ma', null)"><span>💹</span> Diagnóstico conversión <span class="qi-tag">Lunes</span></div>
+      <div class="quick-item" onclick="show('p1', null)"><span>✍️</span> Post LinkedIn <span class="qi-tag">Pipeline</span></div>
+      <div class="quick-item" onclick="show('p5', null)"><span>🎬</span> Guión video <span class="qi-tag">Pipeline</span></div>
+      <div class="quick-item" onclick="show('p6', null)"><span>🔍</span> Pack SEO YouTube <span class="qi-tag">Pipeline</span></div>
+      <div class="quick-item" onclick="show('se', null)"><span>⚡</span> Optimizar post <span class="qi-tag">Viernes</span></div>
+      <div class="quick-item" onclick="show('mb', null)"><span>📚</span> Pipeline KDP <span class="qi-tag">Semanal</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PRODUCCIÓN ═══ -->
+
+<!-- P1 LinkedIn -->
+<div id="panel-p1" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon blue">✍️</div>
+      <div class="panel-title">
+        <h2>Post LinkedIn — Versión A + B<span class="capa capa-redes">Redes</span></h2>
+        <p>Genera dos versiones: A (150-220 palabras, alcance) y B (400-600 palabras, dwell time). Hook fuerte, CTA guardar, mención @IMR Consulting si aplica, CTA Substack.</p>
+      </div>
+    </div>
+    <span class="panel-badge">Pieza 1 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field">
+      <label>Tema o idea del post</label>
+      <textarea rows="3" id="p1-tema" placeholder="ej. Por qué el 70% de los proyectos falla por problemas de comunicación, no de planificación"></textarea>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Pilar de contenido</label>
+        <select id="p1-pilar">
+          <option>Project Management</option><option>Estrategia</option>
+          <option>IA aplicada</option><option>Liderazgo</option><option>Carrera profesional</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Tipo de post</label>
+        <select id="p1-tipo">
+          <option>Valor / Educativo</option><option>Opinión / Contrarian</option>
+          <option>Historia real</option><option>Promoción (BoFu)</option><option>Amplificación de video</option>
+        </select>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>¿Mencionar @IMR Consulting?</label>
+        <select id="p1-imr">
+          <option value="evaluar">Evaluar (recomendado)</option>
+          <option value="si">Sí, incluir</option>
+          <option value="no">No, omitir</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Link de destino</label>
+        <input type="text" id="p1-link" placeholder="ej. valeriayashan.com.ar/simulador">
+      </div>
+    </div>
+    <div class="field">
+      <label>Contexto adicional (opcional)</label>
+      <input type="text" id="p1-contexto" placeholder="ej. Lo vivo en el proyecto YPF · Viene del video de esta semana · Trending en PMs LATAM">
+    </div>
+    <button class="btn-run" id="btn-p1" onclick="run('p1')"><div class="spinner"></div><span class="btn-label">Generar Versión A + B</span></button>
+    <div class="err" id="err-p1"></div>
+    <div class="output" id="out-p1"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--blue)"></div><span class="output-label">Post LinkedIn · A + B</span></div><button class="btn-copy" onclick="cp('out-p1-t',this)">Copiar</button></div><div class="output-text" id="out-p1-t"></div></div>
+  </div>
+</div>
+
+<!-- P2 Instagram -->
+<div id="panel-p2" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">📸</div>
+      <div class="panel-title"><h2>Caption Instagram<span class="capa capa-redes">Redes</span></h2><p>3 variantes de hook + caption completo. CTA orientada a DM share. 3 hashtags temáticos. CTA Substack al cierre.</p></div>
+    </div><span class="panel-badge">Pieza 2 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Tema del post</label><textarea rows="3" id="p2-tema" placeholder="ej. Cómo uso IA para preparar el kick-off de un proyecto en 20 minutos"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar</label><select id="p2-pilar"><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
+      <div class="field"><label>Formato visual</label><select id="p2-formato"><option>Post feed (imagen o carrusel)</option><option>Reel</option><option>Video corto</option></select></div>
+    </div>
+    <div class="field"><label>Link de destino</label><input type="text" id="p2-link" placeholder="ej. valeriayashan.com.ar/servicios/clases-ia"></div>
+    <button class="btn-run" id="btn-p2" onclick="run('p2')"><div class="spinner"></div><span class="btn-label">Generar caption + 3 hooks</span></button>
+    <div class="err" id="err-p2"></div>
+    <div class="output" id="out-p2"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Caption Instagram</span></div><button class="btn-copy" onclick="cp('out-p2-t',this)">Copiar</button><button class="btn-copy btn-canva" onclick="cpParaCanva('out-p2-t',this)">📋 Para Canva</button></div><div class="output-text" id="out-p2-t"></div></div>
+  </div>
+</div>
+
+<!-- P3 Storie -->
+<div id="panel-p3" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">📱</div>
+      <div class="panel-title"><h2>Storie HTML para Canva<span class="capa capa-redes">Redes</span></h2><p>HTML listo para importar a Canva (1080×1920). Fondo navy, Montserrat, paleta PMI oficial. CTA YouTube + Substack.</p></div>
+    </div><span class="panel-badge">Pieza 3 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Mensaje principal de la storie</label><textarea rows="3" id="p3-msg" placeholder="ej. Publiqué un video nuevo · ¿Preparás el PMP? Tengo algo para vos · Esta semana en el canal:"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Tipo de storie</label><select id="p3-tipo"><option>Anuncio nuevo video YouTube</option><option>Teaser de post</option><option>CTA Substack</option><option>Behind the scenes</option><option>Encuesta / pregunta</option></select></div>
+      <div class="field"><label>Fondo</label><select id="p3-fondo"><option value="#003087">Navy #003087</option><option value="#F0F4F8">Gris claro #F0F4F8</option><option value="#0066CC">Blue #0066CC</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p3" onclick="run('p3')"><div class="spinner"></div><span class="btn-label">Generar HTML de storie</span></button>
+    <div class="err" id="err-p3"></div>
+    <div class="output" id="out-p3"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Storie HTML</span></div><button class="btn-copy" onclick="cp('out-p3-t',this)">Copiar</button><button class="btn-copy btn-canva" onclick="cpParaCanva('out-p3-t',this)">📋 Para Canva</button></div><div class="output-text" id="out-p3-t"></div></div>
+  </div>
+</div>
+
+<!-- P4 Carrusel -->
+<div id="panel-p4" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon navy">🃏</div>
+      <div class="panel-title"><h2>Carrusel LinkedIn<span class="capa capa-redes">Redes</span></h2><p>7 slides con copy completo. Objetivo: guardar. Cover + intro + 4-5 slides de valor + cierre con CTA. Caption para el post incluido.</p></div>
+    </div><span class="panel-badge">Pieza 4 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Tema del carrusel</label><textarea rows="3" id="p4-tema" placeholder="ej. 5 errores de comunicación que frenan proyectos (y cómo evitarlos)"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar</label><select id="p4-pilar"><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
+      <div class="field"><label>CTA del último slide</label><select id="p4-cta"><option>Guardar para usarlo después</option><option>Suscribirse a Substack</option><option>Ver video en YouTube</option><option>Consultar servicio</option><option>Comprar libro</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p4" onclick="run('p4')"><div class="spinner"></div><span class="btn-label">Generar carrusel 7 slides</span></button>
+    <div class="err" id="err-p4"></div>
+    <div class="output" id="out-p4"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--navy)"></div><span class="output-label">Carrusel LinkedIn</span></div><button class="btn-copy" onclick="cp('out-p4-t',this)">Copiar</button><button class="btn-copy btn-canva" onclick="cpParaCanva('out-p4-t',this)">📋 Para Canva</button></div><div class="output-text" id="out-p4-t"></div></div>
+  </div>
+</div>
+
+<!-- P5 Guión -->
+<div id="panel-p5" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon green">🎬</div>
+      <div class="panel-title"><h2>Guión de video YouTube<span class="capa capa-txt">Texto</span></h2><p>Guión completo con hook de apertura, desarrollo por secciones, interrupciones de patrón cada 30-60 seg y bridge al próximo episodio. 8-15 minutos.</p></div>
+    </div><span class="panel-badge">Pieza 5 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Título del episodio</label><input type="text" id="p5-titulo" placeholder="ej. Qué cambió en el examen PMP de julio 2026 — lo que nadie te está explicando"></div>
+    <div class="field"><label>Puntos clave a cubrir</label><textarea rows="4" id="p5-puntos" placeholder="ej. 1. Nuevos dominios ECO 2026 / 2. Cambio en el formato de preguntas / 3. Estrategia de estudio actualizada / 4. Recursos gratuitos"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar</label><select id="p5-pilar"><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
+      <div class="field"><label>Bridge al próximo episodio (pilar)</label><select id="p5-bridge"><option>IA aplicada</option><option>Project Management</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p5" onclick="run('p5')"><div class="spinner"></div><span class="btn-label">Generar guión completo</span></button>
+    <div class="err" id="err-p5"></div>
+    <div class="output" id="out-p5"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--green)"></div><span class="output-label">Guión de video</span></div><button class="btn-copy" onclick="cp('out-p5-t',this)">Copiar</button></div><div class="output-text" id="out-p5-t"></div></div>
+  </div>
+</div>
+
+<!-- P6 SEO -->
+<div id="panel-p6" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon purple">🔍</div>
+      <div class="panel-title"><h2>Pack SEO YouTube<span class="capa capa-txt">Texto</span></h2><p>3 opciones de título (directa / dato / pregunta), descripción estructurada, 20-30 tags, capítulos con timestamps, playlist recomendada y 2-3 opciones de texto para thumbnail.</p></div>
+    </div><span class="panel-badge">Pieza 6 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Título de trabajo del video</label><input type="text" id="p6-titulo" placeholder="ej. Cómo usar Claude para gestionar proyectos"></div>
+    <div class="field"><label>Tema y puntos cubiertos en el video</label><textarea rows="3" id="p6-tema" placeholder="ej. Uso de IA para actas de reunión, seguimiento de riesgos y reportes de estado — con ejemplos reales de proyectos energía"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar / Playlist</label><select id="p6-playlist"><option>Preparación PMP 2026</option><option>IA aplicada a PM</option><option>Gestión Real de Proyectos</option><option>Estrategia y Liderazgo</option></select></div>
+      <div class="field"><label>Duración del video</label><input type="text" id="p6-duracion" placeholder="ej. 12 minutos"></div>
+    </div>
+    <button class="btn-run" id="btn-p6" onclick="run('p6')"><div class="spinner"></div><span class="btn-label">Generar pack SEO completo</span></button>
+    <div class="err" id="err-p6"></div>
+    <div class="output" id="out-p6"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--purple)"></div><span class="output-label">Pack SEO YouTube</span></div><button class="btn-copy" onclick="cp('out-p6-t',this)">Copiar</button></div><div class="output-text" id="out-p6-t"></div></div>
+  </div>
+</div>
+
+<!-- P7 Blog -->
+<div id="panel-p7" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon teal">📝</div>
+      <div class="panel-title"><h2>Artículo blog Astro<span class="capa capa-web">Web</span></h2><p>Artículo completo con el frontmatter exacto del schema activo (title · description · pubDate · category · tags). Slugs internos verificados, checklist de 12 puntos y comandos PowerShell de publicación al final.</p></div>
+    </div><span class="panel-badge">Pieza 7 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Título del artículo</label><input type="text" id="p7-titulo" placeholder="ej. Qué cambió en el examen PMP julio 2026 y cómo prepararte"></div>
+    <div class="field"><label>Keyword principal</label><input type="text" id="p7-keyword" placeholder="ej. examen PMP 2026 · jira gestión de proyectos · IA para project managers"></div>
+    <div class="field"><label>Puntos clave a desarrollar</label><textarea rows="3" id="p7-puntos" placeholder="ej. Nuevos dominios · Cambios en el formato · Estrategia de estudio · Recursos"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Fecha de publicación</label><input type="text" id="p7-fecha" placeholder="ej. 2026-07-31"></div>
+      <div class="field"><label>Slug (URL)</label><input type="text" id="p7-slug" placeholder="ej. examen-pmp-julio-2026-cambios"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Categoría (schema — solo estas tres)</label><select id="p7-cat"><option value="Project Management">Project Management</option><option value="IA">IA</option><option value="Herramientas">Herramientas</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p7" onclick="run('p7')"><div class="spinner"></div><span class="btn-label">Generar artículo completo</span></button>
+    <div class="err" id="err-p7"></div>
+    <div class="output" id="out-p7"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#14b8a6)"></div><span class="output-label">Artículo blog Astro</span></div><button class="btn-copy" onclick="cp('out-p7-t',this)">Copiar</button></div><div class="output-text" id="out-p7-t"></div></div>
+  </div>
+</div>
+
+<!-- P8 Newsletter -->
+<div id="panel-p8" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon rose">📧</div>
+      <div class="panel-title"><h2>Newsletter Substack<span class="capa capa-txt">Texto</span></h2><p>Asunto (3 opciones) + preview (90 caracteres) + cuerpo completo. CTA a YouTube y Blog al final. Tono consultivo directo.</p></div>
+    </div><span class="panel-badge">Pieza 8 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Tema de esta edición</label><textarea rows="3" id="p8-tema" placeholder="ej. Los prompts exactos que uso para gestionar proyectos con IA — sin hype, sin teoría"></textarea></div>
+    <div class="field"><label>Puntos a cubrir</label><textarea rows="3" id="p8-puntos" placeholder="ej. Prompt para acta de reunión · Prompt para análisis de riesgos · Prompt para reporte de estado · Tip de uso avanzado"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Número de edición</label><input type="text" id="p8-num" placeholder="ej. Edición #4"></div>
+      <div class="field"><label>Video relacionado (opcional)</label><input type="text" id="p8-video" placeholder="URL o título del video de YouTube"></div>
+    </div>
+    <button class="btn-run" id="btn-p8" onclick="run('p8')"><div class="spinner"></div><span class="btn-label">Generar newsletter completo</span></button>
+    <div class="err" id="err-p8"></div>
+    <div class="output" id="out-p8"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#f43f5e)"></div><span class="output-label">Newsletter Substack</span></div><button class="btn-copy" onclick="cp('out-p8-t',this)">Copiar</button></div><div class="output-text" id="out-p8-t"></div></div>
+  </div>
+</div>
+
+<!-- P9 Prompts imagen -->
+<div id="panel-p9" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon amber">🎨</div>
+      <div class="panel-title"><h2>Prompts de imagen<span class="capa capa-mixta">Mixta</span></h2><p>3 prompts listos: thumbnail YouTube (1280×720), hero de blog (1200×630) y fondo para feed IG (1080×1080). Para DALL-E, Ideogram o Firefly.</p></div>
+    </div><span class="panel-badge">Pieza 9 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Tema visual a representar</label><textarea rows="3" id="p9-tema" placeholder="ej. IA + gestión de proyectos · PMP 2026 cambios · Liderazgo de equipos técnicos"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Herramienta destino</label><select id="p9-tool"><option>DALL-E / ChatGPT</option><option>Ideogram</option><option>Adobe Firefly</option><option>Midjourney</option></select></div>
+      <div class="field"><label>Estilo visual</label><select id="p9-estilo"><option>Profesional / minimalista</option><option>Bold con tipografía destacada</option><option>Ilustración digital plana</option><option>Fotorrealista</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p9" onclick="run('p9')"><div class="spinner"></div><span class="btn-label">Generar 3 prompts de imagen</span></button>
+    <div class="err" id="err-p9"></div>
+    <div class="output" id="out-p9"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#f59e0b)"></div><span class="output-label">Prompts de imagen</span></div><button class="btn-copy" onclick="cp('out-p9-t',this)">Copiar</button><button class="btn-copy btn-canva" onclick="cpParaCanva('out-p9-t',this)">📋 Para Canva</button></div><div class="output-text" id="out-p9-t"></div></div>
+  </div>
+</div>
+
+<!-- P10 Short -->
+<div id="panel-p10" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon indigo">⚡</div>
+      <div class="panel-title"><h2>Short / Reel (60 segundos)<span class="capa capa-txt">Texto</span></h2><p>Guión para grabar a cámara directa. Estructura: gancho (5 seg) + promesa + desarrollo + CTA. Nunca captura de YouTube (Originality Score 2026). Publicar en 3 plataformas.</p></div>
+    </div><span class="panel-badge">Pieza 10 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Idea o aprendizaje a compartir</label><textarea rows="3" id="p10-idea" placeholder="ej. El error más común al preparar el PMP · Cómo ahorré 2 horas semanales con este prompt de IA · La pregunta que hago en cada kick-off"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar</label><select id="p10-pilar"><option>Project Management</option><option>IA aplicada</option><option>Certificación PMP</option><option>Liderazgo</option><option>Carrera</option></select></div>
+      <div class="field"><label>CTA al final</label><select id="p10-cta"><option>Seguir en YouTube para el video completo</option><option>Guardar este video</option><option>Compartir con tu equipo</option><option>Suscribirse al newsletter</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-p10" onclick="run('p10')"><div class="spinner"></div><span class="btn-label">Generar guión Short/Reel</span></button>
+    <div class="err" id="err-p10"></div>
+    <div class="output" id="out-p10"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:#6366f1)"></div><span class="output-label">Guión Short / Reel</span></div><button class="btn-copy" onclick="cp('out-p10-t',this)">Copiar</button></div><div class="output-text" id="out-p10-t"></div></div>
+  </div>
+</div>
+
+<!-- P11 Golden Hour -->
+<div id="panel-p11" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">⭐</div>
+      <div class="panel-title"><h2>Golden Hour LinkedIn<span class="capa capa-txt">Texto</span></h2><p>Las primeras horas determinan el alcance del post. Generá: primer comentario con el link, 2 respuestas tipo para los comentarios frecuentes y perfil estratégico para etiquetar.</p></div>
+    </div><span class="panel-badge">Pieza 11 de 11</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Tema del post publicado</label><textarea rows="2" id="p11-tema" placeholder="ej. Post sobre comunicación en proyectos / Video nuevo sobre PMP 2026"></textarea></div>
+    <div class="field"><label>Link a incluir en el primer comentario</label><input type="text" id="p11-link" placeholder="ej. youtu.be/xxx · valeriayashan.com.ar/simulador"></div>
+    <div class="field"><label>¿Qué tipo de comentarios esperás?</label><textarea rows="2" id="p11-comentarios" placeholder="ej. Preguntas sobre el PMP · PMs compartiendo su experiencia · Interesados en el curso"></textarea></div>
+    <button class="btn-run" id="btn-p11" onclick="run('p11')"><div class="spinner"></div><span class="btn-label">Generar golden hour completo</span></button>
+    <div class="err" id="err-p11"></div>
+    <div class="output" id="out-p11"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Golden Hour</span></div><button class="btn-copy" onclick="cp('out-p11-t',this)">Copiar</button></div><div class="output-text" id="out-p11-t"></div></div>
+  </div>
+</div>
+
+<!-- ═══ ESTRATEGIA ═══ -->
+
+<!-- SA Briefing -->
+<div id="panel-sa" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">🌅</div>
+      <div class="panel-title"><h2>A — Briefing semanal</h2><p>Tendencias actuales del mercado PM hispanohablante, ranking de 5 temas con potencial de engagement y recomendación del tema de la semana con argumentación.</p></div>
+    </div><span class="panel-badge">Estrategia · Lunes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Restricciones o contexto esta semana</label><textarea rows="3" id="sa-contexto" placeholder="ej. Evitar PMP (ya cubrí 2 semanas seguidas) · Quiero algo de IA · Hay un evento PMI esta semana · Tengo poco tiempo para producir"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Pilar prioritario</label><select id="sa-pilar"><option value="cualquiera">Cualquiera (recomendar el mejor)</option><option>Project Management</option><option>IA aplicada</option><option>Estrategia</option><option>Liderazgo</option><option>Carrera profesional</option></select></div>
+      <div class="field"><label>Formato preferido esta semana</label><select id="sa-formato"><option value="cualquiera">Sin preferencia</option><option>Video largo YouTube</option><option>Carrusel LinkedIn</option><option>Post de opinión</option><option>Short/Reel</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-sa" onclick="run('sa')"><div class="spinner"></div><span class="btn-label">Generar briefing semanal</span></button>
+    <div class="err" id="err-sa"></div>
+    <div class="output" id="out-sa"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Briefing semanal</span></div><button class="btn-copy" onclick="cp('out-sa-t',this)">Copiar</button></div><div class="output-text" id="out-sa-t"></div></div>
+  </div>
+</div>
+
+<!-- SB Calendario -->
+<div id="panel-sb" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">📅</div>
+      <div class="panel-title"><h2>B — Calendario mensual</h2><p>Plan de 4 semanas con tema central, título de video, 3 posts de LinkedIn derivados y sugerencia de carrusel. Un tema por semana, coherencia entre plataformas.</p></div>
+    </div><span class="panel-badge">Estrategia · Primer lunes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Mes a planificar</label><input type="text" id="sb-mes" placeholder="ej. Agosto 2026"></div>
+    <div class="field"><label>Restricciones o eventos del mes</label><textarea rows="3" id="sb-restricciones" placeholder="ej. Semana 2 estoy de viaje · Quiero cubrir el pilar Liderazgo que lleva 2 meses sin aparecer · Hay un examen PMI el 15"></textarea></div>
+    <div class="field"><label>Temas a evitar</label><input type="text" id="sb-evitar" placeholder="ej. PMBOK (ya cubierto en julio) · Herramientas específicas de software"></div>
+    <button class="btn-run" id="btn-sb" onclick="run('sb')"><div class="spinner"></div><span class="btn-label">Generar calendario del mes</span></button>
+    <div class="err" id="err-sb"></div>
+    <div class="output" id="out-sb"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Calendario mensual</span></div><button class="btn-copy" onclick="cp('out-sb-t',this)">Copiar</button><button class="btn-copy btn-notion" onclick="cpParaNotion('out-sb-t',this)">📋 Para Notion</button></div><div class="output-text" id="out-sb-t"></div></div>
+  </div>
+</div>
+
+<!-- SC Competidores -->
+<div id="panel-sc" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">🔭</div>
+      <div class="panel-title"><h2>C — Análisis de competidores</h2><p>Gaps detectados vs referentes del mercado PM LATAM. Qué están haciendo, qué no están haciendo y qué oportunidades de posicionamiento quedan disponibles.</p></div>
+    </div><span class="panel-badge">Estrategia · Mensual</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Referente a analizar</label><input type="text" id="sc-ref" placeholder="ej. Ricardo Viana Vargas · Diego Arjona · Miguel Ángel Ruiz PM · Nombre de quien quieras analizar"></div>
+    <div class="field"><label>Plataforma o contenido a comparar</label><textarea rows="3" id="sc-contexto" placeholder="ej. Su último video de YouTube sobre IA · Cómo presenta sus libros en Amazon · Su estrategia de LinkedIn"></textarea></div>
+    <button class="btn-run" id="btn-sc" onclick="run('sc')"><div class="spinner"></div><span class="btn-label">Generar análisis competitivo</span></button>
+    <div class="err" id="err-sc"></div>
+    <div class="output" id="out-sc"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Análisis de competidores</span></div><button class="btn-copy" onclick="cp('out-sc-t',this)">Copiar</button></div><div class="output-text" id="out-sc-t"></div></div>
+  </div>
+</div>
+
+<!-- SD Métricas -->
+<div id="panel-sd" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">📊</div>
+      <div class="panel-title"><h2>D — Revisión de métricas</h2><p>Diagnóstico integrado de redes + Search Console. Detecta qué funcionó, qué no y da 3 ajustes para el próximo pipeline.</p></div>
+    </div><span class="panel-badge">Estrategia · Lunes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Métricas de la semana</label><textarea rows="5" id="sd-metricas" placeholder="Pegá lo que tengas del tracker: LinkedIn (impresiones, saves, clics), YouTube (views, subs nuevos, watch time), Substack (open rate, subs), Instagram (alcance, saves), Search Console (queries, clics, posición)"></textarea></div>
+    <button type="button" class="btn-copy btn-canva" id="btn-cargar-sd" onclick="cargarMetricasSemana()">🔄 Traer semana del Sheet</button>
+    <button class="btn-run" id="btn-sd" onclick="run('sd')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico de métricas</span></button>
+    <div class="err" id="err-sd"></div>
+    <div class="output" id="out-sd"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Revisión de métricas</span></div><button class="btn-copy" onclick="cp('out-sd-t',this)">Copiar</button></div><div class="output-text" id="out-sd-t"></div></div>
+  </div>
+</div>
+
+<!-- SE Optimizar post -->
+<div id="panel-se" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">⚡</div>
+      <div class="panel-title"><h2>E — Optimizar post con bajo engagement</h2><p>Diagnóstico de por qué no funcionó + versión mejorada lista para republicar o usar como base del próximo post.</p></div>
+    </div><span class="panel-badge">Estrategia · Viernes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Texto del post que no funcionó</label><textarea rows="5" id="se-post" placeholder="Pegá el post completo tal como lo publicaste"></textarea></div>
+    <div class="field"><label>Métricas de ese post</label><input type="text" id="se-metricas" placeholder="ej. 180 impresiones · 2 likes · 0 comentarios · 1 save · publicado lunes 8:30am"></div>
+    <button type="button" class="btn-copy btn-canva" id="btn-cargar-se" onclick="detectarPeorPost()">🔍 Detectar peor post de la semana</button>
+    <button class="btn-run" id="btn-se" onclick="run('se')"><div class="spinner"></div><span class="btn-label">Analizar y reescribir</span></button>
+    <div class="err" id="err-se"></div>
+    <div class="output" id="out-se"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Post optimizado</span></div><button class="btn-copy" onclick="cp('out-se-t',this)">Copiar</button></div><div class="output-text" id="out-se-t"></div></div>
+  </div>
+</div>
+
+<!-- SF Informe mensual -->
+<div id="panel-sf" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">📋</div>
+      <div class="panel-title"><h2>F — Informe mensual de marca</h2><p>Resumen ejecutivo del mes: crecimiento por plataforma, ROI por formato, contenido ganador, aprendizajes y recomendaciones para el mes siguiente.</p></div>
+    </div><span class="panel-badge">Estrategia · Último lunes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Mes a cerrar</label><input type="text" id="sf-mes" placeholder="ej. Julio 2026"></div>
+    <div class="field"><label>Datos del mes (todo lo que tengas)</label><textarea rows="6" id="sf-datos" placeholder="Crecimiento de seguidores por plataforma, posts publicados, video con más views, post con más saves, suscriptores Substack (inicio y fin del mes), ventas Amazon, leads de consultoría generados..."></textarea></div>
+    <button class="btn-run" id="btn-sf" onclick="run('sf')"><div class="spinner"></div><span class="btn-label">Generar informe mensual</span></button>
+    <div class="err" id="err-sf"></div>
+    <div class="output" id="out-sf"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Informe mensual</span></div><button class="btn-copy" onclick="cp('out-sf-t',this)">Copiar</button><button class="btn-copy btn-notion" onclick="cpParaNotion('out-sf-t',this)">📋 Para Notion</button></div><div class="output-text" id="out-sf-t"></div></div>
+  </div>
+</div>
+
+<!-- SG Outreach LinkedIn -->
+<div id="panel-sg" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">🤝</div>
+      <div class="panel-title"><h2>G — Outreach LinkedIn</h2><p>Comentarios estratégicos en posts de referentes, mensajes directos para hacer networking y respuestas a comentarios en tus propios posts.</p></div>
+    </div><span class="panel-badge">Estrategia · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Contexto del outreach</label><textarea rows="4" id="sg-contexto" placeholder="ej. Post de Ricardo Viana sobre IA en proyectos (pegá el texto) · Quiero contactar a [nombre] que es reclutador de PMI ATP · Alguien comentó en mi post preguntando por el PMP"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Tipo</label><select id="sg-tipo"><option>Comentario en post ajeno</option><option>Mensaje directo (DM)</option><option>Respuesta a comentario propio</option><option>Invitación a conectar</option></select></div>
+      <div class="field"><label>Objetivo</label><select id="sg-objetivo"><option>Visibilidad / posicionamiento</option><option>Networking profesional</option><option>Lead de consultoría</option><option>Invitación docente</option><option>Colaboración de contenido</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-sg" onclick="run('sg')"><div class="spinner"></div><span class="btn-label">Generar mensaje</span></button>
+    <div class="err" id="err-sg"></div>
+    <div class="output" id="out-sg"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Outreach LinkedIn</span></div><button class="btn-copy" onclick="cp('out-sg-t',this)">Copiar</button></div><div class="output-text" id="out-sg-t"></div></div>
+  </div>
+</div>
+
+<!-- SH Speaker -->
+<div id="panel-sh" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">🎤</div>
+      <div class="panel-title"><h2>H — Kit speaker / ponente</h2><p>Bio en tercera persona, propuesta de charla, abstract, duración, público objetivo y preguntas sugeridas para el moderador. Listo para enviar a organizadores de eventos.</p></div>
+    </div><span class="panel-badge">Estrategia · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Evento o contexto</label><input type="text" id="sh-evento" placeholder="ej. Congreso PMI Argentina 2026 · Webinar para comunidad de PMs · Jornada universitaria de gestión"></div>
+    <div class="field"><label>Tema propuesto</label><input type="text" id="sh-tema" placeholder="ej. IA aplicada a la gestión de proyectos: casos reales sin hype"></div>
+    <div class="field-row">
+      <div class="field"><label>Duración disponible</label><select id="sh-dur"><option>20 minutos</option><option>30 minutos</option><option>45 minutos</option><option>60 minutos</option><option>Workshop (2-3 horas)</option></select></div>
+      <div class="field"><label>Audiencia del evento</label><input type="text" id="sh-audiencia" placeholder="ej. PMs certificados · Estudiantes de ingeniería · Líderes de TI"></div>
+    </div>
+    <button class="btn-run" id="btn-sh" onclick="run('sh')"><div class="spinner"></div><span class="btn-label">Generar kit speaker completo</span></button>
+    <div class="err" id="err-sh"></div>
+    <div class="output" id="out-sh"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Kit speaker</span></div><button class="btn-copy" onclick="cp('out-sh-t',this)">Copiar</button></div><div class="output-text" id="out-sh-t"></div></div>
+  </div>
+</div>
+
+<!-- SI Comunidad -->
+<div id="panel-si" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">💬</div>
+      <div class="panel-title"><h2>I — Comunidad / Comentarios</h2><p>Respuestas a comentarios de LinkedIn, mensajes de bienvenida a nuevos suscriptores de Substack y contenido para el futuro grupo de WhatsApp PM.</p></div>
+    </div><span class="panel-badge">Estrategia · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Contexto</label><textarea rows="4" id="si-contexto" placeholder="ej. Alguien comentó en mi último post preguntando cómo empezar con el PMP · Tengo 5 nuevos suscriptores de Substack esta semana · Quiero publicar algo en el grupo de WhatsApp"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Tipo</label><select id="si-tipo"><option>Respuesta a comentario LinkedIn</option><option>Bienvenida a suscriptor Substack</option><option>Publicación para grupo WhatsApp</option><option>DM de seguimiento a un seguidor</option></select></div>
+      <div class="field"><label>Tono</label><select id="si-tono"><option>Directo y consultivo</option><option>Cercano y motivador</option><option>Informativo / educativo</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-si" onclick="run('si')"><div class="spinner"></div><span class="btn-label">Generar respuesta / contenido</span></button>
+    <div class="err" id="err-si"></div>
+    <div class="output" id="out-si"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Comunidad</span></div><button class="btn-copy" onclick="cp('out-si-t',this)">Copiar</button></div><div class="output-text" id="out-si-t"></div></div>
+  </div>
+</div>
+
+<!-- SJ Bio -->
+<div id="panel-sj" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon cyan">👤</div>
+      <div class="panel-title"><h2>J — Bio multiplataforma</h2><p>Bio correcta para cada contexto: LinkedIn titular, LinkedIn sobre mí, YouTube, Instagram, speaker 3ª persona, Workana, website, firma de email. Lista para copiar y pegar.</p></div>
+    </div><span class="panel-badge">Estrategia · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field-row">
+      <div class="field"><label>Plataforma destino</label><select id="sj-plataforma"><option>LinkedIn (titular 220 chars)</option><option>LinkedIn (sobre mí — completo)</option><option>YouTube (descripción del canal)</option><option>Instagram (150 chars)</option><option>Speaker / ponente (3ª persona)</option><option>Workana / freelance</option><option>Website — sobre mí</option><option>Firma de email</option><option>Todas las anteriores</option></select></div>
+      <div class="field"><label>Énfasis / contexto especial</label><input type="text" id="sj-enfasis" placeholder="ej. Para evento PMI · Con foco en IA · Para propuesta docente · Actualizada con MBA reciente"></div>
+    </div>
+    <button class="btn-run" id="btn-sj" onclick="run('sj')"><div class="spinner"></div><span class="btn-label">Generar bio</span></button>
+    <div class="err" id="err-sj"></div>
+    <div class="output" id="out-sj"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--cyan)"></div><span class="output-label">Bio multiplataforma</span></div><button class="btn-copy" onclick="cp('out-sj-t',this)">Copiar</button></div><div class="output-text" id="out-sj-t"></div></div>
+  </div>
+</div>
+
+<!-- ═══ MONETIZACIÓN ═══ -->
+
+<!-- MA Diagnóstico -->
+<div id="panel-ma" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">📊</div>
+      <div class="panel-title"><h2>A — Diagnóstico de conversión</h2><p>Analiza el funnel completo: qué plataforma convierte, dónde se corta el camino y 3 ajustes concretos para esta semana.</p></div>
+    </div><span class="panel-badge">Monetización · Lunes</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Métricas de la semana</label><textarea rows="5" id="ma-metricas" placeholder="LinkedIn (impresiones, clics), YouTube (views, subs), Substack (subs, open rate), Amazon (ventas), Blog (visitas). Con lo que tengas."></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Productos en foco</label><select id="ma-productos"><option>Todos</option><option>Solo libros Amazon KDP</option><option>Solo consultoría</option><option>Solo cursos</option></select></div>
+      <div class="field"><label>Foco del diagnóstico</label><select id="ma-foco"><option>General — ver todo el funnel</option><option>Crecimiento Substack (umbral 200)</option><option>Ventas Amazon</option><option>Leads de consultoría</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-ma" onclick="run('ma')"><div class="spinner"></div><span class="btn-label">Generar diagnóstico</span></button>
+    <div class="err" id="err-ma"></div>
+    <div class="output" id="out-ma"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Diagnóstico de conversión</span></div><button class="btn-copy" onclick="cp('out-ma-t',this)">Copiar</button></div><div class="output-text" id="out-ma-t"></div></div>
+  </div>
+</div>
+
+<!-- MB KDP -->
+<div id="panel-mb" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">📚</div>
+      <div class="panel-title"><h2>B — Pipeline de libros KDP</h2><p>Revisión semanal de ventas, precio, reviews, A+ content y estrategias de ranking para los 4 libros en Amazon.</p></div>
+    </div><span class="panel-badge">Monetización · Semanal</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Ventas y estado de la semana</label><textarea rows="4" id="mb-ventas" placeholder="Ventas por libro, reviews nuevas, posición en rankings, canales de tráfico"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Libro en foco</label><select id="mb-libro"><option>Todos los libros</option><option>PMP 2026 Vol. 1</option><option>PMP 2026 Vol. 2</option><option>PMP 2026 Vol. 3</option><option>PM MOM</option></select></div>
+      <div class="field"><label>Qué trabajar hoy</label><select id="mb-accion"><option>Diagnóstico semanal</option><option>Estrategia de precio</option><option>Plan para conseguir reviews</option><option>Propuesta A+ Content</option><option>Reescribir descripción HTML</option></select></div>
+    </div>
+    <button class="btn-run" id="btn-mb" onclick="run('mb')"><div class="spinner"></div><span class="btn-label">Generar análisis KDP</span></button>
+    <div class="err" id="err-mb"></div>
+    <div class="output" id="out-mb"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Pipeline KDP</span></div><button class="btn-copy" onclick="cp('out-mb-t',this)">Copiar</button><button class="btn-copy btn-notion" onclick="cpParaNotion('out-mb-t',this)">📋 Para Notion</button></div><div class="output-text" id="out-mb-t"></div></div>
+  </div>
+</div>
+
+<!-- MC Lanzamiento -->
+<div id="panel-mc" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">🚀</div>
+      <div class="panel-title"><h2>C — Lanzamiento de producto</h2><p>Secuencia completa: email de preventa, posts countdown, página de aterrizaje y CTAs escalonados. Para libros, cursos o servicios.</p></div>
+    </div><span class="panel-badge">Monetización · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Nombre del producto</label><input type="text" id="mc-nombre" placeholder="ej. Curso IA para Project Managers (Udemy)"></div>
+    <div class="field-row">
+      <div class="field"><label>Tipo</label><select id="mc-tipo"><option>Libro Amazon KDP</option><option>Curso online (Udemy)</option><option>Servicio / consultoría</option><option>Recurso gratuito (lead magnet)</option><option>Webinar / evento</option></select></div>
+      <div class="field"><label>Fecha de lanzamiento</label><input type="text" id="mc-fecha" placeholder="ej. 15 de agosto 2026"></div>
+    </div>
+    <div class="field"><label>Propuesta de valor</label><textarea rows="3" id="mc-valor" placeholder="Precio, problema que resuelve, para quién es, qué lo diferencia"></textarea></div>
+    <div class="field"><label>Piezas a generar</label><select id="mc-piezas"><option>Secuencia completa</option><option>Solo email de lanzamiento</option><option>Solo posts countdown</option><option>Solo copy página de aterrizaje</option><option>Solo CTAs escalonados (D-7 a D-0)</option></select></div>
+    <button class="btn-run" id="btn-mc" onclick="run('mc')"><div class="spinner"></div><span class="btn-label">Generar secuencia de lanzamiento</span></button>
+    <div class="err" id="err-mc"></div>
+    <div class="output" id="out-mc"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Secuencia de lanzamiento</span></div><button class="btn-copy" onclick="cp('out-mc-t',this)">Copiar</button></div><div class="output-text" id="out-mc-t"></div></div>
+  </div>
+</div>
+
+<!-- MD Outreach institucional -->
+<div id="panel-md" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon orange">🏛️</div>
+      <div class="panel-title"><h2>D — Outreach institucional</h2><p>Email personalizado listo para enviar a ATPs PMI, universidades y edtechs. Con asunto, cuerpo y follow-up de 5 días.</p></div>
+    </div><span class="panel-badge">Monetización · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Institución y contexto</label><textarea rows="3" id="md-inst" placeholder="ej. PMI Buenos Aires Chapter — ATP certificado — cursos PMP virtuales los sábados"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Tipo de propuesta</label><select id="md-tipo"><option>Docencia / dictado de curso</option><option>Taller o workshop</option><option>Consultoría PMO</option><option>Creación de contenido</option><option>Keynote / ponencia</option></select></div>
+      <div class="field"><label>Etapa</label><select id="md-etapa"><option>Primer contacto</option><option>Follow-up (sin respuesta)</option><option>Propuesta formal</option><option>Negociación</option></select></div>
+    </div>
+    <div class="field"><label>Contexto adicional</label><input type="text" id="md-contexto" placeholder="ej. Contacto referido por un conocido · Ya dictan PMP con otro instructor"></div>
+    <button class="btn-run" id="btn-md" onclick="run('md')"><div class="spinner"></div><span class="btn-label">Generar email de outreach</span></button>
+    <div class="err" id="err-md"></div>
+    <div class="output" id="out-md"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--orange)"></div><span class="output-label">Email outreach institucional</span></div><button class="btn-copy" onclick="cp('out-md-t',this)">Copiar</button></div><div class="output-text" id="out-md-t"></div></div>
+  </div>
+</div>
+
+<!-- ME Comunidad -->
+<div id="panel-me" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon green">💬</div>
+      <div class="panel-title"><h2>E — Activación de comunidad</h2><p>Todo para lanzar el grupo de WhatsApp PM cuando llegues a 200 suscriptores en Substack: bienvenida, primeras publicaciones, reglas y plan de precalentamiento.</p></div>
+    </div><span class="panel-badge">Monetización · Al llegar a 200 subs</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>Suscriptores actuales en Substack</label><input type="text" id="me-subs" placeholder="ej. 148 suscriptores · 42% open rate"></div>
+    <div class="field"><label>¿Qué necesitás ahora?</label><select id="me-accion"><option>Plan de precalentamiento (antes de 200)</option><option>Anuncio LinkedIn al llegar al umbral</option><option>Mensaje de bienvenida al grupo</option><option>Primeras 5 publicaciones del grupo</option><option>Reglas de la comunidad</option><option>Kit completo de lanzamiento</option></select></div>
+    <div class="field"><label>Contexto adicional</label><input type="text" id="me-contexto" placeholder="ej. Tengo alumnos de USI/EGCI para invitar · Quiero que sea solo para PMs en actividad"></div>
+    <button class="btn-run" id="btn-me" onclick="run('me')"><div class="spinner"></div><span class="btn-label">Generar contenido de comunidad</span></button>
+    <div class="err" id="err-me"></div>
+    <div class="output" id="out-me"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--green)"></div><span class="output-label">Activación comunidad</span></div><button class="btn-copy" onclick="cp('out-me-t',this)">Copiar</button></div><div class="output-text" id="out-me-t"></div></div>
+  </div>
+</div>
+
+<!-- MF Prospectos -->
+<div id="panel-mf" class="panel">
+  <div class="panel-header">
+    <div class="panel-head-left">
+      <div class="panel-icon purple">🎯</div>
+      <div class="panel-title"><h2>F — Seguimiento de prospectos</h2><p>Follow-up, propuesta ejecutiva de 1 página, caso de éxito o mensaje de cierre según el estado del lead de consultoría.</p></div>
+    </div><span class="panel-badge">Monetización · On demand</span>
+  </div>
+  <div class="form-grid">
+    <div class="field"><label>¿Quién es el prospecto?</label><textarea rows="3" id="mf-prosp" placeholder="Empresa, industria, cargo del contacto, cómo llegó, de qué temática se trató el primer contacto"></textarea></div>
+    <div class="field-row">
+      <div class="field"><label>Estado del lead</label><select id="mf-estado"><option>Nuevo — primer contacto</option><option>Respondió con interés</option><option>Tuvimos una reunión</option><option>Esperando propuesta formal</option><option>Se enfrió (+2 semanas sin respuesta)</option><option>En negociación</option></select></div>
+      <div class="field"><label>Servicio de interés</label><select id="mf-serv"><option>Conformación de PMO</option><option>Capacitación PM / PMP</option><option>Consultoría de proyecto</option><option>Mentoring individual</option><option>Sin definir</option></select></div>
+    </div>
+    <div class="field"><label>¿Qué generar?</label><select id="mf-accion"><option>Follow-up email / mensaje LinkedIn</option><option>Propuesta ejecutiva (1 página)</option><option>Caso de éxito relevante</option><option>Mensaje de cierre / urgencia</option><option>Diagnóstico del lead + próximo paso</option></select></div>
+    <button class="btn-run" id="btn-mf" onclick="run('mf')"><div class="spinner"></div><span class="btn-label">Generar pieza de seguimiento</span></button>
+    <div class="err" id="err-mf"></div>
+    <div class="output" id="out-mf"><div class="output-bar"><div class="output-bar-l"><div class="dot" style="background:var(--purple)"></div><span class="output-label">Seguimiento prospecto</span></div><button class="btn-copy" onclick="cp('out-mf-t',this)">Copiar</button></div><div class="output-text" id="out-mf-t"></div></div>
+  </div>
+</div>
+
+</main>
+</div><!-- /app -->
+
+<!-- RITUAL MODAL -->
+<div class="hist-overlay" id="hist-overlay" onclick="closeHistorial(event)">
+  <div class="hist-card" onclick="event.stopPropagation()">
+    <div class="hist-top">
+      <h3>📜 Historial de esta sesión</h3>
+      <button class="hist-close" onclick="closeHistorial()">✕</button>
+    </div>
+    <div class="hist-body" id="hist-body">
+      <div class="hist-empty">Todavía no generaste nada en esta sesión.</div>
+    </div>
+  </div>
+</div>
+
+<div class="ritual-overlay" id="ritual-overlay" onclick="closeRitual(event)">
+  <div class="ritual-card" onclick="event.stopPropagation()">
+    <div class="ritual-top">
+      <h3>📅 Ritual semanal — Valeria Yashan PM & Strategy</h3>
+      <button class="ritual-close" onclick="closeRitual()">✕</button>
+    </div>
+    <div class="ritual-body">
+      <div class="ritual-day">
+        <h4>🌅 Lunes — Planificación (30 min)</h4>
+        <div class="ritual-step"><div class="ritual-step-num">1</div><div>Completar celdas naranjas del tracker en Drive (5 min)</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">2</div><div><button class="ritual-nav" onclick="closeRitual();show('sd',null)">Estrategia D — Revisión de métricas</button> + Search Console</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">3</div><div><button class="ritual-nav" onclick="closeRitual();show('ma',null)">Monetización A — Diagnóstico de conversión</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">4</div><div><button class="ritual-nav" onclick="closeRitual();show('sa',null)">Estrategia A — Briefing semanal</button> → elegir tema de la semana</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">5</div><div><button class="ritual-nav" onclick="closeRitual();show('mb',null)">Monetización B — Pipeline KDP</button> (revisión rápida de ventas)</div></div>
+      </div>
+      <div class="ritual-day blue-l">
+        <h4>✍️ Martes / Miércoles — Producción del pipeline</h4>
+        <div class="ritual-step"><div class="ritual-step-num">1</div><div><button class="ritual-nav" onclick="closeRitual();show('p1',null)">P1 Post LinkedIn</button> versión A + B</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">2</div><div><button class="ritual-nav" onclick="closeRitual();show('p2',null)">P2 Caption Instagram</button> + 3 hooks</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">3</div><div><button class="ritual-nav" onclick="closeRitual();show('p5',null)">P5 Guión video</button> + <button class="ritual-nav" onclick="closeRitual();show('p6',null)">P6 Pack SEO YouTube</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">4</div><div><button class="ritual-nav" onclick="closeRitual();show('p8',null)">P8 Newsletter Substack</button> (miércoles semana 2 y 4)</div></div>
+        <div class="ritual-step"><div class="ritual-step-num">5</div><div><button class="ritual-nav" onclick="closeRitual();show('p7',null)">P7 Artículo blog</button> + <button class="ritual-nav" onclick="closeRitual();show('p9',null)">P9 Prompts imagen</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">6</div><div><button class="ritual-nav" onclick="closeRitual();show('p10',null)">P10 Short/Reel</button> + <button class="ritual-nav" onclick="closeRitual();show('p3',null)">P3 Storie HTML</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">7</div><div><button class="ritual-nav" onclick="closeRitual();show('p4',null)">P4 Carrusel</button> + <button class="ritual-nav" onclick="closeRitual();show('p11',null)">P11 Golden Hour</button></div></div>
+      </div>
+      <div class="ritual-day cyan-l">
+        <h4>⚡ Viernes — Optimización (si aplica)</h4>
+        <div class="ritual-step"><div class="ritual-step-num">1</div><div><button class="ritual-nav" onclick="closeRitual();show('se',null)">Estrategia E — Optimizar post con bajo engagement</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">2</div><div><button class="ritual-nav" onclick="closeRitual();show('mf',null)">Monetización F — Seguimiento de prospectos activos</button></div></div>
+      </div>
+      <div class="ritual-day orange-l">
+        <h4>📋 Primer lunes del mes</h4>
+        <div class="ritual-step"><div class="ritual-step-num">1</div><div><button class="ritual-nav" onclick="closeRitual();show('sb',null)">Estrategia B — Calendario mensual completo</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">2</div><div><button class="ritual-nav" onclick="closeRitual();show('sc',null)">Estrategia C — Análisis de competidores</button></div></div>
+      </div>
+      <div class="ritual-day green-l">
+        <h4>📊 Último lunes del mes</h4>
+        <div class="ritual-step"><div class="ritual-step-num">1</div><div><button class="ritual-nav" onclick="closeRitual();show('sf',null)">Estrategia F — Informe mensual de marca</button></div></div>
+        <div class="ritual-step"><div class="ritual-step-num">2</div><div>Revisar umbral Substack → si ≥200: <button class="ritual-nav" onclick="closeRitual();show('me',null)">Monetización E — Activar comunidad</button></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const PROFILE = `PERFIL: Valeria Yashan — Project Manager · PMP® (PMI #1613335) · MBA (UCEMA) · Ingeniera Industrial (UNLP)
+Experiencia: 10+ años en energía, fintech y tecnología. Rol actual: PM en IMR Consulting (cliente YPF).
+Docente: Administración Estratégica (USI) · Máster PM (EGCI). Canal: @ValeriaYashanPM.
+LinkedIn: linkedin.com/in/valeriayashan/ · Substack: valeriayashanpm.substack.com
+Libros Amazon: Serie PMP 2026 (3 volúmenes) + PM MOM (4 libros publicados).
+Servicios: Consultoría PMO (PMI + ISO 21500), capacitación PMP, estrategia de proyectos.
+Audiencia: PMs hispanohablantes, aspirantes PMP, líderes de equipos en LATAM.
+Marca: PM & Strategy — pilares: PM · Estrategia · IA aplicada · Liderazgo · Carrera.
+Voz: Directa, consultiva, sin frases huecas, orientada a resultados reales. Idioma: Español.
+Horarios: LinkedIn L/M/V 8:30am · Instagram M/J/S 19:00 · Newsletter Miércoles semana 2 y 4.
+Reglas LinkedIn: link en comentarios (no en cuerpo) — editar 24-48hs después de publicar.
+CTA LinkedIn: orientada a GUARDAR (saves = señal algorítmica más fuerte en 2026).
+Instagram 2026: 3 hashtags máx · CTA DM share · nunca watermark TikTok · grabar a cámara directa.
+@IMR Consulting: mencionar con arroba cuando sea relevante (no en contenido educativo puro).
+Substack: CTA de suscripción en todas las piezas. Umbral comunidad WhatsApp: 200 suscriptores.
+Playlists YouTube: Preparación PMP 2026 · IA aplicada a PM · Gestión Real de Proyectos · Estrategia y Liderazgo.
+Frases prohibidas: "apasionada por", "comprometida con", "estoy muy feliz de compartir", "en el mundo actual".`;
+
+const WEB = `SITIO WEB — valeriayashan.com.ar (Astro 6 + Cloudflare Pages, estatico, sin backend)
+
+URLs CANONICAS VERIFICADAS — nunca inventar una ruta que no este en esta lista:
+/ · /sobre-mi · /servicios · /capacitaciones · /libro · /blog · /recursos · /herramientas
+/simulador · /cursos · /webinars · /contenido · /contacto · /intensivo-pmp-2026
+/servicios/consultoria-pm · /servicios/direccion-proyectos · /servicios/capacitacion-pm
+/servicios/consultoria-ia · /servicios/certificacion-pmp · /servicios/clases-ia
+
+URLs CRITICAS que nunca cambian (impresas en los QR de los libros fisicos que ya circulan): /libro y /pmp/c*
+
+CONTACTO REAL: hola@valeriayashan.com.ar · wa.me/5491140791007 (sin + ni espacios) · calendly.com/valeriayashan/30min
+
+SLUGS DE BLOG VERIFICADOS (usar sin barra final, ruta relativa):
+/blog/jira-para-gestion-de-proyectos
+/blog/asana-para-gestion-de-proyectos
+/blog/clickup-trello-monday-comparativa
+/blog/notion-vs-clickup-cual-elegir
+/blog/microsoft-project-alternativas
+/blog/pmbok-8-nuevo-examen-pmp-2026
+/blog/requisitos-examen-pmp-2026
+/blog/predictivo-agil-hibrido-como-elegir
+/blog/errores-comunes-estudiar-pmp
+/blog/como-leer-preguntas-simulacro-pmp
+/blog/5-tareas-ia-pm
+/blog/por-que-los-project-managers-necesitan-entender-ia
+
+Lista parcial: hay mas de 40 articulos publicados. Si un slug no esta aca, buscarlo en src/content/blog/ o dejar el link afuera. NUNCA inventar un slug.`;
+
+const CAPA_REDES = `CAPA VISUAL: REDES (LinkedIn · Instagram · YouTube · Substack)
+Paleta PMI: Navy #003087 · Blue #0066CC · Cyan #00AEEF · Orange #F7941D · Light #F0F4F8 · Dark #1A2B4A · Muted #4A6080
+Fuente unica: Montserrat (ExtraBold titulos, Bold subtitulos, Regular cuerpo).
+Fondos solidos de marca unicamente (#003087 o #F0F4F8). Nunca gradientes, imagenes de fondo ni texturas.
+#0066CC es acento, nunca fondo de pagina. #4A6080 solo sobre fondo claro; sobre navy el texto secundario va en cyan #00AEEF.`;
+
+const CAPA_WEB = `CAPA VISUAL: WEB (valeriayashan.com.ar)
+Paleta: acento verde #2D6A4F · fondo #FAFAF8 (nunca #FFFFFF puro) · superficie #F2F1EE · texto #1A1A1A · muted #6B6B6B · borde #E0DFDB
+Excepcion: #FF9900 solo en botones de compra de Amazon (clase btn-amazon).
+Tipografia: Fraunces (serif) SOLO en H1 y H2 · Inter (sans) en todo lo demas. Nunca una tercera fuente.
+Lo que el diseno del sitio nunca hace: gradientes llamativos, fondos oscuros en paginas de contenido, animaciones de entrada en texto, sombras pesadas (la separacion es por borde y fondo), placeholders visibles.
+Brand kit Canva del sitio: kAGVPgXIHTM. Al generar piezas pedir explicitamente "solid flat background color only, no gradients, no decorative shapes" y repetir el hex #2D6A4F.
+
+DECISION DE MARCA (24/07/2026): web y redes son dos capas visuales distintas y deliberadas.
+No usar la paleta PMI navy/naranja ni Montserrat en piezas del sitio.
+No usar el verde #2D6A4F ni Fraunces/Inter en piezas de redes.`;
+
+const g = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+
+const SYSTEMS = {
+  p1: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en LinkedIn para marcas personales B2B en el mercado hispanohablante. Generás posts que combinan autoridad real con claridad directa, sin corporativismo.\n\nGenerá DOS versiones del post:\n\nVERSIÓN A (150-220 palabras) — para alcance\n- Hook en la primera línea (contrarian o dato duro)\n- Párrafos cortos (2-3 líneas máx)\n- CTA orientada a guardar\n- Si aplica: "Lo veo en la práctica trabajando en proyectos con @IMR Consulting:"\n- Al final: CTA a valeriayashanpm.substack.com\n- 3-5 hashtags al pie\n\nVERSIÓN B (400-600 palabras) — para dwell time\n- Misma estructura pero más desarrollo, ejemplos y contexto\n- Mismas reglas de tono y CTA\n\nDespués de las dos versiones, agregá SIEMPRE este bloque, igual en ambas:\n\n### COMENTARIO PARA PINEAR\n[${g('p1-link')||'URL a completar'}]\n(Se publica de inmediato al postear, no diferido.)\n\nPilar: ${g('p1-pilar')} · Tipo: ${g('p1-tipo')} · IMR: ${g('p1-imr')} · Contexto: ${g('p1-contexto')||'ninguno'}`,
+
+  p2: () => `${PROFILE}\n\n${WEB}\n\nSos redactora experta en Instagram para marcas personales PM. Generás captions que convierten en una audiencia de PMs y aspirantes PMP hispanohablantes.\n\nESTRUCTURA:\n1. Primero: 3 variantes de hook (una línea cada una, bien separadas)\n2. Después: caption completo usando el hook que mejor funcione\n\nREGLAS:\n- Hook solo, sin nada pegado debajo\n- Párrafos de 2-3 líneas con línea en blanco entre cada uno\n- CTA orientada a DM share: "Mandáselo a ese PM de tu equipo"\n- Link: ${g('p2-link')||'valeriayashan.com.ar'} antes de hashtags\n- CTA Substack al cierre: valeriayashanpm.substack.com\n- Exactamente 3 hashtags temáticos (no más)\n- 150-300 palabras total\n\nFormato: ${g('p2-formato')} · Pilar: ${g('p2-pilar')}\n\nAl final, agregá esta línea tal cual:\n\"▶ Próximo paso → pedile a Claude que arme el diseño del post en Canva vía MCP (fondo sólido de marca, nunca imagen de stock).\"`,
+
+  p3: () => `${PROFILE}\n\n${CAPA_REDES}\n\nGenerá el CONTENIDO de una Story de Instagram (1080×1920px): texto de marca, título, cuerpo y CTA — NO el archivo final.\n\n⚠️ REGLA CANÓNICA: el destino real de toda Story es Canva vía MCP (\"generate-design\" con design_type \"your_story\"), nunca un export directo de HTML a PNG. El HTML de abajo es SOLO una referencia visual para replicar a mano si Canva AI ignora los colores — no es el entregable.\n\nESPECIFICACIONES TÉCNICAS (para la referencia HTML y para guiar el armado en Canva):\n- Fondo: ${g('p3-fondo')||'#003087'}\n- Fuente única: Montserrat (ExtraBold títulos, Bold subtítulos, Regular cuerpo)\n- Paleta: Navy #003087 · Blue #0066CC · Cyan #00AEEF · Orange #F7941D · Light #F0F4F8\n- Dimensiones viewBox: 1080×1920\n- ESCALA TIPOGRÁFICA STORY (px de canvas, guía visual v2.0): marca MAYÚS 26px Bold · título 84px Bold (68px si son 3+ líneas) · cuerpo 34px Regular · CTA 30px Bold · firma/handle 24px Regular. Interlineado títulos 1,15 y cuerpo 1,45. PISO ABSOLUTO 22px.\n- Zona segura: 250px libres arriba (barra de perfil), 320px libres abajo (caja de respuesta), 80px laterales\n- #4A6080 solo sobre fondo claro; sobre navy el texto secundario va en cyan #00AEEF\n- Fondo sólido de marca únicamente: nunca imágenes, gradientes ni texturas\n- Incluir: logo/marca "VALERIA YASHAN" arriba, contenido principal al centro, CTA abajo\n- CTA YouTube: @ValeriaYashanPM\n- CTA Substack: valeriayashanpm.substack.com\n\nTipo: ${g('p3-tipo')} · Mensaje: ${g('p3-msg')||'Nuevo contenido disponible'}\n\nGenerá el HTML como referencia visual (código completo y funcional).\n\nAl final, agregá esta línea tal cual:\n\"▶ Próximo paso → pedile a Claude que arme esta Storie en Canva vía MCP (generate-design, design_type: 'your_story'). El HTML de arriba es solo guía, no el entregable final.\"`,
+
+  p4: () => `${PROFILE}\n\n${CAPA_REDES}\n\nSos experta en carruseles de LinkedIn para PMs hispanohablantes. Generás carruseles que la gente guarda porque son útiles inmediatamente.\n\nESTRUCTURA (7 slides):\nSlide 1 — COVER: Título impactante + subtítulo\nSlide 2 — Problema / contexto (por qué importa)\nSlides 3-6 — Puntos de valor (uno por slide, con ejemplo o dato)\nSlide 7 — Cierre + CTA: "${g('p4-cta')}"\n\n⚠️ FORMATO DE SALIDA OBLIGATORIO — esquema fijo, parseable, sin variaciones. Cada slide como bloque markdown exacto:\n\n## SLIDE 1 — COVER\n**Badge/eyebrow:** [texto corto en mayúsculas]\n**Título:** [máx. 8 palabras]\n**Subtítulo:** [una frase]\n\n## SLIDE 2 — PROBLEMA/CONTEXTO\n**Título:** [máx. 6 palabras]\n**Cuerpo:** [máx. 80 palabras, párrafos cortos]\n\n## SLIDE [N] — TÁCTICA [N-2]\n**Número destacado:** [dígito]\n**Título:** [máx. 6 palabras]\n**Item 1:** **[subtítulo]** [cuerpo, máx. 2 líneas]\n**Item 2:** **[subtítulo]** [cuerpo, máx. 2 líneas]\n\n(repetir el bloque de TÁCTICA para las slides 3, 4, 5 y 6)\n\n## SLIDE 7 — CIERRE + CTA\n**Título:** [máx. 6 palabras]\n**Cuerpo:** [máx. 60 palabras]\n**Badge CTA:** [texto corto en mayúsculas]\n\nCANVAS: 1080x1350 — el mismo archivo sirve para carrusel de LinkedIn y de Instagram.\nESCALA TIPOGRÁFICA OBLIGATORIA (canvas 1080x1350, px de canvas, guía visual v2.0):\n- Badge/eyebrow MAYÚS: 24px Bold #00AEEF\n- Título portada 1-2 líneas: 88px Bold #FFFFFF | 3 líneas: 72px Bold\n- Subtítulo portada: 40px Regular #F0F4F8\n- Título de slide: 60px Bold (1 línea) / 52px Bold (2-3 líneas)\n- Número o dato destacado: 140px Bold #F7941D\n- Item título: 30px Bold | Item subtítulo: 26px Regular #00AEEF\n- Cuerpo corrido: 28px Regular | Dato clave: 26px Bold #F7941D\n- CTA URL: 32px Bold #F7941D | CTA badge: 24px Bold #00AEEF\n- Firma y paginación: 22px\n- Interlineado: títulos 1,15 · items 1,25 · cuerpo 1,45\nPISO ABSOLUTO 22px: nada más chico (el feed renderiza a factor 0,36 y se vuelve ilegible).\n#4A6080 SOLO sobre fondo claro #F0F4F8 — sobre navy el texto secundario va en cyan #00AEEF.\nFondos: solo #003087 o #F0F4F8. Nunca #0066CC ni #F7941D de fondo, nunca imágenes ni gradientes.\nMárgenes: 80px laterales, 90px arriba, 110px abajo. Últimos 140px sin contenido crítico.\nMáximo 1 título + 4 items por slide. Tamaños siempre redondos.\n\nDespués del esquema de las 7 slides, agregá SIEMPRE estos tres bloques en este orden exacto:\n\n# CAPTION LINKEDIN\n[el caption completo, CTA orientada a guardar]\n\n### COMENTARIO PARA PINEAR\n[el link va acá, no en el cuerpo del post — se publica de inmediato, no diferido]\n\n▶ Próximo paso → pedile a Claude que construya las slides en Canva vía MCP (flujo de creación: fondo sólido → add_page por slide → add_text → format_text → commit).\n\nPilar: ${g('p4-pilar')}`,
+
+  p5: () => `${PROFILE}\n\nSos escritora de guiones para YouTube con especialidad en PM, estrategia e IA aplicada. Generás guiones que retienen audiencia sin relleno.\n\nESTRUCTURA:\n[HOOK] — Los primeros 30 segundos. Promesa clara. Sin presentación larga.\n[INTRO] — Qué van a aprender exactamente. 1 minuto.\n[SECCIÓN 1] — Primer punto clave.\n[SECCIÓN 2] — Segundo punto clave.\n[SECCIÓN 3] — Tercer punto (y más si aplica).\n[CIERRE] — Resumen ejecutivo + CTA Substack + bridge al próximo episodio (pilar: ${g('p5-bridge')})\n\nMARCAS EN EL TEXTO (cada 30-60 seg):\n[CAMBIO DE SLIDE] · [DATO] · [PREGUNTA DIRECTA] · [PAUSA VISUAL]\n\nDuración objetivo: 8-15 minutos\nTítulo: ${g('p5-titulo')||'(sin título aún)'}\nPuntos: ${g('p5-puntos')||'(definir en producción)'}\nPilar: ${g('p5-pilar')}`,
+
+  p6: () => `${PROFILE}\n\nSos especialista en SEO para YouTube en español para el mercado LATAM de PM y liderazgo.\n\nGENERÁ EL PACK COMPLETO:\n\n### 3 OPCIONES DE TÍTULO\n- Opción 1: Directa (máx. 60 chars)\n- Opción 2: Con dato o número\n- Opción 3: Con pregunta\n\n### DESCRIPCIÓN (600-800 palabras)\n- Primeros 150 chars: críticos para SEO (hook + promesa)\n- Resumen del video (no spoilear todo)\n- Sección "En este video:" con 5-7 bullets\n- Links: YouTube (@ValeriaYashanPM) · Substack · LinkedIn · Amazon libros · valeriayashan.com.ar\n- Hashtags de descripción: 3-5\n\n### 25 TAGS (mix español/inglés)\n### CAPÍTULOS (con timestamps sugeridos, marcar con ★ los principales)\n### PLAYLIST RECOMENDADA: ${g('p6-playlist')}\n### 3 OPCIONES TEXTO THUMBNAIL (máx. 5 palabras cada una)\n\nTítulo de trabajo: ${g('p6-titulo')} · Tema: ${g('p6-tema')} · Duración: ${g('p6-duracion')||'10 min'}`,
+
+  p7: () => `${PROFILE}\n\n${WEB}\n\n${CAPA_WEB}\n\nSos content writer especializada en SEO para el blog de valeriayashan.com.ar (Astro 6). Generas articulos que ranquean y convierten lectores en suscriptores de Substack.\n\n=== SCHEMA OBLIGATORIO — el build corta si falta un campo ===\nEl archivo activo es src/content.config.ts y exige EXACTAMENTE estos cinco campos:\n\n---\ntitle: "[maximo 60 caracteres — Google trunca y el layout ya agrega el sufijo de marca al title]"\ndescription: "[entre 150 y 160 caracteres, con la keyword principal y un beneficio claro]"\npubDate: "${g('p7-fecha')||'2026-08-01'}"\ncategory: "${g('p7-cat')||'Project Management'}"\ntags: ["Tag1", "Tag2", "Tag3", "Tag4"]\n---\n\nReglas del frontmatter:\n- category debe ser exactamente una de estas tres: Project Management · IA · Herramientas.\n- NO agregar el campo slug: lo define el nombre del archivo (${g('p7-slug')||'articulo'}.md).\n- NO agregar el campo image: no esta declarado en el schema activo, Zod lo descarta en silencio y el layout termina emitiendo una imagen vacia.\n- Existe un src/content/config.ts legacy con otro schema. El que manda es src/content.config.ts. Ignorar el legacy.\n\n=== CUERPO DEL ARTICULO ===\n- NO empezar con un H1: el layout ya lo renderiza desde el campo title.\n- Arrancar directo con la introduccion (promesa clara, sin rodeos).\n- H2 por seccion principal.\n- Desarrollo con ejemplos concretos de proyectos reales, nunca genericos.\n- Bloque final "## Para llevar" con 3 conclusiones accionables.\n- CTA de contacto: hola@valeriayashan.com.ar y wa.me/5491140791007\n- Minimo 2 links internos con slugs de la lista verificada, sin barra final. Nunca inventar un slug.\n- Cierre con CTA a Substack (valeriayashanpm.substack.com) y YouTube (@ValeriaYashanPM).\n- No duplicar bio, CTA, newsletter ni bloque de articulos relacionados: el layout ya los inserta.\n\n=== VOZ ===\nPrimera persona, voseo argentino, parrafos cortos, afirmaciones con costo (decir tambien que no funciona).\nProhibido: aperturas del tipo "en el mundo actual de la gestion de proyectos", listas de beneficios sin criterio de decision, cierres motivacionales, adjetivos apilados, simetria artificial (tres bullets porque quedan lindos tres).\n\n=== AL FINAL DEL OUTPUT, agregar el bloque de publicacion ===\n\n### Checklist antes de publicar\nLos 12 puntos, marcando cuales ya cumple el articulo generado:\ncinco campos presentes · category valida · titulo menor o igual a 60 · description 150-160 con keyword · el cuerpo no arranca con H1 · al menos 2 links internos verificados · sin duplicar bio/CTA/newsletter · sin placeholders ni comentarios COMPLETAR · npm run build sin errores · revisado en localhost:4321 · push con git push origin main · deploy Cloudflare en Success.\n\n### Comandos PowerShell (en orden, todos arrancan desde el cd)\ncd C:\\Users\\rootless\\Desktop\\valeriayashan\nCopy-Item "$env:USERPROFILE\\Downloads\\${g('p7-slug')||'articulo'}.md" "C:\\Users\\rootless\\Desktop\\valeriayashan\\src\\content\\blog\\${g('p7-slug')||'articulo'}.md" -Force\nnpm run build\ngit add -A\ngit commit -m "post: ${g('p7-slug')||'articulo'}"\ngit push origin main\n\nRecordatorio: ningun push sin npm run build local exitoso. Un error de schema rompe el deploy completo y congela el sitio en la version anterior, incluidos los cambios no relacionados que viajen en el mismo commit.\n\nTitulo de trabajo: ${g('p7-titulo')||'(sin titulo)'} · Keyword: ${g('p7-keyword')} · Puntos: ${g('p7-puntos')||'(del tema principal)'}`,
+
+  p8: () => `${PROFILE}\n\n${WEB}\n\nSos editora de newsletters B2B para profesionales de PM. Generás ediciones que la gente lee hasta el final porque son concretas y útiles.\n\nESTRUCTURA:\n\n### 3 OPCIONES DE ASUNTO\n(Cortos, directos, sin clickbait)\n\n### PREVIEW (90 chars)\n(Lo que se ve antes de abrir el email)\n\n### CUERPO COMPLETO\n- Saludo breve (no "espero que estés bien")\n- Intro: por qué este tema ahora\n- Desarrollo: ${g('p8-puntos')||'puntos clave'}\n- Sección "Para llevar" — resumen ejecutivo de 3 bullets\n- CTA YouTube: ver el video completo en @ValeriaYashanPM\n- CTA Blog: artículo en valeriayashan.com.ar\n- Cierre breve, sin despedidas corporativas\n\n${g('p8-num')||'Nueva edición'} · Tema: ${g('p8-tema')} · Video: ${g('p8-video')||'no especificado'}`,
+
+  p9: () => `${PROFILE}\n\n${CAPA_REDES}\n\n${CAPA_WEB}\n\nSos especialista en prompts de generacion de imagen para contenido profesional PM y estrategia. Generas prompts que reflejan la marca sin fotos de stock genericas.\n\nATENCION: los tres prompts NO comparten paleta. Cada uno declara su capa visual y respeta solo esa.\n\n### PROMPT 1 — THUMBNAIL YOUTUBE (1280x720) — CAPA REDES\nPaleta PMI: navy #003087, orange #F7941D, cyan #00AEEF. Fondo solido. Espacio libre para el texto del thumbnail.\n\n### PROMPT 2 — HERO DE BLOG (1200x630) — CAPA WEB\nPaleta del sitio: verde #2D6A4F sobre fondo #FAFAF8, superficie #F2F1EE. Nada de navy ni naranja PMI aca.\nEstetica editorial sobria, coherente con Fraunces + Inter. Fondo plano, sin gradientes ni formas decorativas.\n\n### PROMPT 3 — FONDO IG FEED (1080x1350) — CAPA REDES\nFormato estandar del feed 1080x1350 (portrait). Color solido de marca (#003087 o #F0F4F8), sin texto y sin escena de fondo: los elementos visuales van superpuestos en Canva, nunca como fondo.\n\nCada prompt: en ingles (mejor performance), con estilo, paleta, composicion y palabras clave negativas (que evitar).\nHerramienta: ${g('p9-tool')} · Estilo: ${g('p9-estilo')} · Tema: ${g('p9-tema')}\n\nAl final, agregá esta linea tal cual:\n\"▶ Proximo paso -> el Prompt 3 (fondo IG feed) no reemplaza el flujo de Canva MCP: pedile a Claude que arme el diseno final ahi. Los Prompts 1 y 2 son para herramientas de generacion de imagen externas (Ideogram, DALL-E, Firefly).\"`,
+
+  p10: () => `${PROFILE}\n\nSos guionista de Shorts/Reels para PMs hispanohablantes. Generás guiones que funcionan a cámara directa, sin capturas de pantalla (Originality Score 2026).\n\nESTRUCTURA (60 segundos):\n[0-5 seg] GANCHO: afirmación sorpresiva o pregunta que duele\n[5-15 seg] PROMESA: qué van a aprender exactamente\n[15-45 seg] DESARROLLO: 2-3 puntos concretos, ritmo rápido\n[45-60 seg] CTA: "${g('p10-cta')}"\n\nREGLAS:\n- Grabado a cámara directa (obligatorio)\n- Sin muletillas ni intro larga\n- Lenguaje como el de una conversación profesional, no de "creator"\n- Caption de acompañamiento (máx. 3 líneas) + CTA share + 3 hashtags\n\nIdea: ${g('p10-idea')} · Pilar: ${g('p10-pilar')}`,
+
+  p11: () => `${PROFILE}\n\n${WEB}\n\nSos estratega de engagement para LinkedIn. Las primeras horas de un post determinan su alcance total. Generás el kit completo de la golden hour.\n\nGENERÁ:\n\n### PRIMER COMENTARIO\n(Ponerlo a los 2-3 min de publicar)\nLink: ${g('p11-link')||'(completar antes de publicar)'}\nTexto: breve, agrega valor, no es solo el link\n\n### 2 RESPUESTAS TIPO PARA COMENTARIOS FRECUENTES\nBasadas en: ${g('p11-comentarios')||'comentarios generales sobre el tema'}\nTono: directo, no adulador, agrega algo a la conversación\n\n### PERFIL ESTRATÉGICO PARA ETIQUETAR\n(Descripción del tipo de perfil a etiquetar, no nombre específico)\n\nTema del post: ${g('p11-tema')}`,
+
+  sa: () => `${PROFILE}\n\nSos estratega de contenido para marcas personales de PM con foco en tendencias del mercado hispanohablante. Conocés en profundidad LinkedIn, YouTube, Search Console y el ecosistema de certificación PM en LATAM.\n\nGenerá el briefing semanal:\n\n### TENDENCIAS DE LA SEMANA\n3 temas que están generando conversación en la comunidad PM hispanohablante ahora mismo.\n\n### RANKING DE 5 TEMAS PROPUESTOS\nPor cada tema: nombre, pilar, por qué ahora, formato recomendado, potencial de engagement (Alto/Medio/Bajo) y restricción si aplica.\n\n### RECOMENDACIÓN FINAL\nEl tema de la semana con justificación en 3 líneas. Qué formato, en qué plataforma primero.\n\nRestricciones: ${g('sa-contexto')||'ninguna'} · Pilar preferido: ${g('sa-pilar')} · Formato preferido: ${g('sa-formato')}`,
+
+  sb: () => `${PROFILE}\n\nSos planificadora estratégica de contenido mensual para marcas personales PM. Coordinás YouTube y LinkedIn en una estrategia coherente: un tema por semana.\n\nGENERÁ EL PLAN DEL MES (${g('sb-mes')||'próximo mes'}):\n\nPor cada semana:\n- Tema central (1 frase)\n- Pilar\n- Título propuesto para el video de YouTube\n- 3 posts de LinkedIn derivados del video\n- Sugerencia de carrusel\n- Horarios: YouTube + LinkedIn L/M/V 8:30am + Instagram M/J/S 19:00\n\nDistribución de pilares: balanceada entre los 5 pilares a lo largo del mes.\nRestricciones: ${g('sb-restricciones')||'ninguna'}\nTemas a evitar: ${g('sb-evitar')||'ninguno'}`,
+
+  sc: () => `${PROFILE}\n\nSos analista de posicionamiento de marca personal para el mercado PM latinoamericano.\n\nReferente: ${g('sc-ref')||'Ricardo Viana Vargas'}\nContexto: ${g('sc-contexto')||'análisis general'}\n\nGENERÁ:\n### ¿QUÉ HACE BIEN ESTE REFERENTE?\n### ¿QUÉ NO HACE O LE FALTA?\n### GAPS DE POSICIONAMIENTO DISPONIBLES\n(Lo que Valeria puede ocupar que este referente no está cubriendo)\n### ACCIÓN CONCRETA\nUna cosa que Valeria puede hacer esta semana para diferenciarse de este referente.`,
+
+  sd: () => `${PROFILE}\n\nSos analista de métricas de contenido para marcas personales PM. Interpretás datos de múltiples plataformas y los traducís en decisiones accionables.\n\nMétricas de la semana:\n${g('sd-metricas')||'(sin datos — dar diagnóstico baseline con métricas a trackear)'}\n\nGENERÁ:\n### ESTADO POR PLATAFORMA\nLínea por plataforma: tendencia (↑↓→) + dato más relevante.\n\n### EL NÚMERO MÁS IMPORTANTE ESTA SEMANA\nUno solo, con por qué importa más que los demás.\n\n### 3 AJUSTES PARA EL PRÓXIMO PIPELINE\nOrdenados por impacto esperado. Concretos y ejecutables.`,
+
+  se: () => `${PROFILE}\n\nSos especialista en diagnóstico de posts de LinkedIn que no rindieron. Identificás por qué falló y generás una versión mejorada.\n\nPOST ORIGINAL:\n${g('se-post')||'(no ingresado)'}\n\nMÉTRICAS: ${g('se-metricas')||'sin datos'}\n\nGENERÁ:\n### DIAGNÓSTICO (3-5 causas probables del bajo rendimiento)\n### VERSIÓN MEJORADA (lista para publicar)\n### QUÉ CAMBIÉ Y POR QUÉ`,
+
+  sf: () => `${PROFILE}\n\nSos analista de performance de marca personal con foco en ROI de contenido para consultores y creadores B2B.\n\nMes: ${g('sf-mes')||'mes anterior'}\nDatos: ${g('sf-datos')||'(sin datos — generar estructura de informe)'}\n\nGENERÁ:\n### RESUMEN EJECUTIVO (5 líneas)\n### CRECIMIENTO POR PLATAFORMA (tabla)\n### CONTENIDO GANADOR DEL MES (top 3 posts/videos)\n### FORMATO QUE MÁS FUNCIONÓ\n### ROI ESTIMADO POR CANAL\n### APRENDIZAJES CLAVE (máx. 3)\n### RECOMENDACIONES PARA EL MES SIGUIENTE`,
+
+  sg: () => `${PROFILE}\n\nSos estratega de outreach en LinkedIn para marcas personales consultivas. Generás mensajes que posicionan sin vender explícitamente.\n\nContexto: ${g('sg-contexto')||'(no especificado)'}\nTipo: ${g('sg-tipo')} · Objetivo: ${g('sg-objetivo')}\n\nGENERÁ el mensaje listo para usar. Tono: directo y consultivo. Sin "espero que estés bien", sin adulación, sin muletillas de networking falso.`,
+
+  sh: () => `${PROFILE}\n\nSos especialista en posicionamiento de speakers y ponentes para eventos profesionales de PM y liderazgo en LATAM.\n\nEvento: ${g('sh-evento')||'(sin especificar)'}\nTema: ${g('sh-tema')||'IA aplicada a PM'}\nDuración: ${g('sh-dur')} · Audiencia: ${g('sh-audiencia')||'profesionales PM'}\n\nGENERÁ:\n### BIO SPEAKER (3ª persona, máx. 120 palabras)\n### PROPUESTA DE CHARLA (título + descripción 100 palabras)\n### ABSTRACT (para el programa del evento, 50 palabras)\n### OBJETIVOS DE LA CHARLA (3 bullets)\n### 5 PREGUNTAS SUGERIDAS PARA EL MODERADOR`,
+
+  si: () => `${PROFILE}\n\nSos community manager para marcas personales de PM. Generás respuestas y contenido que hacen crecer la comunidad con autenticidad.\n\nContexto: ${g('si-contexto')||'(no especificado)'}\nTipo: ${g('si-tipo')} · Tono: ${g('si-tono')}\n\nGenerá el mensaje/contenido listo para usar. Sin frases genéricas de "gracias por tu comentario". Que agregue valor real.`,
+
+  sj: () => `${PROFILE}\n\nSos especialista en posicionamiento de marca personal para profesionales PM. Generás bios que abren puertas sin sonar a folleto corporativo.\n\nPlataforma: ${g('sj-plataforma')} · Énfasis: ${g('sj-enfasis')||'ninguno'}\n\nGenerá la bio exacta para esa plataforma, lista para copiar y pegar. Con las restricciones de caracteres de cada plataforma. Sin "apasionada por", sin "comprometida con", sin frases huecas.`,
+
+  ma: () => `${PROFILE}\n\nSos consultora de monetización para marcas personales B2B con foco en conversión medible.\n\n${WEB}\n\nBACKLOG DE CONVERSION DEL SITIO (estado al 24/07/2026 — verificar vigencia antes de decidir sobre esto):\nAlto impacto:\n1. Testimonios reales para home, /sobre-mi y /servicios/certificacion-pmp. Es la palanca de conversion mas grande abierta: hoy hay placeholders con iniciales. Formulario de recoleccion activo: forms.gle/p4br1SpJkzbcKecAA\n2. Metricas concretas en el hero: 200+ profesionales · 4 libros · PMP desde 2013\n3. Pack de Prompts IA para PM en Gumroad (USD 12, PDF terminado, sin publicar)\n4. URLs reales de Udemy en /cursos: hoy apuntan a udemy.com generico\nPosicionamiento: schema Course en /cursos · Amazon Author Page completa · secuencia de bienvenida en Brevo\nMedicion e infraestructura: GA4 G-DK70Z7NVB9 · Search Console verificado con sitemap enviado · Formspree /f/xvzeqyjq (landing Intensivo PMP 2026) · Calendly /valeriayashan/30min · Brevo embebido en BlogPostLayout y /recursos\nObjetivos comerciales del sitio, en orden: 1) consultoria y direccion de proyectos, 2) capacitacion corporativa, 3) preparacion PMP, 4) productos digitales.\n\nMétricas: ${g('ma-metricas')||'(sin datos)'}\nProductos: ${g('ma-productos')} · Foco: ${g('ma-foco')}\n\n### ESTADO DEL FUNNEL ESTA SEMANA\n### ALERTA PRINCIPAL (una cosa urgente)\n### LO QUE ESTÁ FUNCIONANDO\n### 3 AJUSTES CONCRETOS PARA ESTA SEMANA\n### KPIs A VIGILAR (3 números)`,
+
+  mb: () => `${PROFILE}\n\nSos especialista en Amazon KDP para libros de no ficción profesional en español para LATAM.\n\nVentas esta semana: ${g('mb-ventas')||'(sin datos)'}\nLibro: ${g('mb-libro')} · Acción: ${g('mb-accion')}\n\nGenerá el análisis o entregable solicitado. Sé concreta con números y acciones. Si es descripción HTML, generá el código completo listo para pegar en KDP.`,
+
+  mc: () => `${PROFILE}\n\nSos especialista en lanzamientos de productos digitales para el mercado B2B hispanohablante.\n\nProducto: ${g('mc-nombre')||'(sin nombre)'} · Tipo: ${g('mc-tipo')} · Fecha: ${g('mc-fecha')||'por definir'}\nPropuesta de valor: ${g('mc-valor')||'(no especificada)'}\nPiezas: ${g('mc-piezas')}\n\nReglas: LinkedIn sin link en el cuerpo · Substack siempre mencionado · Countdown: D-7/D-3/D-1/D-0 · Sin hype de gurú.\nGenerá todas las piezas solicitadas, bien etiquetadas y listas para copiar.`,
+
+  md: () => `${PROFILE}\n\nSos especialista en desarrollo de negocios B2B para consultores independientes y docentes universitarios en PM latinoamericano.\n\nInstitución: ${g('md-inst')||'(sin especificar)'}\nTipo: ${g('md-tipo')} · Etapa: ${g('md-etapa')} · Contexto: ${g('md-contexto')||'ninguno'}\n\n### 3 OPCIONES DE ASUNTO (máx. 60 chars, sin signo !)\n### EMAIL PRINCIPAL (3 párrafos + cierre con CTA)\n### FOLLOW-UP (si no responde en 5-7 días, máx. 4 líneas)\n\nTono: profesional y directo. Sin "me encantaría", "sería un honor", "espero que estés bien".`,
+
+  me: () => `${PROFILE}\n\nSos especialista en comunidades profesionales online para el mercado PM hispanohablante. La comunidad es un grupo de WhatsApp que se abre al llegar a 200 suscriptores en Substack.\n\nSubstack actual: ${g('me-subs')||'(sin dato)'}\nAcción: ${g('me-accion')} · Contexto: ${g('me-contexto')||'ninguno'}\n\nTono de Valeria: directo, práctico, sin hype. La comunidad da valor, no vende. Acceso se anuncia en Substack primero.\nGenerá lo solicitado listo para usar.`,
+
+  mf: () => `${PROFILE}\n\nSos especialista en ventas consultivas B2B para servicios profesionales PM en LATAM.\n\nProspecto: ${g('mf-prosp')||'(no especificado)'}\nEstado: ${g('mf-estado')} · Servicio: ${g('mf-serv')} · Qué generar: ${g('mf-accion')}\n\nReglas: sin "solo quería saber si", sin "espero no molestarte". Una sola acción esperada del prospecto. En propuestas: problema → solución → evidencia → inversión → próximo paso.\nGenerá lo solicitado listo para usar.`
+};
+
+// Conexión al Sheet de métricas (pestaña "Piezas", publicada como CSV).
+// Columnas esperadas: fecha,plataforma,modulo,tema,url,likes,comentarios,guardados,alcance
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQxQ3ANO2_7FIHS3AK8N-X0EjSUnAq1JSpd4H3F0Zv0LvaixcHLlj1jnyQU6y_iAhFOWxf_BdyN9JQS/pub?gid=0&single=true&output=csv';
+
+// Parser CSV simple, respeta comillas y comas dentro de campos citados (RFC 4180 básico).
+function parseCSV(text) {
+  const rows = [];
+  let i = 0, field = '', row = [], inQuotes = false;
+  const pushField = () => { row.push(field); field = ''; };
+  const pushRow = () => { pushField(); rows.push(row); row = []; };
+  while (i < text.length) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i+1] === '"') { field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += c; i++; continue;
+    } else {
+      if (c === '"') { inQuotes = true; i++; continue; }
+      if (c === ',') { pushField(); i++; continue; }
+      if (c === '\r') { i++; continue; }
+      if (c === '\n') { pushRow(); i++; continue; }
+      field += c; i++; continue;
+    }
+  }
+  if (field.length || row.length) pushRow();
+  if (!rows.length) return [];
+  const headers = rows[0].map(h => h.trim());
+  return rows.slice(1)
+    .filter(r => r.some(c => (c||'').trim() !== ''))
+    .map(r => { const obj = {}; headers.forEach((h, idx) => obj[h] = (r[idx]||'').trim()); return obj; });
+}
+
+async function fetchPiezasSheet() {
+  const res = await fetch(SHEET_CSV_URL);
+  if (!res.ok) throw new Error('No se pudo leer el Sheet (HTTP ' + res.status + '). Verificá que la pestaña siga publicada.');
+  const text = await res.text();
+  return parseCSV(text);
+}
+
+function filtrarUltimos7Dias(rows) {
+  const ahora = Date.now();
+  const semanaMs = 7 * 24 * 60 * 60 * 1000;
+  return rows.filter(r => {
+    const f = new Date(r.fecha);
+    if (isNaN(f.getTime())) return false;
+    const diff = ahora - f.getTime();
+    return diff >= -24*60*60*1000 && diff <= semanaMs;
+  });
+}
+
+// Botón "Traer semana del Sheet" en el panel sd — trae y agrega las métricas
+// de los últimos 7 días por plataforma, sin que haya que tipearlas a mano.
+async function cargarMetricasSemana() {
+  const btn = document.getElementById('btn-cargar-sd');
+  const err = document.getElementById('err-sd');
+  const original = btn.textContent;
+  if (err) { err.classList.remove('visible'); err.textContent = ''; }
+  btn.disabled = true; btn.textContent = '⏳ Trayendo datos...';
+  const bloques = [];
+  const problemas = [];
+
+  // 1. Piezas — últimos 7 días, agregado por plataforma
+  try {
+    const rows = await fetchPiezasSheet();
+    const semana = filtrarUltimos7Dias(rows);
+    if (semana.length) {
+      const porPlataforma = {};
+      semana.forEach(r => {
+        const p = r.plataforma || 'sin plataforma';
+        if (!porPlataforma[p]) porPlataforma[p] = { piezas: 0, likes: 0, comentarios: 0, guardados: 0, alcance: 0 };
+        porPlataforma[p].piezas++;
+        porPlataforma[p].likes += Number(r.likes) || 0;
+        porPlataforma[p].comentarios += Number(r.comentarios) || 0;
+        porPlataforma[p].guardados += Number(r.guardados) || 0;
+        porPlataforma[p].alcance += Number(r.alcance) || 0;
+      });
+      let texto = `PIEZAS — últimos 7 días (${semana.length} piezas):`;
+      Object.keys(porPlataforma).forEach(p => {
+        const d = porPlataforma[p];
+        const eng = d.alcance ? (((d.likes + d.comentarios + d.guardados) / d.alcance) * 100).toFixed(1) + '%' : 'sin alcance cargado';
+        texto += `\n${p}: ${d.piezas} piezas · ${d.likes} likes · ${d.comentarios} comentarios · ${d.guardados} guardados · ${d.alcance} alcance · engagement ${eng}`;
+      });
+      bloques.push(texto);
+    }
+  } catch(e) { problemas.push('Piezas: ' + e.message); }
+
+  // 2. Métricas semanales — tracker por plataforma (LinkedIn/Instagram/YouTube/Substack)
+  try {
+    const res = await fetch(SHEET_METRICAS_SEMANALES_URL);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const text = await res.text();
+    const formateado = formatearMetricasSemanales(parseMetricasSemanales(text));
+    if (formateado) bloques.push(formateado);
+  } catch(e) { problemas.push('Métricas semanales: ' + e.message); }
+
+  // 3. Search Console — top queries por impresiones
+  try {
+    const top = await fetchSearchConsoleTop(SHEET_SEARCH_CONSOLE_URL, 5);
+    const formateado = formatearSearchConsole(top);
+    if (formateado) bloques.push(formateado);
+  } catch(e) { problemas.push('Search Console: ' + e.message); }
+
+  if (!bloques.length) {
+    document.getElementById('sd-metricas').value = 'Sin datos disponibles en ninguna fuente conectada esta semana.';
+  } else {
+    let textoFinal = bloques.join('\n\n');
+    if (problemas.length) textoFinal += `\n\n[No se pudieron traer: ${problemas.join(' · ')}]`;
+    document.getElementById('sd-metricas').value = textoFinal;
+  }
+  if (problemas.length && err) {
+    err.textContent = '⚠️ Algunas fuentes fallaron — revisá el detalle al final del texto generado.';
+    err.classList.add('visible');
+  }
+  btn.disabled = false; btn.textContent = original;
+}
+
+// Botón "Detectar peor post de la semana" en el panel se — identifica la
+// pieza con menor (likes+comentarios+guardados)/alcance de los últimos 7
+// días y precompleta las métricas. El TEXTO del post sigue siendo manual:
+// el Sheet no lo tiene, y copiarlo del post real evita que se invente contenido.
+async function detectarPeorPost() {
+  const btn = document.getElementById('btn-cargar-se');
+  const err = document.getElementById('err-se');
+  const original = btn.textContent;
+  if (err) { err.classList.remove('visible'); err.textContent = ''; }
+  btn.disabled = true; btn.textContent = '⏳ Buscando...';
+  try {
+    const rows = await fetchPiezasSheet();
+    const semana = filtrarUltimos7Dias(rows).filter(r => Number(r.alcance) > 0);
+    if (!semana.length) {
+      throw new Error('No hay piezas con alcance cargado en los últimos 7 días.');
+    }
+    let peor = semana[0], peorTasa = Infinity;
+    semana.forEach(r => {
+      const tasa = (Number(r.likes) + Number(r.comentarios) + Number(r.guardados)) / Number(r.alcance);
+      if (tasa < peorTasa) { peorTasa = tasa; peor = r; }
+    });
+    const texto = `${peor.tema || '(sin tema)'} · ${peor.plataforma || '(sin plataforma)'} · ${peor.fecha} · ${peor.likes||0} likes · ${peor.comentarios||0} comentarios · ${peor.guardados||0} guardados · ${peor.alcance||0} alcance · engagement ${(peorTasa*100).toFixed(1)}% · URL: ${peor.url || '(sin url)'}`;
+    document.getElementById('se-metricas').value = texto;
+    const postField = document.getElementById('se-post');
+    if (postField && !postField.value.trim() && peor.url) {
+      postField.placeholder = `Pegá acá el texto completo de: ${peor.url}`;
+    }
+  } catch(e) {
+    if (err) { err.textContent = '⚠️ ' + e.message; err.classList.add('visible'); }
+  } finally {
+    btn.disabled = false; btn.textContent = original;
+  }
+}
+
+// Segundo y tercer origen de datos: tracker-metricas-valeriayashan (Drive),
+// dos pestañas publicadas como CSV aparte.
+const SHEET_METRICAS_SEMANALES_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_CL7JakCZrrvXGs7Z0icLF04eYH94QlpvdkisJWUOsw9I6tShrZOCuq2Hr8N9PmioMlYF2LO9Lile/pub?gid=44101192&single=true&output=csv';
+const SHEET_SEARCH_CONSOLE_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR_CL7JakCZrrvXGs7Z0icLF04eYH94QlpvdkisJWUOsw9I6tShrZOCuq2Hr8N9PmioMlYF2LO9Lile/pub?gid=1375911153&single=true&output=csv';
+
+// Variante de parseCSV que devuelve filas como arrays, no objetos — hace
+// falta para "Métricas semanales", que es una hoja ANCHA (una fila por
+// métrica, una columna por semana), no una tabla larga como Piezas.
+function parseCSVRows(text) {
+  const rows = [];
+  let i = 0, field = '', row = [], inQuotes = false;
+  const pushField = () => { row.push(field); field = ''; };
+  const pushRow = () => { pushField(); rows.push(row); row = []; };
+  while (i < text.length) {
+    const c = text[i];
+    if (inQuotes) {
+      if (c === '"') {
+        if (text[i+1] === '"') { field += '"'; i += 2; continue; }
+        inQuotes = false; i++; continue;
+      }
+      field += c; i++; continue;
+    } else {
+      if (c === '"') { inQuotes = true; i++; continue; }
+      if (c === ',') { pushField(); i++; continue; }
+      if (c === '\r') { i++; continue; }
+      if (c === '\n') { pushRow(); i++; continue; }
+      field += c; i++; continue;
+    }
+  }
+  if (field.length || row.length) pushRow();
+  return rows.filter(r => r.some(c => (c||'').trim() !== ''));
+}
+
+const SECCIONES_TRACKER = ['LINKEDIN', 'INSTAGRAM', 'YOUTUBE', 'SUBSTACK', 'OBSERVACIONES'];
+
+// Encuentra la última semana con datos cargados y arma un objeto agrupado
+// por plataforma (LINKEDIN/INSTAGRAM/YOUTUBE/SUBSTACK/OBSERVACIONES son filas
+// separadoras en la hoja, no columnas — se detectan por ser la única celda no vacía).
+function parseMetricasSemanales(text) {
+  const rows = parseCSVRows(text);
+  if (rows.length < 2) return null;
+  const fechas = rows[1];
+  const numSemanas = fechas.length - 1;
+  let semanaElegida = -1;
+  for (let w = numSemanas; w >= 1; w--) {
+    const tieneDatos = rows.slice(2).some(r => {
+      const etiqueta = (r[0]||'').trim().toUpperCase();
+      return !SECCIONES_TRACKER.includes(etiqueta) && (r[w]||'').trim() !== '';
+    });
+    if (tieneDatos) { semanaElegida = w; break; }
+  }
+  if (semanaElegida === -1) return null;
+
+  const resultado = { fecha: (fechas[semanaElegida]||'').trim(), tema: '', secciones: {} };
+  let seccionActual = null;
+  rows.slice(2).forEach(r => {
+    const etiqueta = (r[0]||'').trim();
+    if (!etiqueta) return;
+    if (SECCIONES_TRACKER.includes(etiqueta.toUpperCase())) { seccionActual = etiqueta; return; }
+    if (etiqueta.toLowerCase() === 'tema publicado') { resultado.tema = (r[semanaElegida]||'').trim(); return; }
+    if (etiqueta.toLowerCase().startsWith('semana del')) return;
+    const valor = (r[semanaElegida]||'').trim();
+    if (!valor || !seccionActual) return;
+    if (!resultado.secciones[seccionActual]) resultado.secciones[seccionActual] = [];
+    resultado.secciones[seccionActual].push(`${etiqueta}: ${valor}`);
+  });
+  return resultado;
+}
+
+function formatearMetricasSemanales(m) {
+  if (!m || !Object.keys(m.secciones).length) return null;
+  let texto = `MÉTRICAS SEMANALES (tracker) — semana del ${m.fecha || '(sin fecha)'}`;
+  if (m.tema) texto += ` — tema: ${m.tema}`;
+  Object.keys(m.secciones).forEach(sec => { texto += `\n${sec}: ${m.secciones[sec].join(' · ')}`; });
+  return texto;
+}
+
+// Search Console: se leen solo Query/Página/Clics/Impresiones (las primeras
+// 4 columnas). CTR y Posición usan coma decimal sin comillas en el export
+// (config regional), lo que rompe un parseo CSV genérico — se descartan esas
+// dos columnas a propósito en vez de intentar reconstruirlas mal.
+async function fetchSearchConsoleTop(url, top) {
+  const res = await fetch(url);
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  const text = await res.text();
+  const lineas = text.split(/\r?\n/).filter(l => l.trim());
+  if (lineas.length < 2) return [];
+  const registros = lineas.slice(1).map(linea => {
+    const f = linea.split(',');
+    return { query: (f[0]||'').trim(), pagina: (f[1]||'').trim(), clics: Number(f[2])||0, impresiones: Number(f[3])||0 };
+  });
+  return registros.sort((a,b) => b.impresiones - a.impresiones).slice(0, top || 5);
+}
+
+function formatearSearchConsole(registros) {
+  if (!registros || !registros.length) return null;
+  let texto = 'SEARCH CONSOLE — top queries por impresiones:';
+  registros.forEach(r => { texto += `\n- "${r.query}": ${r.impresiones} impresiones, ${r.clics} clics (${r.pagina})`; });
+  return texto;
+}
+
+// Clave API — por defecto SOLO en memoria del navegador (variable JS). Nunca
+// se escribe en el archivo. Si se marca "recordar en esta pestaña", se guarda
+// en sessionStorage (sobrevive a un F5, se borra al cerrar la pestaña/navegador)
+// — nunca en localStorage, que persistiría en disco indefinidamente.
+let API_KEY = '';
+let SESION_TEMA = '';
+let SESION_COSTO = 0;
+let HISTORY = [];
+
+// Precios USD por millón de tokens (input/output). Verificar en
+// console.anthropic.com si cambiaron — esto es solo una estimación.
+const PRECIOS = {
+  'claude-sonnet-5': { in: 2, out: 10 },
+  'claude-haiku-4-5-20251001': { in: 1, out: 5 }
+};
+
+function estimarCosto(model, inTok, outTok) {
+  const p = PRECIOS[model] || PRECIOS['claude-sonnet-5'];
+  return (inTok/1e6)*p.in + (outTok/1e6)*p.out;
+}
+
+function saveApiKey() {
+  const input = document.getElementById('apikey-input');
+  const status = document.getElementById('apikey-status');
+  const remember = document.getElementById('apikey-remember')?.checked;
+  API_KEY = (input.value || '').trim();
+  if (API_KEY) {
+    status.textContent = '✓ Cargada';
+    status.classList.add('ok');
+    if (remember) { try { sessionStorage.setItem('hub_api_key', API_KEY); } catch(e) {} }
+    else { try { sessionStorage.removeItem('hub_api_key'); } catch(e) {} }
+  } else {
+    status.textContent = '';
+    status.classList.remove('ok');
+    try { sessionStorage.removeItem('hub_api_key'); } catch(e) {}
+  }
+}
+
+function fijarTema() {
+  const input = document.getElementById('sesion-tema-input');
+  const status = document.getElementById('sesion-tema-status');
+  SESION_TEMA = (input.value || '').trim();
+  status.textContent = SESION_TEMA ? '✓ Fijado' : '';
+  try {
+    if (SESION_TEMA) sessionStorage.setItem('hub_sesion_tema', SESION_TEMA);
+    else sessionStorage.removeItem('hub_sesion_tema');
+  } catch(e) {}
+}
+
+// Chequeo automático de salida. Avisa, no bloquea — la decisión final es de Valeria.
+function verificarSalida(text) {
+  const warns = [];
+  const low = text.toLowerCase();
+
+  const emDashCount = (text.match(/—/g) || []).length;
+  if (emDashCount > 2) warns.push(`Guión largo (—) usado ${emDashCount} veces — revisar si hace falta en todos los casos`);
+
+  const prohibidas = ['apasionada por','comprometida con','estoy muy feliz de compartir','en el mundo actual'];
+  prohibidas.forEach(p => { if (low.includes(p)) warns.push(`Frase prohibida detectada: "${p}"`); });
+
+  const cliches = ['en la era digital','es importante destacar','cabe destacar','sin duda alguna','en resumen,','es fundamental','juega un papel crucial','revolucionar','desbloquear el potencial','en el panorama actual'];
+  cliches.forEach(c => { if (low.includes(c)) warns.push(`Cliché de IA detectado: "${c}"`); });
+
+  if (/\bno\s+[^,.\n]{3,40},?\s+sino\s+/i.test(text)) warns.push('Construcción "no X, sino Y" detectada — patrón prohibido en el proyecto');
+
+  const modelos = ['ChatGPT','GPT-4','GPT-5','Gemini','Copilot','Claude 3','Claude Sonnet','Claude Opus','Midjourney','DALL-E'];
+  modelos.forEach(m => { if (text.includes(m)) warns.push(`Menciona un nombre de modelo de IA específico: "${m}" — confirmar si corresponde`); });
+
+  // Clientes que deben ir siempre anonimizados en contenido público (regla del proyecto).
+  const CLIENTES_SIN_ANONIMIZAR = { 'YPF': 'empresa petrolera nacional' };
+  Object.keys(CLIENTES_SIN_ANONIMIZAR).forEach(nombre => {
+    if (text.includes(nombre)) warns.push(`Menciona "${nombre}" sin anonimizar — la regla del proyecto pide usar "${CLIENTES_SIN_ANONIMIZAR[nombre]}" en contenido público`);
+  });
+
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  const fuenteWords = ['según','estudio','datos','fuente','informe','encuesta','reporte','investigación'];
+  const cifraRegex = /\b\d{2,3}%|\b\d{4,}\b/;
+  let avisoCifra = false;
+  for (let i = 0; i < sentences.length && !avisoCifra; i++) {
+    const m = sentences[i].match(cifraRegex);
+    if (!m) continue;
+    const contexto = ((sentences[i-1]||'') + ' ' + sentences[i]).toLowerCase();
+    if (!fuenteWords.some(w => contexto.includes(w))) {
+      warns.push(`Cifra "${m[0]}" sin fuente cercana — verificar antes de publicar`);
+      avisoCifra = true;
+    }
+  }
+
+  if (SESION_TEMA && SESION_TEMA.length > 3) {
+    const temaWords = SESION_TEMA.toLowerCase().split(/\s+/).filter(w => w.length > 4);
+    if (temaWords.length && !temaWords.some(w => low.includes(w))) {
+      warns.push(`No se detectó relación con el tema fijado de la sesión ("${SESION_TEMA}")`);
+    }
+  }
+
+  return warns;
+}
+
+function renderWarnings(id, warns) {
+  const out = document.getElementById('out-'+id);
+  if (!out) return;
+  let w = document.getElementById('warn-'+id);
+  if (!w) {
+    w = document.createElement('div');
+    w.className = 'output-warn';
+    w.id = 'warn-'+id;
+    out.appendChild(w);
+  }
+  if (!warns.length) { w.classList.remove('visible'); w.innerHTML = ''; return; }
+  w.innerHTML = `<div class="output-warn-title">⚠️ Chequeo automático — avisa, no bloquea</div><ul>${warns.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  w.classList.add('visible');
+}
+
+// Calendarización de marca — aviso informativo, no bloqueante. Compara el día
+// actual en horario de Argentina contra el horario de publicación de cada
+// plataforma, para que no se genere una pieza dando por sentado que se
+// publica hoy si el horario de marca es otro día.
+const DIA_MAP_HUB = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+const DIA_ES_HUB = { 0: 'domingo', 1: 'lunes', 2: 'martes', 3: 'miércoles', 4: 'jueves', 5: 'viernes', 6: 'sábado' };
+const CALENDARIO_MARCA = {
+  linkedin: { dias: [1, 3, 5], label: 'Lun/Mié/Vie 8:30' },
+  instagram: { dias: [2, 4, 6], label: 'Mar/Jue/Sáb 19:00' }
+};
+const MODULO_PLATAFORMA = { p1: 'linkedin', p4: 'linkedin', p2: 'instagram', p3: 'instagram' };
+
+function chequearCalendarizacion(id) {
+  const plataforma = MODULO_PLATAFORMA[id];
+  if (!plataforma) return null;
+  const cfg = CALENDARIO_MARCA[plataforma];
+  let dayShort;
+  try {
+    dayShort = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Argentina/Buenos_Aires', weekday: 'short' }).format(new Date());
+  } catch(e) { return null; }
+  const dayNum = DIA_MAP_HUB[dayShort];
+  if (dayNum === undefined || cfg.dias.includes(dayNum)) return null;
+  const nombrePlataforma = plataforma === 'linkedin' ? 'LinkedIn' : 'Instagram';
+  return `Hoy es ${DIA_ES_HUB[dayNum]} — el horario de marca para ${nombrePlataforma} es ${cfg.label}. Guardá esta pieza para ese día o programala, no hace falta publicarla hoy.`;
+}
+
+function renderInfoCalendario(id, msg) {
+  const out = document.getElementById('out-'+id);
+  if (!out) return;
+  let el = document.getElementById('info-'+id);
+  if (!el) {
+    el = document.createElement('div');
+    el.className = 'output-info';
+    el.id = 'info-'+id;
+    out.appendChild(el);
+  }
+  if (!msg) { el.classList.remove('visible'); el.innerHTML = ''; return; }
+  el.innerHTML = `📅 ${msg}`;
+  el.classList.add('visible');
+}
+
+// Pipeline semanal: encadena P1→P2→P3→P4 reusando el mismo tema fijado de
+// sesión, sin tener que reabrir cada panel y volver a completar el formulario.
+async function runPipelineSemanal() {
+  if (!SESION_TEMA) {
+    alert('Fijá el tema de la sesión antes de correr el pipeline semanal (arriba, en "Tema de la sesión").');
+    return;
+  }
+  const btn = document.getElementById('btn-pipeline');
+  const p1t = document.getElementById('p1-tema'); if (p1t && !p1t.value.trim()) p1t.value = SESION_TEMA;
+  const p2t = document.getElementById('p2-tema'); if (p2t && !p2t.value.trim()) p2t.value = SESION_TEMA;
+  const p3t = document.getElementById('p3-msg'); if (p3t && !p3t.value.trim()) p3t.value = SESION_TEMA;
+  const secuencia = ['p1', 'p2', 'p3', 'p4'];
+  if (btn) { btn.disabled = true; }
+  for (let i = 0; i < secuencia.length; i++) {
+    const id = secuencia[i];
+    show(id, null);
+    if (btn) btn.textContent = `⏳ Generando ${i+1}/4...`;
+    await run(id);
+  }
+  if (btn) {
+    btn.textContent = '✓ Pipeline completo';
+    setTimeout(() => { btn.textContent = '▶ Pipeline semanal'; btn.disabled = false; }, 3000);
+  }
+}
+
+function addHistorial(id, text) {
+  const out = document.getElementById('out-'+id);
+  const titulo = out?.querySelector('.output-label')?.textContent || id;
+  HISTORY.unshift({ id, titulo, text, ts: new Date() });
+  if (HISTORY.length > 30) HISTORY.pop();
+  document.getElementById('hist-count').textContent = HISTORY.length;
+  renderHistorial();
+}
+
+function renderHistorial() {
+  const body = document.getElementById('hist-body');
+  if (!body) return;
+  if (!HISTORY.length) { body.innerHTML = '<div class="hist-empty">Todavía no generaste nada en esta sesión.</div>'; return; }
+  body.innerHTML = HISTORY.map((h, i) => `
+    <div class="hist-item">
+      <div class="hist-item-top">
+        <span class="hist-item-title">${h.titulo}</span>
+        <span class="hist-item-time">${h.ts.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}</span>
+      </div>
+      <div class="hist-item-text">${h.text.replace(/</g,'&lt;')}</div>
+      <div class="hist-item-actions">
+        <button onclick="cpHistorial(${i})">Copiar</button>
+        <button onclick="closeHistorial();show('${h.id}',null)">Ir al módulo</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function cpHistorial(i) {
+  const h = HISTORY[i];
+  if (h) navigator.clipboard.writeText(h.text);
+}
+
+function toggleHistorial() {
+  const ov = document.getElementById('hist-overlay');
+  renderHistorial();
+  ov.classList.add('open');
+}
+function closeHistorial(e) {
+  if (!e || e.target === document.getElementById('hist-overlay'))
+    document.getElementById('hist-overlay').classList.remove('open');
+}
+
+function exportarSesion() {
+  if (!HISTORY.length) { alert('Todavía no generaste nada en esta sesión.'); return; }
+  const fecha = new Date().toISOString().slice(0,10);
+  let md = `# Sesión hub-marca-personal — ${fecha}\n\n`;
+  if (SESION_TEMA) md += `**Tema de la sesión:** ${SESION_TEMA}\n\n`;
+  md += `**Costo estimado de la sesión:** ~$${SESION_COSTO.toFixed(4)}\n\n---\n\n`;
+  [...HISTORY].reverse().forEach(h => {
+    md += `## ${h.titulo} · ${h.ts.toLocaleTimeString('es-AR',{hour:'2-digit',minute:'2-digit'})}\n\n${h.text}\n\n---\n\n`;
+  });
+  const blob = new Blob([md], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `sesion-hub-${fecha}.md`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+async function run(id) {
+  const btn = document.getElementById('btn-'+id);
+  const err = document.getElementById('err-'+id);
+  const out = document.getElementById('out-'+id);
+  const txt = document.getElementById('out-'+id+'-t');
+  if (!btn||!err||!out||!txt) return;
+
+  btn.classList.add('loading'); btn.disabled = true;
+  err.classList.remove('visible'); out.classList.remove('visible'); txt.textContent = '';
+  const warnEl = document.getElementById('warn-'+id);
+  if (warnEl) { warnEl.classList.remove('visible'); warnEl.innerHTML = ''; }
+
+  try {
+    if (!API_KEY) throw new Error('Falta la clave API. Pegala arriba a la derecha y hacé clic en "Guardar".');
+    let system = SYSTEMS[id] ? SYSTEMS[id]() : `${PROFILE}\n\nGenerá el contenido solicitado en español, directo y listo para usar.`;
+    if (SESION_TEMA) system += `\n\nTEMA FIJADO PARA ESTA SESIÓN: ${SESION_TEMA}\n(Salvo que el módulo indique lo contrario, esta pieza debería conectar con este tema.)`;
+    const model = document.getElementById('model-select')?.value || 'claude-sonnet-5';
+
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model, max_tokens: 1800, stream: true,
+        system, messages: [{ role: 'user', content: 'Generá el contenido solicitado. Que esté listo para usar sin ajustes.' }]
+      })
+    });
+    if (!res.ok) { const e = await res.json().catch(()=>({})); throw new Error(e.error?.message||`Error ${res.status}`); }
+
+    out.classList.add('visible');
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '', fullText = '', inTok = 0, outTok = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop();
+      for (const line of lines) {
+        if (!line.startsWith('data:')) continue;
+        const jsonStr = line.slice(5).trim();
+        if (!jsonStr) continue;
+        let evt;
+        try { evt = JSON.parse(jsonStr); } catch(e) { continue; }
+        if (evt.type === 'content_block_delta' && evt.delta?.type === 'text_delta') {
+          fullText += evt.delta.text;
+          txt.textContent = fullText;
+        } else if (evt.type === 'message_start') {
+          inTok = evt.message?.usage?.input_tokens || 0;
+        } else if (evt.type === 'message_delta') {
+          outTok = evt.usage?.output_tokens || outTok;
+        }
+      }
+    }
+
+    if (!fullText) fullText = 'Sin respuesta.';
+    const warns = verificarSalida(fullText);
+    renderWarnings(id, warns);
+    renderInfoCalendario(id, chequearCalendarizacion(id));
+    addHistorial(id, fullText);
+
+    const costo = estimarCosto(model, inTok, outTok);
+    SESION_COSTO += costo;
+    const costoEl = document.getElementById('sesion-costo');
+    if (costoEl) costoEl.textContent = `💵 última: ~$${costo.toFixed(4)} · sesión: ~$${SESION_COSTO.toFixed(4)}`;
+  } catch(e) {
+    err.textContent = '⚠️ ' + (e.message||'Error de conexión. Revisá la API key.');
+    err.classList.add('visible');
+  } finally { btn.classList.remove('loading'); btn.disabled = false; }
+}
+
+// Al cargar: restaurar clave, tema de sesión y modelo si quedaron en sessionStorage de esta pestaña.
+window.addEventListener('DOMContentLoaded', () => {
+  try {
+    const saved = sessionStorage.getItem('hub_api_key');
+    if (saved) {
+      API_KEY = saved;
+      document.getElementById('apikey-input').value = saved;
+      document.getElementById('apikey-remember').checked = true;
+      const status = document.getElementById('apikey-status');
+      status.textContent = '✓ Cargada'; status.classList.add('ok');
+    }
+  } catch(e) {}
+  try {
+    const savedTema = sessionStorage.getItem('hub_sesion_tema');
+    if (savedTema) {
+      SESION_TEMA = savedTema;
+      document.getElementById('sesion-tema-input').value = savedTema;
+      document.getElementById('sesion-tema-status').textContent = '✓ Fijado';
+    }
+  } catch(e) {}
+  try {
+    const savedModel = sessionStorage.getItem('hub_model');
+    if (savedModel) {
+      const sel = document.getElementById('model-select');
+      if (sel && [...sel.options].some(o => o.value === savedModel)) sel.value = savedModel;
+    }
+  } catch(e) {}
+});
+
+function show(id, navEl) {
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const panel = document.getElementById('panel-'+id);
+  if (panel) panel.classList.add('active');
+  if (navEl) navEl.classList.add('active');
+  else {
+    // highlight matching nav
+    document.querySelectorAll('.nav-item').forEach(n => {
+      if (n.getAttribute('onclick') && n.getAttribute('onclick').includes("'"+id+"'")) n.classList.add('active');
+    });
+  }
+}
+
+function openRitual()  { document.getElementById('ritual-overlay').classList.add('open'); }
+function closeRitual(e) {
+  if (!e || e.target === document.getElementById('ritual-overlay'))
+    document.getElementById('ritual-overlay').classList.remove('open');
+}
+
+function cp(id, btn) {
+  const text = document.getElementById(id)?.textContent||'';
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='✓ Copiado'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent='Copiar'; btn.classList.remove('done'); }, 2000);
+  });
+}
+
+// Copia el contenido envuelto en una instrucción lista para pegar en un chat
+// de Claude con Canva conectado. El hub no puede llamar a Canva directamente
+// (esa conexión vive del lado de la cuenta de Claude.ai, no de esta clave de
+// API personal) — este botón resuelve el traspaso en un solo paso.
+function cpParaCanva(id, btn) {
+  const text = document.getElementById(id)?.textContent||'';
+  const wrapped = `Generá esto en Canva vía MCP siguiendo el flujo de creación confirmado del proyecto (fondo sólido de marca → páginas → texto → formato en segunda pasada → commit). No uses generate-design con el contenido completo.\n\n---\n\n${text}`;
+  const originalLabel = btn.textContent;
+  navigator.clipboard.writeText(wrapped).then(()=>{
+    btn.textContent='✓ Listo para pegar'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent=originalLabel; btn.classList.remove('done'); }, 2500);
+  });
+}
+
+// Mismo patrón que cpParaCanva, para piezas que terminan naturalmente en
+// Notion (calendario, informes, pipeline KDP) en vez de en una herramienta
+// visual. El hub tampoco puede escribir en Notion directamente por la misma
+// razón que no puede llamar a Canva: esa conexión vive del lado de la cuenta
+// de Claude.ai, no de esta clave de API personal.
+function cpParaNotion(id, btn) {
+  const text = document.getElementById(id)?.textContent||'';
+  const wrapped = `Guardá o actualizá esto en Notion, en el workspace "Valeria Yashan · PM & Strategy — Operaciones" (base Marca Personal, ID 384c3df5-efcd-8166-9b92-ed32fa55f009 si aplica). Si ya existe una página relacionada, actualizala en vez de duplicar.\n\n---\n\n${text}`;
+  const originalLabel = btn.textContent;
+  navigator.clipboard.writeText(wrapped).then(()=>{
+    btn.textContent='✓ Listo para pegar'; btn.classList.add('done');
+    setTimeout(()=>{ btn.textContent=originalLabel; btn.classList.remove('done'); }, 2500);
+  });
+}
+</script>
+</body>
+</html>
