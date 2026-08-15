@@ -380,3 +380,59 @@ Cuando el usuario pega un texto largo, reflexión, hilo de ideas, o contenido de
 - ❌ Nunca usar frases corporativas vacías
 - ❌ Nunca generar posts de más de 300 palabras sin que el usuario lo pida
 - ❌ Nunca usar "¡Compartí este post!" o "¡Seguime!" como CTA principal
+
+---
+
+## ACTUALIZACIÓN v1.8 — sincronizado con el hub (15/08/2026)
+
+Esta sección documenta reglas que ya están vigentes en `hub-marca-personal.html` (módulos P1 y P4) pero que no estaban reflejadas acá. Se agregan al final para no arriesgar contenido existente que no se pudo verificar línea por línea contra el archivo real del repo — revisar y fusionar con las secciones correspondientes cuando haya oportunidad de una edición completa del skill.
+
+### Bloque "COMENTARIO PARA PINEAR" — obligatorio en post simple y en carrusel
+
+Todo post que lleve un link (post simple o carrusel) debe cerrar con este bloque, en las dos versiones (A y B) cuando aplique:
+
+```
+### COMENTARIO PARA PINEAR
+[URL]
+(Se publica de inmediato al postear, no diferido.)
+```
+
+**Corrección de una regla anterior:** en versiones previas de la documentación del proyecto se indicaba "estrategia diferida" — publicar sin link y editarlo a las 24–48 h. Esa regla quedó reemplazada: el link va directo en el primer comentario, publicado de inmediato. Si algún documento del proyecto todavía menciona la estrategia diferida, está desactualizado.
+
+### MODO: CARRUSEL — esquema de salida obligatorio (reemplaza la tabla libre anterior)
+
+El carrusel ya no se genera como tabla descriptiva libre. Usar este esquema fijo, con estos encabezados exactos, para que sea mecánicamente parseable al pasarlo a Canva:
+
+```
+## SLIDE 1 — COVER
+**Badge/eyebrow:** [texto corto en mayúsculas]
+**Título:** [máx. 8 palabras]
+**Subtítulo:** [una frase]
+
+## SLIDE 2 — PROBLEMA/CONTEXTO
+**Título:** [máx. 6 palabras]
+**Cuerpo:** [máx. 80 palabras, párrafos cortos]
+
+## SLIDE [N] — TÁCTICA [N-2]
+**Número destacado:** [dígito]
+**Título:** [máx. 6 palabras]
+**Item 1:** **[subtítulo]** [cuerpo, máx. 2 líneas]
+**Item 2:** **[subtítulo]** [cuerpo, máx. 2 líneas]
+
+(repetir el bloque de TÁCTICA para las slides 3, 4, 5 y 6)
+
+## SLIDE 7 — CIERRE + CTA
+**Título:** [máx. 6 palabras]
+**Cuerpo:** [máx. 60 palabras]
+**Badge CTA:** [texto corto en mayúsculas]
+```
+
+Después del esquema de las 7 slides, agregar siempre, en este orden: caption completo de LinkedIn (CTA a guardar) → bloque `### COMENTARIO PARA PINEAR` → recomendación de próximo paso (construir en Canva vía MCP).
+
+### Clientes que deben ir siempre anonimizados en contenido público
+
+| Nombre real | Usar en su lugar |
+|---|---|
+| YPF | empresa petrolera nacional |
+
+Lista extensible — agregar acá cualquier cliente nuevo que aparezca en un proyecto de IMR Consulting antes de que se mencione sin anonimizar en un borrador. El hub tiene un chequeo automático (`verificarSalida()`) que detecta esto, pero la regla tiene que vivir acá primero — el hub la deriva de este documento, no al revés.

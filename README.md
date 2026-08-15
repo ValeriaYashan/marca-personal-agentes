@@ -13,7 +13,7 @@ Repositorio **privado**. Contiene el hub de generación, los skills canónicos, 
 | `hub-marca-personal.html` | Hub unificado **v1.8** — 27 módulos en tres agentes + conexión a Sheets, Canva y Notion |
 | `skills/` | **Fuente canónica de los skills.** Toda edición empieza acá |
 | `docs/` | Documentación del sistema (ver tabla abajo) |
-| `contexto.md` | Perfil, marca y estado del ecosistema |
+| `contexto/` | Perfil, marca y estado del ecosistema — 3 archivos: `GUIA_VISUAL_POSTS.md`, `benchmarking-referentes-pm.md`, `handoff-web-valeriayashan.md` |
 | `continuidad/` | Archivos de cierre de sesión, uno por fecha |
 | `scripts/inicializar-repo.ps1` | Bootstrap del repo en una máquina nueva |
 
@@ -23,7 +23,7 @@ Repositorio **privado**. Contiene el hub de generación, los skills canónicos, 
 |---|---|
 | `docs/01-arquitectura.md` | Cómo se relacionan hub, skills y proyecto. Incluye la sección de mantenimiento y desincronización |
 | `docs/02-sistema-visual.md` | Las dos capas visuales (redes y web) y las escalas tipográficas por formato |
-| `docs/03-reglas-plataforma.md` | LinkedIn, Instagram, YouTube, Substack: reglas algorítmicas vigentes 2026 |
+| `docs/03-reglas-de-plataforma.md` | LinkedIn, Instagram, YouTube, Substack: reglas algorítmicas vigentes 2026 |
 | `docs/04-flujo-canva-mcp.md` | Creación y edición de diseños por MCP, con las restricciones conocidas |
 | `docs/05-verificacion.md` | Disciplina de verificación aplicable a todo trabajo técnico |
 | `docs/06-que-no-se-publica.md` | Qué queda fuera de cualquier repo público y por qué |
